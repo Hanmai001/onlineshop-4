@@ -227,17 +227,19 @@
                         <div class="row py-4 ms-3">
                             <h6 class="col-12">ĐÁNH GIÁ SẢN PHẨM</h6>
                         </div>
-                        <div class="text-center pb-5 border-bottom">
-                            <form action="/">
-                                <label for="review"></label>
-                                <textarea id="review" rows="6" maxLength="1000"
-                                    placeholder="Viết review sản phẩm của bạn tại đây"></textarea>
+                        <% if (user) {%>
+                            <div class="text-center pb-5 border-bottom">
+                                <form action="/products/details/<%= product[0].IDPRODUCT %>/post-review" method="post">
+                                    <label for="review"></label>
+                                    <textarea id="review" rows="6" maxLength="1000" name="myreview"
+                                        placeholder="Viết review sản phẩm của bạn tại đây"></textarea>
 
-                                <div class="d-block text-end mt-2">
-                                    <input class="me-4" type="submit" value="ĐĂNG">
-                                </div>
-                            </form>
-                        </div>
+                                    <div class="d-block text-end mt-2">
+                                        <input class="me-4" type="submit" value="ĐĂNG">
+                                    </div>
+                                </form>
+                            </div>
+                        <% } %>
                         <div class="list-review">
                             <% for(var i=0; i<review.length; i++) {%>
                                 <div class="review row py-4 border-bottom">
@@ -246,10 +248,12 @@
                                             alt="">
                                     </div>
                                     <div class="col-10">
-                                        <p class="name pe-4">
-                                            <%= review[i].FULLNAME%>
-                                        </p>
-                                        <p class="pe-4">
+
+                                        <span class="name pe-4">
+                                            <%= review[i].USERNAME%>
+                                        </span>
+
+                                        <p class=" pe-4">
                                             <%= review[i].CONTENT%>
                                         </p>
                                     </div>
@@ -259,22 +263,27 @@
                                         <div class="paging text-center py-5 fs-5">
 
                                             <% if (pagination_info.current_page> 1) {%>
-                                                <button id="<%=pagination_info.current_page-1%>" class="paging-btn">&laquo;</button>
-                                            <% } %>
-                                            <% for (var i=iterator; i <=endingLink; i++) {%>
-                                                <% if (pagination_info.current_page === i) {%>
-                                                    <button id="<%= i %>" class="active paging-btn">
-                                                        <%=i%>
-                                                    </button>
-                                                <% } else { %>
-                                                    <button id="<%= i %>" class="paging-btn">
-                                                        <%=i%>
-                                                    </button>
+                                                <button id="<%=pagination_info.current_page-1%>"
+                                                    class="paging-btn">&laquo;</button>
                                                 <% } %>
-                                                <% if (endingLink < pagination_info.total_pages) {%>
-                                                    <button id="<%=pagination_info.current_page+1%>" class="paging-btn">&raquo;</button>
-                                                <% } %>
-                                            <% } %>
+                                                    <% for (var i=iterator; i <=endingLink; i++) {%>
+                                                        <% if (pagination_info.current_page===i) {%>
+                                                            <button id="<%= i %>" class="active paging-btn">
+                                                                <%=i%>
+                                                            </button>
+                                                            <% } else { %>
+                                                                <button id="<%= i %>" class="paging-btn">
+                                                                    <%=i%>
+                                                                </button>
+                                                                <% } %>
+
+                                                                    <% } %>
+                                                                        <% if (endingLink < pagination_info.total_pages)
+                                                                            {%>
+                                                                            <button
+                                                                                id="<%=pagination_info.current_page+1%>"
+                                                                                class="paging-btn">&raquo;</button>
+                                                                            <% } %>
                                         </div>
                                         <% } %>
 
@@ -427,13 +436,13 @@
 <script>
     var message1 = "<%= flashMessages.loginMessage %>";
     var message2 = "<%= flashMessages.registerMessage %>";
-    $('.list-review').on('click', '.paging-btn', function(e) {
+    $('.list-review').on('click', '.paging-btn', function (e) {
         e.preventDefault();
         //console.log($(this).prop('id'))
         $.ajax({
-            url: `/api/list-review/<%=product[0].IDPRODUCT%>/?page=` + $(this).prop('id'), // gửi ajax đến file result.php
-            type: "get", // chọn phương thức gửi là get
-            dateType: "json", // dữ liệu trả về dạng text
+            url: `/api/list-review/<%=product[0].IDPRODUCT%>/?page=` + $(this).prop('id'), // gửi ajax đến file
+            type: "get",
+            dateType: "json",
             success: function (result) {
                 //console.log(result);
                 $(".list-review").empty();
@@ -447,36 +456,46 @@
                     }
                     else {
                         elemsToAppend.append('<img src="/images/profile-icon.png" alt=""/>')
-                    }   
+                    }
                     item.append(elemsToAppend);
                     elemsToAppend = $('<div class="col-10"></div>');
-                    elemsToAppend.append('<p class="name pe-4">'+ value.FULLNAME +'</p > ')
+                    elemsToAppend.append('<p class="name pe-4">' + value.USERNAME + '</p > ');
+                    // var time = value.CREATEON + "";
+                    // var formatTime = "";
+                    // time.split(" ").forEach((element, index) => {
+                    //     if (index !== 5 && index !== 6 && index !== 7) {
+                    //          formatTime = formatTime + element
+                    //     }
+                    // });
+                    // console.log(formatTime)
+                    // inner.append(formatTime);
                     elemsToAppend.append('<p class="pe-4">' + value.CONTENT + '</p > ')
                     item.append(elemsToAppend);
                     $(".list-review").append(item);
-                });
+
+                })
                 //UPDATE PAGING
                 if (result.pagination_info.total_pages > 1) {
                     var item = $('<div class="paging text-center py-5 fs-5"></div>');
                     if (result.pagination_info.current_page > 1) {
                         const page = result.pagination_info.current_page - 1;
-                        item.append('<button id="' + page +'" class="paging-btn">&laquo;</button>');
+                        item.append('<button id="' + page + '" class="paging-btn">&laquo;</button>');
                     }
                     for (let i = result.iterator; i <= result.endingLink; i++) {
                         if (result.pagination_info.current_page === i)
-                            item.append('<button id="' + i + '" class="active paging-btn">'+ i +'</button>');
+                            item.append('<button id="' + i + '" class="active paging-btn">' + i + '</button>');
                         else
-                            item.append('<button id="' + i + '" class="paging-btn">' + i +'</button>');
+                            item.append('<button id="' + i + '" class="paging-btn">' + i + '</button>');
                     }
                     if (result.endingLink < result.pagination_info.total_pages) {
                         const page = result.pagination_info.current_page + 1;
-                        item.append('<button id="'+ page +'" class="paging-btn">&raquo;</button>');
+                        item.append('<button id="' + page + '" class="paging-btn">&raquo;</button>');
                     }
                     $(".list-review").append(item);
                 }
             }
-        });
-    })
+        })
+    });
     function chooseProduct(id) {
         window.location.href = "/products/details/" + id;
     }
@@ -545,14 +564,18 @@
         if (message2) {
             openForm(1);
         }
-        regItem.addEventListener('click', () => openForm(1));
-        logItem.addEventListener('click', () => openForm(2));
-        modalLayer.addEventListener('click', closeForm);
-        modalBody.addEventListener('click', function (event) {
+        if (regItem)
+            regItem.addEventListener('click', () => openForm(1));
+        if (logItem)
+            logItem.addEventListener('click', () => openForm(2));
+        if (modalLayer)
+            modalLayer.addEventListener('click', closeForm);
+        if (modalBody) {
+            modalBody.addEventListener('click', function (event) {
 
-            event.stopPropagation()
-        })
-
+                event.stopPropagation()
+            })
+        }
 
     }
     function disableEmptyInputs(form) {

@@ -90,7 +90,7 @@ let getHomepage = async (req, res) => {
     });
 }
 let getDetailProductPage = async (req, res) => {
-    const paginator = new Paginator(2, 5);
+    const paginator = new Paginator(5, 5);
     const id = req.params.id;
     let ava = null;
     if (res.locals.user) {
@@ -107,7 +107,7 @@ let getDetailProductPage = async (req, res) => {
     let endingLink = (iterator + 4) <= pagination_info.total_pages ? (iterator + 4) : currentPage + (pagination_info.total_pages - currentPage);
 
     //console.log(pagination_info.total_pages ,iterator, endingLink)
-    const review = await reviewService.getReviewPage(id, 0, 2);
+    const review = await reviewService.getReviewPage(id, 0, 5);
 
     return res.render('product-info.ejs', { product: product, relateProducts: relateProducts, review: review, ava, pagination_info, iterator, endingLink });
 }

@@ -565,17 +565,21 @@
             openForm(1);
         }
 
-        regItem.addEventListener('click', () => openForm(1));
-        logItem.addEventListener('click', () => openForm(2));
-        forgetItem.addEventListener('click', () => openForm(3));
-        btnBack.addEventListener('click', () => closeForm);
-        modalLayer.addEventListener('click', closeForm);
-        modalBody.addEventListener('click', function (event) {
-            event.stopPropagation()
-        })
-
-
-
+        if (regItem)
+            regItem.addEventListener('click', () => openForm(1));
+        if (logItem)
+            logItem.addEventListener('click', () => openForm(2));
+        if (forgetItem)
+            forgetItem.addEventListener('click', () => openForm(3));
+        if (btnBack)
+            btnBack.addEventListener('click', () => closeForm);
+        if (modalLayer)
+            modalLayer.addEventListener('click', closeForm);
+        if (modalBody) {
+            modalBody.addEventListener('click', function (event) {
+                event.stopPropagation()
+            })
+        }
     }
     function disableEmptyInputs(form) {
         var controls = form.elements;

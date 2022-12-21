@@ -3,13 +3,13 @@ const Paginator = require("paginator");
 const qs = require('qs');
 
 const getPagination = (page, size) => {
-    const limit = size ? +size : 2;
+    const limit = size ? +size : 5;
     const offset = page ? page * limit : 0;
 
     return { limit, offset };
 };
 let getListReview = async (req, res) => {
-    const paginator = new Paginator(2, 5);
+    const paginator = new Paginator(5, 5);
     const id = req.params.id;
 
     let currentPage = req.query.page ? +req.query.page : 1;

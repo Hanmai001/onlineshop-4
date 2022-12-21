@@ -6,8 +6,6 @@ const appRoot = require('app-root-path');
 
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
-//const apiController = require('../controllers/apiController');
-const passport = require('../passport');
 
 //Middleware
 const storage = multer.diskStorage({
@@ -39,36 +37,11 @@ const initUserRoute = (app) => {
         next();
     });
     router.get('/', authController.isLoggedCustomer, userController.getHomepage);
-    //router.get('/api/home', authController.isLoggedCustomer, apiController.getHomepage);
-    //truyền thso vào url
-    router.get('/products/details/:id', authController.isLoggedCustomer, userController.getDetailProductPage);
     router.get('/list-order', authController.isLoggedCustomer, userController.getListOrderPage);
     router.get('/my-profile/:id', authController.isLoggedCustomer, userController.getProfilePage);
     router.get('/change-password/:id', authController.isLoggedCustomer, userController.getUpdatePasswordPage);
     router.get('/list-orders-status/:id', authController.isLoggedCustomer, userController.getListOrderStatusPage);
     router.get('/payment', authController.isLoggedCustomer, userController.getPaymentPage);
-    router.post('/register', authController.handleRegister, passport.authenticate("local",
-        {
-            failureRedirect: "/",
-        }), (req, res) => {
-            if (req.user.ADMIN == '1') {
-                res.redirect('/static');
-            }
-            else
-                res.redirect('/');
-        });
-
-    router.post('/login', passport.authenticate("local",
-        {
-            failureRedirect: "/",
-        }), (req, res) => {
-            if (req.user.ADMIN == '1') {
-                res.redirect('/static');
-            }
-            else
-                res.redirect('/');
-        });
-    router.get('/logout', authController.logout);
     router.post('/my-profile/:id/update-info', upload.single('update-ava'), userController.updateInformation);
     router.post('/change-password/:id/update-password', userController.updatePassword);
     //Web của ta bđau = '/', truyền router vào
