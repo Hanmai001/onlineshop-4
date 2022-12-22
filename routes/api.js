@@ -1,10 +1,10 @@
 const express = require('express');
+const router = express.Router();
+const passport = require('../passport');
 const reviewController = require('../controllers/api/reviewController');
 const authController = require('../controllers/authController');
 const authApiController = require('../controllers/api/authController');
-
-const router = express.Router();
-const passport = require('../passport');
+const cardController = require('../controllers/api/cardController');
 
 const initApiRoute = (app) => {
     router.use((req, res, next) => {
@@ -22,6 +22,7 @@ const initApiRoute = (app) => {
                 res.redirect('/');
         });
 
+
     router.post('/login', passport.authenticate("local",
         {
             failureRedirect: "/",
@@ -36,6 +37,7 @@ const initApiRoute = (app) => {
     router.get('/api/list-review/:id/', reviewController.getListReview);
     router.get('/api/verify-username/:username', authApiController.verifyUsername);
     router.get('/api/verify-email/:email', authApiController.verifyEmail);
+    router.post('/api/add-to-cart/', cardController.addToMyCart);
 
     return app.use('/', router);
 }

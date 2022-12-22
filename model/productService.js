@@ -294,6 +294,10 @@ let getRelatedProducts = async (id) => {
     //console.log(result[0]);
     return result[0];
 }
+let calProductsPrice = async (id, amount) => {
+    const result = await db.query('SELECT PRICE * ? as TOTALPRICE FROM product WHERE IDPRODUCT = ?', [parseInt(amount), parseInt(id)]);
+    return result[0][0].TOTALPRICE;
+}
 
 module.exports = {
     getAllProduct,
@@ -306,4 +310,5 @@ module.exports = {
     getFilterProductsPage,
     getDetailProduct,
     getRelatedProducts,
+    calProductsPrice
 }

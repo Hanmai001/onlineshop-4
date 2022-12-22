@@ -1,12 +1,14 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const authService = require('../model/authService');
+const cardService = require('../model/cartService');
 
 //Config localStrategy
 passport.use(new LocalStrategy({ usernameField: 'username', passReqToCallback: true }, async function verify(req, username, password, cb) {
     const user = await authService.checkUserCredential(username, password);
-    if (user)
+    if (user) {
         return cb(null, user);
+    }
     return cb(null, false, req.flash('loginMessage', 'Tên đăng nhập hoặc mật khẩu sai.'));
 }));
 

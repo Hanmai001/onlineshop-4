@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const db = require('../config/connectDB');
+const cartService = require('./cartService');
 
 let usernameExists = async (username) => {
     const result = await db.query('select USERNAME from user where USERNAME = ? limit 1', [username]);
@@ -17,7 +18,7 @@ let getUserByUsername = async (username) => {
 //Check info input logging
 let checkUserCredential = async (username, password) => {
     const user = await getUserByUsername(username);
-    console.log('user: ', user)
+    //console.log('user: ', user)
     if (!user) return null;
     if (await bcrypt.compare(password, user.PASSWORD))
         return user;
@@ -36,7 +37,12 @@ let register = async (username, email, password) => {
         return 'Email đã tồn tại';
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    return insertUser(username, email, hash);
+    insertUser(username, email, hash);
+    const user = await authService.checkUserCredential(username, password);
+    if (user) {
+        await cardService.addCartUser(user.IDUSER);
+    }
+    return;
 }
 let getUserByID = async (id) => {
     const result = await db.query('select EMAIL, FULLNAME, SEX, PHONE, AVATAR from user where IDUSER = ? limit 1', [id]);

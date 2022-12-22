@@ -11,7 +11,7 @@ const initProductRoute = (app) => {
         next();
     });
     router.get('/products/details/:id', authController.isLoggedCustomer, userController.getDetailProductPage);
-   
+
     return app.use('/', router);
 }
 

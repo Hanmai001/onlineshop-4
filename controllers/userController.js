@@ -2,6 +2,7 @@ const productService = require('../model/productService');
 const userService = require('../model/userService');
 const reviewService = require('../model/reviewService');
 const authService = require('../model/authService');
+const cartService = require('../model/cartService');
 const Paginator = require("paginator");
 const qs = require('qs');
 
@@ -15,10 +16,12 @@ const getPagination = (page, size) => {
 
 let getHomepage = async (req, res) => {
     const paginator = new Paginator(10, 5);
-    let ava = null;
+    let ava = null, numProductInCart = null;
     if (res.locals.user) {
         const { AVATAR } = await authService.getUserByID(res.locals.user.id);
         if (AVATAR) ava = AVATAR;
+        const idCart = await cartService.findCartUser(res.locals.user.id);
+        numProductInCart = await cartService.numProductInCart(idCart);
     }
     let products, allProducts, pagination_info, length;
     const {
@@ -84,6 +87,7 @@ let getHomepage = async (req, res) => {
     const originUrl = `${req.baseUrl}?${qs.stringify(withoutPage)}`;
     //console.log("Render2...", qs.parse(originUrl))
     return res.render('home.ejs', {
+        numProductInCart,
         ava,
         originUrl,
         products, brands, types, manufacturers, names: random_names, pagination_info, iterator, endingLink
@@ -92,10 +96,12 @@ let getHomepage = async (req, res) => {
 let getDetailProductPage = async (req, res) => {
     const paginator = new Paginator(5, 5);
     const id = req.params.id;
-    let ava = null;
+    let ava = null, numProductInCart = null;
     if (res.locals.user) {
         const { AVATAR } = await authService.getUserByID(res.locals.user.id);
         if (AVATAR) ava = AVATAR;
+        const idCart = await cartService.findCartUser(res.locals.user.id);
+        numProductInCart = await cartService.numProductInCart(idCart);
     }
     const product = await productService.getDetailProduct(id);
     const relateProducts = await productService.getRelatedProducts(id);
@@ -109,16 +115,19 @@ let getDetailProductPage = async (req, res) => {
     //console.log(pagination_info.total_pages ,iterator, endingLink)
     const review = await reviewService.getReviewPage(id, 0, 5);
 
-    return res.render('product-info.ejs', { product: product, relateProducts: relateProducts, review: review, ava, pagination_info, iterator, endingLink });
+    return res.render('product-info.ejs', { numProductInCart, product: product, relateProducts: relateProducts, review: review, ava, pagination_info, iterator, endingLink });
 }
 let getListOrderPage = async (req, res) => {
+    const idCart = await cartService.findCartUser(res.locals.user.id);
+    const numProductInCart = await cartService.numProductInCart(idCart);
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    return res.render('list-order.ejs', { ava });
+    return res.render('list-order.ejs', { ava, numProductInCart });
 }
 let getProfilePage = async (req, res) => {
+    const idCart = await cartService.findCartUser(res.locals.user.id);
     const { EMAIL: email, FULLNAME: fullname, SEX: sex, PHONE: phone, AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    console.log({ email, fullname, sex, phone, ava })
-    return res.render('my-profile.ejs', { email, fullname, sex, phone, ava });
+    const numProductInCart = await cartService.numProductInCart(idCart);
+    return res.render('my-profile.ejs', { email, fullname, sex, phone, ava, numProductInCart });
 }
 let updateInformation = async (req, res) => {
     const idUser = req.params.id;
@@ -150,8 +159,10 @@ let updateInformation = async (req, res) => {
     return res.redirect(`/my-profile/${idUser}`);
 }
 let getUpdatePasswordPage = async (req, res) => {
+    const idCart = await cartService.findCartUser(res.locals.user.id);
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    return res.render('change-password.ejs', { ava })
+    const numProductInCart = await cartService.numProductInCart(idCart);
+    return res.render('change-password.ejs', { ava, numProductInCart })
 
 }
 let updatePassword = async (req, res) => {
@@ -189,8 +200,10 @@ let updatePassword = async (req, res) => {
 }
 
 let getListOrderStatusPage = async (req, res) => {
+    const idCart = await cartService.findCartUser(res.locals.user.id);
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    return res.render('status-orders.ejs', { ava })
+    const numProductInCart = await cartService.numProductInCart(idCart);
+    return res.render('status-orders.ejs', { ava, numProductInCart })
 }
 
 let getPaymentPage = async (req, res) => {
