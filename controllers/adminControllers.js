@@ -14,12 +14,32 @@ let getOdersManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
     return res.render('oders-manage.ejs', { ava })
 }
+//SORT USER-MANAGE
 let getUsersManage = async (req, res) => {
+
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
+    
     const list = await adminService.getAllUser();
     //console.log(list.length);
-    return res.render('users-manage.ejs', { list: list, ava });
+    let users;
+    const allUsers = await adminService.getAllUser();
+    const {
+        timeCreate: timeCreate,
+        sortEmail: sortEmail,
+        sortHoTen: sortName,
+        sort: sortFilter
+
+    } = req.query;
+    if (timeCreate || sortEmail || sortName || sortFilter) {
+        users = await adminService.getSortUser(req.query);
+    }
+    else users = allUsers;
+    const originUrl = `?${req.baseUrl}`;
+    return res.render('users-manage.ejs', { list: list, ava, originUrl, users});
+
+    
 }
+/////////////////
 let getOriginManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
     return res.render('origin-manage.ejs', { ava })

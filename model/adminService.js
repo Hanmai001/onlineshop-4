@@ -83,9 +83,47 @@ let getAllUser = async () => {
     //console.log(result);
     return result[0];
 }
+
+//SORT USER-MANAGE
+let getSortUser = async(queryFilter) => {
+    const {
+        timeCreate: timeCreate,
+        sortEmail: sortEmail,
+        sortName: sortName,
+        sort: sortFilter
+    } = queryFilter;
+    let values = [];
+    let sql = 'SELECT * FROM onlineshop.user';
+
+    if (sortFilter && typeof sortFilter === 'string' && (timeCreate || sortEmail || sortName)) {
+        //sort tăng dần
+        // if (typeof timeCreate === 'string') {
+        //     sql += 'ORDER BY NUMBUY';
+        //     //values.push(parseInt(numBuy))
+        // }
+       if (typeof sortEmail === 'string') {
+            sql += ' ORDER BY EMAIL';
+            // values.push(parseFloat(sortEmail))
+        }
+        else if (typeof sortName === 'string') {
+             sql += ' ORDER BY USERNAME';
+        //     //values.push(parseInt(timeCreate))
+        }
+        //sort giảm dần
+        // if (sortFilter === 'down') {
+        //     sql += ' DESC';
+        // }
+    }
+   
+    const result = await db.query(sql, values);
+    return result[0];
+}
+////////////////////
+
 module.exports = {
     updateProfile,
     updatePassword,
     getAllUser,
-    getUser
+    getUser,
+    getSortUser
 }
