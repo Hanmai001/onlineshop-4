@@ -7,7 +7,7 @@ let getHomePage = async (req, res) => {
 }
 let getAdminProfile = async (req, res) => {
     const { EMAIL: email, FULLNAME: fullname, SEX: sex, PHONE: phone, AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    console.log({ email, fullname, sex, phone, ava })
+    //console.log({ email, fullname, sex, phone, ava })
     return res.render('adminProfile.ejs', { email, fullname, sex, phone, ava });
 }
 let getOdersManage = async (req, res) => {
@@ -16,12 +16,22 @@ let getOdersManage = async (req, res) => {
 }
 let getUsersManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    const list = await adminService.getUser();
-    console.log(list.length);
+    const list = await adminService.getAllUser();
+    //console.log(list.length);
     return res.render('UsersManage.ejs', { list: list, ava });
 }
 let getOriginManage = async (req, res) => {
+    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
     return res.render('OriginManage.ejs', { ava })
+}
+let getDetailsUser = async (req, res) => {
+    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
+    let idUser = req.params.id;
+    const details = await adminService.getUser(idUser);
+
+    //console.log(details);
+
+    return res.render('details-user.ejs', { ava, details: details })
 }
 let getProductManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
@@ -33,7 +43,7 @@ let getTypeManage = async (req, res) => {
 }
 let getChangePassword = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    return res.render('change-password-admin.ejs', {ava})
+    return res.render('change-password-admin.ejs', { ava })
 }
 let updateInformation = async (req, res) => {
     const idUser = req.params.id;
@@ -56,8 +66,8 @@ let updateInformation = async (req, res) => {
         return res.redirect(`/adminProfile/${idUser}`);
     }
 
-    const result = await userService.updateProfile(req.body, new_ava, idUser);
-    //console.log(res.locals.user);
+    const result = await adminService.updateProfile(req.body, new_ava, idUser);
+    //console.log(res.locals.user); 
     if (result) {
         return res.redirect(`/adminProfile/${idUser}`);
     }
@@ -108,5 +118,6 @@ module.exports = {
     getTypeManage,
     updateInformation,
     getChangePassword,
-    updatePassword
+    updatePassword,
+    getDetailsUser
 }
