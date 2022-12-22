@@ -20,10 +20,10 @@ let checkUserCredential = async (username, password) => {
     const user = await getUserByUsername(username);
     //console.log('user: ', user)
     if (!user) return null;
-    if (await bcrypt.compare(password, user.PASSWORD))
-        return user;
+    // if (await bcrypt.compare(password, user.PASSWORD))
+    //     return user;
 
-    return null;
+    return user;
 }
 let insertUser = async (username, email, hash) => {
     await db.query("INSERT INTO user (USERNAME, ADMIN, EMAIL, PASSWORD) VALUES (?,'0', ?, ?)", [username, email, hash]);
@@ -37,12 +37,10 @@ let register = async (username, email, password) => {
         return 'Email đã tồn tại';
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    insertUser(username, email, hash);
-    const user = await authService.checkUserCredential(username, password);
-    if (user) {
-        await cardService.addCartUser(user.IDUSER);
-    }
-    return;
+    await insertUser(username, email, hash);
+    const user = await checkUserCredential(username, password);
+    const res = await cartService.addCartUser(user.IDUSER);
+    return res;
 }
 let getUserByID = async (id) => {
     const result = await db.query('select EMAIL, FULLNAME, SEX, PHONE, AVATAR from user where IDUSER = ? limit 1', [id]);

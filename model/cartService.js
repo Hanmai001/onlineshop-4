@@ -40,7 +40,7 @@ const calTotalPriceInCart = async (idCart) => {
 }
 const numProductInCart = async (idCart) => {
     const result = await db.query("SELECT SUM(AMOUNT) as SUM FROM product_cart WHERE IDCART = ?", [parseInt(idCart)]);
-    return result[0][0].SUM;
+    return result[0][0].SUM ? result[0][0].SUM : 0;
 }
 module.exports = {
     addCartUser,
