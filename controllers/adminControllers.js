@@ -3,7 +3,7 @@ const authService = require('../model/authService')
 
 let getHomePage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    return res.render('index.ejs', { ava })
+    return res.render('index', { ava })
 }
 let getAdminProfile = async (req, res) => {
     const { EMAIL: email, FULLNAME: fullname, SEX: sex, PHONE: phone, AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
@@ -36,8 +36,6 @@ let getUsersManage = async (req, res) => {
     else users = allUsers;
     const originUrl = `?${req.baseUrl}`;
     return res.render('users-manage.ejs', { list: list, ava, originUrl, users});
-
-    
 }
 /////////////////
 let getOriginManage = async (req, res) => {

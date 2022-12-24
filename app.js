@@ -4,6 +4,7 @@ const initAdminRoute = require('./routes/admin');
 const initReviewRoute = require('./routes/review');
 const initProductRoute = require('./routes/product');
 const initApiRoute = require('./routes/api');
+const initAddressRoute = require('./routes/address');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -50,6 +51,7 @@ initAdminRoute(app);
 initProductRoute(app);
 initReviewRoute(app);
 initApiRoute(app);
+initAddressRoute(app);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

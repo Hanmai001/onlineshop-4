@@ -1,16 +1,16 @@
 const db = require('../config/connectDB');
 
-let getProductsPage = async (limit, offset) => {
+const getProductsPage = async (limit, offset) => {
     const result = await db.query('select a.* from (SELECT pd.*, pt.LINK FROM product pd, photo pt WHERE pd.IDPRODUCT = pt.IDPRODUCT GROUP BY pd.IDPRODUCT HAVING COUNT(*) >= 1) a LIMIT ?,?', [offset, limit]);
     return result[0];
 
 };
-let getAllProduct = async () => {
+const getAllProduct = async () => {
     const result = await db.query('SELECT pd.*, pt.LINK FROM product pd, photo pt WHERE pd.IDPRODUCT = pt.IDPRODUCT GROUP BY pd.IDPRODUCT HAVING COUNT(*) >= 1');
     return result[0];
 
 };
-let getFilterProducts = async (queryFilter) => {
+const getFilterProducts = async (queryFilter) => {
     const {
         name: nameFilter,
         type: typeFilter,
@@ -135,7 +135,7 @@ let getFilterProducts = async (queryFilter) => {
     const result = await db.query(sql, values);
     return result[0];
 }
-let getFilterProductsPage = async (queryFilter, limit, offset) => {
+const getFilterProductsPage = async (queryFilter, limit, offset) => {
     const {
         name: nameFilter,
         type: typeFilter,
@@ -263,42 +263,62 @@ let getFilterProductsPage = async (queryFilter, limit, offset) => {
     const result = await db.query(sql, values);
     return result[0];
 }
-let getAllType = async () => {
+const getAllType = async () => {
     const result = await db.query('SELECT * FROM `type`');
     //console.log(rows);
     return result[0];
 };
-let getAllBrand = async () => {
+const getAllBrand = async () => {
     const result = await db.query('SELECT * FROM `brand`');
     //console.log(rows);
     return result[0];
 };
-let getAllManufacturer = async () => {
+const getAllManufacturer = async () => {
     const result = await db.query('SELECT * FROM `manufacturer`');
     //console.log(result[0]);
     return result[0];
 };
-let getAllPhoto = async () => {
+const getAllPhoto = async () => {
     const result = await db.query('SELECT * FROM `photo`');
     //console.log(rows);
     return result[0];
 };
-let getDetailProduct = async (id) => {
+const getDetailProduct = async (id) => {
     const result = await db.query('SELECT pd.*, br.NAMEBRAND, manu.NAMEMANUFACTURER, mt.NAMEMATERIAL, pt.LINK  FROM product pd JOIN photo pt ON pt.IDPRODUCT = pd.IDPRODUCT JOIN brand br ON br.IDBRAND = pd.IDBRAND JOIN manufacturer manu ON manu.IDMANUFACTURER = pd.IDMANUFACTURER JOIN material mt ON mt.IDMATERIAL = pd.IDMATERIAL WHERE pd.IDPRODUCT = ?', [parseInt(id)]);
 
     return result[0];
 
 }
-let getRelatedProducts = async (id) => {
+const getRelatedProducts = async (id) => {
     const result = await db.query('SELECT pd.*, pt.LINK FROM product pd2, product pd JOIN photo pt ON pd.IDPRODUCT = pt.IDPRODUCT WHERE pd.IDTYPE = pd2.IDTYPE AND pd2.IDPRODUCT = ? GROUP BY pd.IDPRODUCT HAVING COUNT(*) >= 1', [parseInt(id)]);
     //console.log(result[0]);
     return result[0];
 }
-let calProductsPrice = async (id, amount) => {
+const calProductsPrice = async (id, amount) => {
     const result = await db.query('SELECT PRICE * ? as TOTALPRICE FROM product WHERE IDPRODUCT = ?', [parseInt(amount), parseInt(id)]);
     return result[0][0].TOTALPRICE;
 }
-
+const getListOrders = async (idCart) => {
+    const result = await db.query('SELECT pd.IDPRODUCT, pt.LINK, pd.NAMEPRODUCT, pd.REMAIN, pd.PRICE, pdc.AMOUNT, pdc.PRICE as TOTALPRICEPRODUCT, pdc.CHECKORDER FROM product pd, product_cart pdc, photo pt WHERE pd.IDPRODUCT = pdc.IDPRODUCT AND pd.IDPRODUCT = pt.IDPRODUCT AND IDCART = ? GROUP BY pd.IDPRODUCT HAVING COUNT(*) >= 1', [parseInt(idCart), parseInt(idCart)]);
+    return result[0];
+}
+const updateCheckOrder = async (idProduct, idCart, checkOrder) => {
+    const result = await db.query("UPDATE product_cart SET CHECKORDER = ? WHERE IDPRODUCT = ? AND IDCART = ?", [checkOrder ,parseInt(idProduct), parseInt(idCart)]);
+    console.log(result[0]);
+}
+const getChosenOrderTotal = async (idCart) => {
+    const result = await db.query("SELECT (SELECT SUM(AMOUNT) FROM product_cart WHERE IDCART = ? AND CHECKORDER = '1') as TOTALAMOUNT, (SELECT SUM(PRICE) FROM product_cart WHERE IDCART = ? AND CHECKORDER = '1') as TOTALPRICE FROM product_cart pdc WHERE IDCART = ? AND CHECKORDER = '1'", [parseInt(idCart), parseInt(idCart), parseInt(idCart)])
+    console.log(result[0][0])
+    return result[0][0];
+}
+const getListChosenOrders = async (idCart) => {
+    const result = await db.query("SELECT pd.IDPRODUCT, pt.LINK, pd.NAMEPRODUCT, pd.PRICE, pdc.AMOUNT, pdc.PRICE as TOTALPRICEPRODUCT FROM product pd, product_cart pdc, photo pt WHERE pd.IDPRODUCT = pdc.IDPRODUCT AND pd.IDPRODUCT = pt.IDPRODUCT AND pdc.CHECKORDER = '1' AND IDCART = ? GROUP BY pd.IDPRODUCT HAVING COUNT(*) >= 1", [parseInt(idCart), parseInt(idCart)]);
+    return result[0];
+}
+const deleteFromCart = async (idCart, idProduct) => {
+    const result = await db.query("DELETE FROM product_cart WHERE IDPRODUCT = ? AND IDCART = ?", [parseInt(idProduct), parseInt(idCart)]);
+    console.log(result[0]);
+}
 module.exports = {
     getAllProduct,
     getProductsPage,
@@ -310,5 +330,10 @@ module.exports = {
     getFilterProductsPage,
     getDetailProduct,
     getRelatedProducts,
-    calProductsPrice
+    calProductsPrice,
+    getListOrders,
+    updateCheckOrder,
+    getChosenOrderTotal,
+    getListChosenOrders,
+    deleteFromCart
 }

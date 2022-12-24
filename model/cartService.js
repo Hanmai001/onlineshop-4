@@ -3,7 +3,7 @@ const productService = require('./productService');
 
 const updateTotalPriceCart = async (idCart, price) => {
     const result = await db.query("UPDATE cart SET TOTALPRICE = ? WHERE IDCART = ?", [price, parseInt(idCart)]);
-    console.log(result[0]);
+    //console.log(result[0]);
 }
 const addCartUser = async (idUser) => {
     await db.query("INSERT INTO cart (IDUSER, TOTALPRICE) VALUES (?, 0)", [idUser]);
@@ -14,7 +14,7 @@ const addProductCart = async (idCart, idProduct, amount) => {
         await updatePriceProductInCart(idCart, idProduct, amount);
     }
     else {
-        await db.query("INSERT INTO product_cart (IDCART, IDPRODUCT, AMOUNT) VALUES (?, ?, ?)", [parseInt(idCart), parseInt(idProduct), amount]);
+        await db.query("INSERT INTO product_cart (IDCART, CHECKORDER, IDPRODUCT, AMOUNT) VALUES (?, '0', ?, ?)", [parseInt(idCart), parseInt(idProduct), parseInt(amount)]);
         await updatePriceProductInCart(idCart, idProduct, amount);
     }
 }
@@ -38,6 +38,10 @@ const calTotalPriceInCart = async (idCart) => {
     const result = await db.query("SELECT SUM(PRICE) as SUM FROM product_cart WHERE IDCART = ?", [parseInt(idCart)]);
     return result[0][0].SUM;
 }
+const calTotalPriceChosenProducts = async (idCart) => {
+    const result = await db.query("SELECT SUM(PRICE) as SUM FROM product_cart WHERE CHECKORDER = '1' AND IDCART = ?", [parseInt(idCart)]);
+    return result[0][0].SUM;
+}
 const numProductInCart = async (idCart) => {
     const result = await db.query("SELECT SUM(AMOUNT) as SUM FROM product_cart WHERE IDCART = ?", [parseInt(idCart)]);
     return result[0][0].SUM ? result[0][0].SUM : 0;
@@ -48,5 +52,6 @@ module.exports = {
     findCartUser,
     updateTotalPriceCart,
     calTotalPriceInCart,
-    numProductInCart
+    numProductInCart,
+    calTotalPriceChosenProducts
 }

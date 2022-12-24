@@ -37,11 +37,9 @@ const initUserRoute = (app) => {
         next();
     });
     router.get('/', authController.isLoggedCustomer, userController.getHomepage);
-    router.get('/list-order', authController.isLoggedCustomer, userController.getListOrderPage);
     router.get('/my-profile/:id', authController.isLoggedCustomer, userController.getProfilePage);
     router.get('/change-password/:id', authController.isLoggedCustomer, userController.getUpdatePasswordPage);
     router.get('/list-orders-status/:id', authController.isLoggedCustomer, userController.getListOrderStatusPage);
-    router.get('/payment', authController.isLoggedCustomer, userController.getPaymentPage);
     router.post('/my-profile/:id/update-info', upload.single('update-ava'), userController.updateInformation);
     router.post('/change-password/:id/update-password', userController.updatePassword);
     //Web của ta bđau = '/', truyền router vào

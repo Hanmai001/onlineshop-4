@@ -4,7 +4,9 @@ const passport = require('../passport');
 const reviewController = require('../controllers/api/reviewController');
 const authController = require('../controllers/authController');
 const authApiController = require('../controllers/api/authController');
-const cardController = require('../controllers/api/cardController');
+const cartController = require('../controllers/api/cardController');
+const productController = require('../controllers/api/productController');
+const addressController = require('../controllers/api/addressController');
 
 const initApiRoute = (app) => {
     router.use((req, res, next) => {
@@ -37,7 +39,11 @@ const initApiRoute = (app) => {
     router.get('/api/list-review/:id/', reviewController.getListReview);
     router.get('/api/verify-username/:username', authApiController.verifyUsername);
     router.get('/api/verify-email/:email', authApiController.verifyEmail);
-    router.post('/api/add-to-cart/', cardController.addToMyCart);
+    router.post('/api/add-to-cart/', cartController.addToMyCart);
+    router.get('/api/update-product-price-list-order/', productController.updateProductPriceInListOrder);
+    router.get('/api/add-to-payment/', productController.updateProductInPayment);
+    router.delete('/api/delete-item-in-cart/:id', productController.deleteItemInCart);
+    router.post('/api/update-address/', addressController.updateAddress);
 
     return app.use('/', router);
 }

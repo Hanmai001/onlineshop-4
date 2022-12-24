@@ -15,51 +15,53 @@
 
 <body>
     <div class="list-order">
-        <form action="/" method="get">
-            <header class="header row">
-                <div class="row pt-2">
-                    <div class="col-6">
-                        <span class="ms-5 text-white">Kết nối</span>
-                        <i class="fa-brands fa-facebook mx-2 text-white fs-5"></i>
-                        <i class="fa-brands fa-instagram text-white fs-5"></i>
-                    </div>
-                    <div class="col-6 text-end user-option">
-                        <img src="<%= ava ? ava : '/images/profile-icon.png' %>" alt="" width="30px" height="30px">
-                        <ul class="text-white ms-2 nav-profile">
-                            <li class="js-option-profile">
-                                <%= user.username %>
-                                    <ul class="subnav text-black js-subnav">
-                                        <li><a href="/my-profile/profile">Tài khoản của tôi</a></li>
-                                        <li><a href="/my-profile/list-orders-status">Đơn mua</a></li>
-                                        <li><a href="/logout">Đăng xuất</a></li>
-                                    </ul>
-                            </li>
-            
-                        </ul>
-                    </div>
+
+        <header class="header row">
+            <div class="row pt-2">
+                <div class="col-6">
+                    <span class="ms-5 text-white">Kết nối</span>
+                    <i class="fa-brands fa-facebook mx-2 text-white fs-5"></i>
+                    <i class="fa-brands fa-instagram text-white fs-5"></i>
                 </div>
-                <div class="row">
-                    <div class="logo col-2 text-center">
-                        <a class="d-none d-lg-block" href="/">HQDShop</a>
-                        <a class="d-lg-none" href="/">HQD</a>
-                    </div>
-                    <div class="col-9 input-search position-relative text-center">
-                        <input type="text" placeholder="Nhập tìm kiếm theo tên" name="name">
-                        <button class="position-absolute text-center">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </div>
-                    <div class="col-1 cart-icon">
-                        <a href="/list-order">
-                            <span><%= numProductInCart %></span>
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </a>
-            
-                    </div>
+                <div class="col-6 text-end user-option">
+                    <img src="<%= ava ? ava : '/images/profile-icon.png' %>" alt="" width="30px" height="30px">
+                    <ul class="text-white ms-2 nav-profile">
+                        <li class="js-option-profile">
+                            <%= user.username %>
+                                <ul class="subnav text-black js-subnav">
+                                    <li><a href="/my-profile/profile">Tài khoản của tôi</a></li>
+                                    <li><a href="/my-profile/list-orders-status">Đơn mua</a></li>
+                                    <li><a href="/logout">Đăng xuất</a></li>
+                                </ul>
+                        </li>
+
+                    </ul>
                 </div>
-            </header>
-        </form>
-        
+            </div>
+            <div class="row">
+                <div class="logo col-2 text-center">
+                    <a class="d-none d-lg-block" href="/">HQDShop</a>
+                    <a class="d-lg-none" href="/">HQD</a>
+                </div>
+                <div class="col-9 input-search position-relative text-center">
+                    <input type="text" placeholder="Nhập tìm kiếm theo tên" name="name">
+                    <button class="position-absolute text-center">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+                <div class="col-1 cart-icon">
+                    <a href="/list-order">
+                        <span id="num-in-cart">
+                            <%= numProductInCart %>
+                        </span>
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+
+                </div>
+            </div>
+        </header>
+
+
         <div class="content">
             <div class="tags-pane">
                 <div class="tags m-auto">
@@ -73,36 +75,47 @@
                 </div>
             </div>
             <div class="list-item mt-4">
-                <% for(var i=0; i<5; i++) {%>
-                    <div class="item m-auto mb-4">
+                <% for(var i=0; i<listOrders.length; i++) {%>
+                    <div id="<%= listOrders[i].IDPRODUCT %>" class="item m-auto mb-4">
                         <div class="row py-4 px-4 product">
                             <div class="col-4 product-pic">
                                 <div class="row">'
                                     <div class="col-4">
-                                        <input class="me-2" type="checkbox" name="item1">
-                                        <img src="https://cf.shopee.vn/file/d84af0e068a60a3b6e910d623ab3212b" alt=""
-                                            width="80px" height="80px">
+                                        <input class="me-2" type="checkbox" id="checkbox<%= listOrders[i].IDPRODUCT %>"
+                                            name="item-checkbox" <%= listOrders[i].CHECKORDER === "1" ? 'checked' : null %>>
+                                        <img src="<%= listOrders[i].LINK %>" alt="" width="80px" height="80px">
                                     </div>
                                     <div class="col-7">
-                                        <span>Set áo lưới cổ V cực xinh</span>
+                                        <span>
+                                            <%= listOrders[i].NAMEPRODUCT.length> 30 ?
+                                                listOrders[i].NAMEPRODUCT.slice(0, 30) +
+                                                `...` : listOrders[i].NAMEPRODUCT %>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-2 product-price text-center">
                                 <span class="text-decoration-underline">đ</span>
-                                <span>155000</span>
+                                <span>
+                                    <%= listOrders[i].PRICE %>
+                                </span>
                             </div>
                             <div class="col-2 num-buy text-center">
-                                <button><i class="fa-solid fa-minus"></i></button>
-                                <input type="number" readonly value="1">
-                                <button><i class="fa-solid fa-plus"></i></button>
+                                <button id="minus<%=listOrders[i].IDPRODUCT%>" class="minus-btn-count"><i
+                                        class="fa-solid fa-minus"></i></button>
+                                <input id="value-count-product<%= listOrders[i].IDPRODUCT %>" type="number" readonly
+                                    value="<%= listOrders[i].AMOUNT %>">
+                                <button id="plus<%=listOrders[i].IDPRODUCT%>" class="plus-btn-count"><i
+                                        class="fa-solid fa-plus"></i></button>
                             </div>
                             <div class="col-2 total-price text-center">
                                 <span class="text-decoration-underline">đ</span>
-                                <span>155000</span>
+                                <span id="product-price<%= listOrders[i].IDPRODUCT %>">
+                                    <%= listOrders[i].TOTALPRICEPRODUCT %>
+                                </span>
                             </div>
                             <div class="col-2 product-action text-center">
-                                <button>Xóa</button>
+                                <button class="delete-btn" id="delete-btn<%= listOrders[i].IDPRODUCT %>">Xóa</button>
                             </div>
 
                         </div>
@@ -111,12 +124,14 @@
                         <div class="confirm-order m-auto">
                             <div class="row py-4 px-4">
                                 <div class="col-4">
-                                    <span class="fs-4">Tất cả (10)</span>
+                                    <span id="total-amount" class="fs-4">Tất cả (<%= totalAmount ? totalAmount : 0 %>)</span>
                                 </div>
                                 <div class="col-4">
                                     <span class="fs-4">Tổng thanh toán</span>
                                     <span class="text-decoration-underline fs-4 currency ms-2">đ</span>
-                                    <span class="fs-4 price">155000</span>
+                                    <span id="total-price" class="fs-4 price">
+                                        <%= totalPrice ? totalPrice : 0 %>
+                                    </span>
                                 </div>
                                 <div class="col-4 text-end">
                                     <a href="/payment" class="buy-now-btn py-2 px-5">Mua Hàng</a>
@@ -133,7 +148,137 @@
         </div>
     </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+    $('.list-item').on('click','.delete-btn', function(e) {
+        $.ajax({
+            url: `/api/delete-item-in-cart/` + ($(this).prop('id')).match(/\d+/),
+            type: "delete",
+            dataType: 'json',
+            success: function (result) {
+               console.log(result)
+            },
+
+        });
+        location.reload();
+    })
+    $('input:checkbox[name=item-checkbox]').change(function () {
+        let id = parseInt(($(this).attr('id')).match(/\d+/));
+        if ($(this).is(':checked')) {
+            $.ajax({
+                url: `/api/add-to-payment/`,
+                type: "get", 
+                dataType: 'json',
+                //contentType: 'application/x-www-form-urlencoded',
+                data: {
+                    idProduct: id,
+                    checkOrder: "1",
+                },
+                success: function (result) {
+                    $('#total-price').text(result.totalPrice + "");
+                    $('#total-amount').text("Tất cả (" + result.totalAmount + ")");
+                },
+
+            });
+        } else {
+            $.ajax({
+                url: `/api/add-to-payment/`,
+                type: "get",
+                dataType: 'json',
+                //contentType: 'application/x-www-form-urlencoded',
+                data: {
+                    idProduct: id,
+                    checkOrder: "0",
+                },
+                success: function (result) {
+                    $('#total-price').text(result.totalPrice + "");
+                    $('#total-amount').text("Tất cả (" + result.totalAmount + ")");
+                },
+
+            });
+        }
+    });
+    $('.list-item').on('click', '.minus-btn-count', function (e) {
+        e.preventDefault();
+        let id = parseInt(($(this).attr('id')).match(/\d+/));
+        let count = parseInt($('#value-count-product' + id).val());
+        //console.log(count)
+        if (count > 1) {
+            $('#value-count-product' + id).val('');
+            count -= 1;
+            $('#value-count-product' + id).val(count);
+        }
+        $.ajax({
+            url: `/api/add-to-cart/`,
+            type: "post",
+            dataType: 'json',
+            //contentType: 'application/x-www-form-urlencoded',
+            data: {
+                idProduct: id,
+                amount: count,
+            },
+            success: function (result) {
+                console.log(result)
+                $('#num-in-cart').text(result + "");
+            },
+
+        });
+        $.ajax({
+            url: `/api/update-product-price-list-order/`,
+            type: "get",
+            dataType: 'json',
+            //contentType: 'application/x-www-form-urlencoded',
+            data: {
+                idProduct: id,
+                amount: count,
+            },
+            success: function (result) {
+                $('#product-price' + id).text(result + "");
+            },
+
+        });
+    })
+    $('.list-item').on('click', '.plus-btn-count', function (e) {
+        e.preventDefault();
+        let id = parseInt(($(this).attr('id')).match(/\d+/));
+        //console.log(id);
+        let count = parseInt($('#value-count-product' + id).val());
+        //console.log(count)
+        $('#value-count-product' + id).val('');
+        count += 1;
+        $('#value-count-product' + id).val(count);
+        $.ajax({
+            url: `/api/add-to-cart/`,
+            type: "post",
+            dataType: 'json',
+            //contentType: 'application/x-www-form-urlencoded',
+            data: {
+                idProduct: id,
+                amount: count,
+            },
+            success: function (result) {
+                //console.log(result)
+                $('#num-in-cart').text(result + "");
+            },
+
+        });
+        $.ajax({
+            url: `/api/update-product-price-list-order/`,
+            type: "get",
+            dataType: 'json',
+            //contentType: 'application/x-www-form-urlencoded',
+            data: {
+                idProduct: id,
+                amount: count,
+            },
+            success: function (result) {
+                $('#product-price' + id).text(result + "");
+            },
+
+        });
+
+    })
+
     let modalProfile = document.querySelector('.js-option-profile');
     let subnav = document.querySelector('.js-subnav');
     const openProfileOptions = () => {

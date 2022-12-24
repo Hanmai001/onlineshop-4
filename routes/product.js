@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const userController = require('../controllers/userController');
+const productController = require('../controllers/productController');
 const authController = require('../controllers/authController');
 
 //Khoi tao web router
@@ -10,7 +10,9 @@ const initProductRoute = (app) => {
         res.locals.flashMessages = req.flash();
         next();
     });
-    router.get('/products/details/:id', authController.isLoggedCustomer, userController.getDetailProductPage);
+    router.get('/products/details/:id', authController.isLoggedCustomer, productController.getDetailProductPage);
+    router.get('/list-order', authController.isLoggedCustomer, productController.getListOrderPage);
+    router.get('/payment', authController.isLoggedCustomer, productController.getPaymentPage);
 
     return app.use('/', router);
 }

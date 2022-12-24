@@ -93,36 +93,7 @@ let getHomepage = async (req, res) => {
         products, brands, types, manufacturers, names: random_names, pagination_info, iterator, endingLink
     });
 }
-let getDetailProductPage = async (req, res) => {
-    const paginator = new Paginator(5, 5);
-    const id = req.params.id;
-    let ava = null, numProductInCart = null;
-    if (res.locals.user) {
-        const { AVATAR } = await authService.getUserByID(res.locals.user.id);
-        if (AVATAR) ava = AVATAR;
-        const idCart = await cartService.findCartUser(res.locals.user.id);
-        numProductInCart = await cartService.numProductInCart(idCart);
-    }
-    const product = await productService.getDetailProduct(id);
-    const relateProducts = await productService.getRelatedProducts(id);
 
-    let currentPage = req.query.page ? +req.query.page : 1;
-    const length = (await reviewService.getAllReview(id)).length;
-    const pagination_info = paginator.build(length, currentPage);
-    let iterator = (currentPage - 5) < 1 ? 1 : currentPage - 4;
-    let endingLink = (iterator + 4) <= pagination_info.total_pages ? (iterator + 4) : currentPage + (pagination_info.total_pages - currentPage);
-
-    //console.log(pagination_info.total_pages ,iterator, endingLink)
-    const review = await reviewService.getReviewPage(id, 0, 5);
-
-    return res.render('product-info.ejs', { numProductInCart, product: product, relateProducts: relateProducts, review: review, ava, pagination_info, iterator, endingLink });
-}
-let getListOrderPage = async (req, res) => {
-    const idCart = await cartService.findCartUser(res.locals.user.id);
-    const numProductInCart = await cartService.numProductInCart(idCart);
-    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    return res.render('list-order.ejs', { ava, numProductInCart });
-}
 let getProfilePage = async (req, res) => {
     const idCart = await cartService.findCartUser(res.locals.user.id);
     const { EMAIL: email, FULLNAME: fullname, SEX: sex, PHONE: phone, AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
@@ -206,18 +177,11 @@ let getListOrderStatusPage = async (req, res) => {
     return res.render('status-orders.ejs', { ava, numProductInCart })
 }
 
-let getPaymentPage = async (req, res) => {
-    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    return res.render('payment.ejs', { ava });
-}
 module.exports = {
     getHomepage,
-    getDetailProductPage,
-    getListOrderPage,
     getProfilePage,
     getUpdatePasswordPage,
     getListOrderStatusPage,
-    getPaymentPage,
     updateInformation,
     updatePassword,
 }

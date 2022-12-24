@@ -213,7 +213,7 @@ html {
     margin-bottom: 24px;
 }
 
-.payment button[type="submit"] {
+.payment .submit-btn {
     border: none;
     color: #fff;
     background-color: #f53d2d;
