@@ -196,7 +196,10 @@ html {
 .payment .modal-body {
     padding: 16px;
 }
-
+.payment .modal-body a {
+    text-decoration: none;
+    color: white;
+}
 .payment .modal-label {
     /* Mỗi label nằm trên 1 hàng riêng biệt */
     display: block;
