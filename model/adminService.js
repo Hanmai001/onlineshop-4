@@ -97,10 +97,10 @@ let getSortUser = async (queryFilter) => {
 
     if (sortFilter && typeof sortFilter === 'string' && (timeCreate || sortEmail || sortName)) {
         //sort tăng dần
-        // if (typeof timeCreate === 'string') {
-        //     sql += 'ORDER BY CREATEON';
-        //     values.push(parseInt(timeCreate))
-        // }
+        if (typeof timeCreate === 'string') {
+            sql += ' ORDER BY CREATEON';
+            values.push(parseInt(timeCreate))
+        }
         if (typeof sortEmail === 'string') {
             sql += ' ORDER BY EMAIL';
             values.push(parseFloat(sortEmail))
