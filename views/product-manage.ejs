@@ -25,7 +25,8 @@
             <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
               aria-expanded="false">
 
-              <img src="<%= ava ? ava : '/images/profile-icon.png' %>" alt="mdo" width="32" height="32" class="rounded-circle">
+              <img src="<%= ava ? ava : '/images/profile-icon.png' %>" alt="mdo" width="32" height="32"
+                class="rounded-circle">
             </a>
             <ul class="dropdown-menu text-small">
               <li><a class="dropdown-item" href="/admin-profile/<%= user.id %> ">Hồ sơ</a></li>
@@ -33,7 +34,9 @@
             </ul>
           </div>
           <div>&nbsp&nbsp&nbsp</div>
-          <p class="admin"><%= user.username %></p>
+          <p class="admin">
+            <%= user.username %>
+          </p>
 
         </div>
       </div>
@@ -142,38 +145,33 @@
                 <th scope="col">Xóa</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Thước kẻ</td>
-                <td>Văn phòng phẩm</td>
-                <td>12/02/2022</td>
-                <td>10.000</td>
-                <td>4</td>
-                <td><span style="text-decoration:underline; color: red;">Chi tiết</span></td>
-                <th scope="col"><button type="button" class="btn btn-secondary">x</button></th>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Ghế sofa</td>
-                <td>Nội thất</td>
-                <td>12/05/2022</td>
-                <td>190.000</td>
-                <td>10</td>
-                <td><span style="text-decoration:underline; color: red;">Chi tiết</span></td>
-                <th scope="col"><button type="button" class="btn btn-secondary">x</button></th>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Áo thun</td>
-                <td>Quần áo</td>
-                <td>22/03/2022</td>
-                <td>50.000</td>
-                <td>120</td>
-                <td><span style="text-decoration:underline; color: red;">Chi tiết</span></td>
-                <th scope="col"><button type="button" class="btn btn-secondary">x</button></th>
-              </tr>
-            </tbody>
+            <div class="d-flex list">
+              <% for(var i=0; i< listProduct.length; i++) {%>
+                <tr>
+                  <th scope="row">
+                    <%=listProduct[i].IDPRODUCT%>
+                  </th>
+                  <td>
+                    <%= listProduct[i].NAMEPRODUCT.length> 20 ? listProduct[i].NAMEPRODUCT.slice(0, 40) +
+                      `...` : listProduct[i].NAMEPRODUCT %>
+                  </td>
+                  <td>
+                    <%=listProduct[i].NAMETYPE%>
+                  </td>
+                  <td>
+                    <%=listProduct[i].CREATEON.toString().slice(10, 15)%>
+                  </td>
+                  <td>
+                    <%=listProduct[i].PRICE%>
+                  </td>
+                  <td>
+                    <%=listProduct[i].NUMBUY%>
+                  </td>
+                  <td><span style="text-decoration:underline; color: red;">Chi tiết</span></td>
+                  <th scope="col"><button type="button" class="btn btn-secondary">x</button></th>
+                </tr>
+                <%}%>
+            </div>
           </table>
           <br>
           <div class="d-flex justify-content-center"><button id="js-add-btn" type="button"

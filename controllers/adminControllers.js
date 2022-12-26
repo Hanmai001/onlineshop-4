@@ -53,11 +53,10 @@ let getDetailsUser = async (req, res) => {
 }
 let getProductManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    // let idProduct = req.params.id;
-    // let listProduct 
-
-
-    return res.render('product-manage.ejs', { ava })
+    //  let idProduct = req.params.id;
+    const listProduct = await adminService.getAllProduct();
+    console.log(listProduct);
+    return res.render('product-manage.ejs', { ava, listProduct: listProduct })
 }
 let getTypeManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);

@@ -119,8 +119,13 @@ let getSortUser = async (queryFilter) => {
     return result[0];
 }
 ////////////////////
-let getProduct = async (idProduct) => {
-    const result = await db.query('SELECT pd.NAMEPRODUCT, tp.NAMETYPE, pd.CREATEON, pd.PRICE, pd.NUMBUY FROM product pd JOIN type tp on tp.IDTYPE = pd.IDTYPE where pd.IDPRODUCT = ?', [parseInt(idProduct)]);
+// let getProduct = async (idProduct) => {
+//     const result = await db.query('SELECT pd.NAMEPRODUCT, tp.NAMETYPE, pd.CREATEON, pd.PRICE, pd.NUMBUY FROM product pd JOIN type tp on tp.IDTYPE = pd.IDTYPE where pd.IDPRODUCT = ?', [parseInt(idProduct)]);
+
+//     return result[0];
+// }
+let getAllProduct = async () => {
+    const result = await db.query('SELECT pd.IDPRODUCT,pd.NAMEPRODUCT, tp.NAMETYPE, pd.CREATEON, pd.PRICE, pd.NUMBUY FROM product pd JOIN type tp on tp.IDTYPE = pd.IDTYPE');
 
     return result[0];
 }
@@ -130,5 +135,6 @@ module.exports = {
     getAllUser,
     getUser,
     getSortUser,
-    getProduct
+    //getProduct
+    getAllProduct
 }
