@@ -29,8 +29,8 @@
                         <li class="js-option-profile">
                             <%= user.username %>
                                 <ul class="subnav text-black js-subnav">
-                                    <li><a href="/my-profile/profile">Tài khoản của tôi</a></li>
-                                    <li><a href="/my-profile/list-orders-status">Đơn mua</a></li>
+                                    <li><a href="/my-profile/<%= user.id %>">Tài khoản của tôi</a></li>
+                                    <li><a href="/list-orders-status/<%= user.id %>">Đơn mua</a></li>
                                     <li><a href="/logout">Đăng xuất</a></li>
                                 </ul>
                         </li>

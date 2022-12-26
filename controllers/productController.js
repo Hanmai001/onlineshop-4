@@ -2,6 +2,7 @@ const productService = require('../model/productService');
 const reviewService = require('../model/reviewService');
 const authService = require('../model/authService');
 const cartService = require('../model/cartService');
+const addressService = require('../model/addressService');
 const Paginator = require("paginator");
 
 let getDetailProductPage = async (req, res) => {
@@ -44,11 +45,13 @@ let getListOrderPage = async (req, res) => {
     return res.render('list-order.ejs', { ava, totalAmount, totalPrice, numProductInCart, listOrders });
 }
 let getPaymentPage = async (req, res) => {
-    const idCart = await cartService.findCartUser(res.locals.user.id);
-    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
+    const idUser = res.locals.user.id;
+    const idCart = await cartService.findCartUser(idUser);
+    const { AVATAR: ava } = await authService.getUserByID(idUser);
     const listOrders = await productService.getListChosenOrders(idCart);
     const totalPrice = await cartService.calTotalPriceChosenProducts(idCart);
-    return res.render('payment.ejs', { ava, listOrders, totalPrice });
+    const address = await addressService.getUserAddress(idUser);
+    return res.render('payment.ejs', { ava, listOrders, totalPrice, address });
 }
 module.exports = {
     getDetailProductPage,

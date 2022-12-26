@@ -39,7 +39,6 @@ const initUserRoute = (app) => {
     router.get('/', authController.isLoggedCustomer, userController.getHomepage);
     router.get('/my-profile/:id', authController.isLoggedCustomer, userController.getProfilePage);
     router.get('/change-password/:id', authController.isLoggedCustomer, userController.getUpdatePasswordPage);
-    router.get('/list-orders-status/:id', authController.isLoggedCustomer, userController.getListOrderStatusPage);
     router.post('/my-profile/:id/update-info', upload.single('update-ava'), userController.updateInformation);
     router.post('/change-password/:id/update-password', userController.updatePassword);
     //Web của ta bđau = '/', truyền router vào

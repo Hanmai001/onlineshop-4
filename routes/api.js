@@ -7,6 +7,8 @@ const authApiController = require('../controllers/api/authController');
 const cartController = require('../controllers/api/cardController');
 const productController = require('../controllers/api/productController');
 const addressController = require('../controllers/api/addressController');
+const orderController = require('../controllers/api/orderController');
+const { or } = require('ajv/dist/compile/codegen');
 
 const initApiRoute = (app) => {
     router.use((req, res, next) => {
@@ -44,6 +46,7 @@ const initApiRoute = (app) => {
     router.get('/api/add-to-payment/', productController.updateProductInPayment);
     router.delete('/api/delete-item-in-cart/:id', productController.deleteItemInCart);
     router.post('/api/update-address/', addressController.updateAddress);
+    router.post('/api/create-order', orderController.createUserOrder);
 
     return app.use('/', router);
 }

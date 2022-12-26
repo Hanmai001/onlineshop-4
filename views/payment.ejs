@@ -28,8 +28,8 @@
                         <li class="js-option-profile">
                             <%= user.username %>
                                 <ul class="subnav text-black js-subnav">
-                                    <li><a href="/my-profile/profile">Tài khoản của tôi</a></li>
-                                    <li><a href="/my-profile/list-orders-status">Đơn mua</a></li>
+                                    <li><a href="/my-profile/<%= user.id %>">Tài khoản của tôi</a></li>
+                                    <li><a href="/list-orders-status/<%= user.id %>">Đơn mua</a></li>
                                     <li><a href="/logout">Đăng xuất</a></li>
                                 </ul>
                         </li>
@@ -45,11 +45,11 @@
                     <p class="fs-5">Địa Chỉ Nhận Hàng</p>
                     <div class="row">
                         <div class="col-2 name-buyer">
-                            <span>Gia Hân</span>
-                            <span>0940353432</span>
+                            <span id="myname"><%= address ? address.NAME : 'Chưa có' %></span>
+                            <span id="myphone"><%= address ? address.PHONE : 'Chưa có' %></span>
                         </div>
                         <div class="col-8">
-                            <span>123 ấp 3 xã Long Thới, huyện Nhà Bè, TP.Hồ Chí Minh</span>
+                            <span id="myaddress"><%= address ? address.ADDRESS : 'Chưa có' %></span>
 
                         </div>
                         <div class="col-2 text-end">
@@ -113,7 +113,7 @@
                                 <span class="me-3 fs-5">Tổng số tiền</span>
                                 <div class="d-inline-block fs-5">
                                     <span class="text-decoration-underline">đ</span>
-                                    <span><%= totalPrice %></span>
+                                    <span><%= totalPrice ? totalPrice : 0 %></span>
                                 </div>
 
                             </div>
@@ -130,11 +130,11 @@
                             <span class="me-3">Tổng số tiền</span>
                             <div class="d-inline-block">
                                 <span class="text-decoration-underline">đ</span>
-                                <span><%= totalPrice %></span>
+                                <span><%= totalPrice ? totalPrice : 0 %></span>
                             </div>
                         </div>
                         <div class="text-end pt-5">
-                            <button class="me-3">
+                            <button class="me-3" id="order-btn" <%= listOrders.length > 0 ? null : 'disabled' %>>
                                 ĐẶT HÀNG
                             </button>
                         </div>
@@ -150,7 +150,7 @@
                     <p class="fs-5">Cập Nhật Địa Chỉ</p>
                 </header>
                 <div class="modal-body js-modal-body">
-                    <form id="update-address-form">
+                    <div id="update-address-form">
                         <label for="update-name" class="modal-label">
                             <i class="ti-shopping-cart"></i>
                             Họ và tên
@@ -169,13 +169,29 @@
                         <input required id="update-address" type="text" name="address" class="modal-input" placeholder="Địa chỉ">
 
                        
-                    </form>
+                    </div>
                     <!--BUTTONs-->
                     <div class="text-end py-2">
                         <button class="submit-btn" id="js-update-btn">CẬP NHẬT</button>
                         <button id="js-modal-close" class="cancel">HỦY</button>
                     </div>
 
+                </div>
+            </div>
+        </div>
+
+        <div class="modal js-notice">
+            <div class="modal-container js-modal-container">
+                
+                <div class="modal-body js-modal-body">
+                   <div>
+                    <h5 id="notice-msg">ĐẶT HÀNG THÀNH CÔNG</h5>
+                   </div>
+                    <!--BUTTONs-->
+                    <div class="text-end py-2">
+                        <button class="submit-btn" id="js-confirm-btn"><a id="order-anchor" href="/">QUAY LẠI TRANG CHỦ</a></button>
+                    </div>
+        
                 </div>
             </div>
         </div>
@@ -188,7 +204,27 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
+    $('#order-btn').on('click', function(e) {
+        $.ajax({
+            url: `/api/create-order`,
+            type: "post",
+            dataType: 'json',
+            success: function (result) {
+                if (result)
+                    $('.js-notice').css("display", "flex");
+                else {
+                    $('#notice-msg').text("ĐẶT HÀNG THẤT BẠI");
+                    $('#order-anchor').text("KIỂM TRA LẠI THÔNG TIN");
+                    $("#order-anchor").attr("href", window.location)
+                    $('.js-notice').css("display", "flex");
+                }
+            },
+
+        });
+        
+    })
     $('#js-update-btn').on('click', function(e) {
+        $('.js-modal').show();
         const name = $('#update-name').val();
         const phone = $('#update-phone').val();
         const address = $('#update-address').val();
@@ -203,9 +239,10 @@
                     address: address
                 },
                 success: function (result) {
-                    $('#update-name').val(name);
-                    $('#update-phone').val(phone);
-                    $('#update-address').val(address);
+                    $('.js-modal').hide();
+                    $('#myname').text(name);
+                    $('#myphone').text(phone);
+                    $('#myaddress').text(address);
                 },
 
             });
