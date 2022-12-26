@@ -43,7 +43,7 @@ const initAdminRoute = (app) => {
     router.post('/admin-profile/:id/update-info', upload.single('update-ava'), adminControllers.updateInformation)
     router.get('/logout', authController.logout);
     router.post('/change-password-admin/:id/update-password', adminControllers.updatePassword);
- 
+
     return app.use('/', router)
 }
 

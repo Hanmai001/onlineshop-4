@@ -27,7 +27,7 @@
                 class="rounded-circle">
             </a>
             <ul class="dropdown-menu text-small">
-              <li><a class="dropdown-item" href="./admin-profile/<%= user.id %> ">Hồ sơ</a></li>
+              <li><a class="dropdown-item" href="/admin-profile/<%= user.id %> ">Hồ sơ</a></li>
               <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
             </ul>
           </div>
@@ -147,20 +147,20 @@
               </tr>
             </thead>
             <div class="d-flex list">
-              <% for(var i=0; i< list.length; i++) {%>
+              <% for(var i=0; i< listUser.length; i++) {%>
                 <tr>
                   <th scope="row">
-                    <%= list[i].IDUSER%>
+                    <%= listUser[i].IDUSER%>
                   </th>
                   <td>
-                    <%= list[i].FULLNAME%>
+                    <%= listUser[i].FULLNAME%>
                   </td>
                   <td>
-                    <%= list[i].EMAIL%>
+                    <%= listUser[i].EMAIL%>
                   </td>
                   <td>21/10/2022</td>
                   <td>
-                    <a class="py-3" href="/manage/details-user/<%= list[i].IDUSER%>"
+                    <a class="py-3" href="/manage/details-user/<%= listUser[i].IDUSER%>"
                       style="opacity: 1; background-color: transparent;"><button type="button" class="btn btn-link"
                         data-bs-toggle="modal" data-bs-target="#exampleModal"
                         style="text-decoration:underline; color: red;opacity: 1;">
