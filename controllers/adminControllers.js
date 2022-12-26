@@ -18,8 +18,8 @@ let getOdersManage = async (req, res) => {
 let getUsersManage = async (req, res) => {
 
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    
-    const list = await adminService.getAllUser();
+
+    const listUser = await adminService.getAllUser();
     //console.log(list.length);
     let users;
     const allUsers = await adminService.getAllUser();
@@ -35,7 +35,7 @@ let getUsersManage = async (req, res) => {
     }
     else users = allUsers;
     const originUrl = `?${req.baseUrl}`;
-    return res.render('users-manage.ejs', { list: list, ava, originUrl, users});
+    return res.render('users-manage.ejs', { listUser: listUser, ava, originUrl, users });
 }
 /////////////////
 let getOriginManage = async (req, res) => {
@@ -53,6 +53,10 @@ let getDetailsUser = async (req, res) => {
 }
 let getProductManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
+    // let idProduct = req.params.id;
+    // let listProduct 
+
+
     return res.render('product-manage.ejs', { ava })
 }
 let getTypeManage = async (req, res) => {
@@ -126,6 +130,7 @@ let updatePassword = async (req, res) => {
     req.flash('updatePassMsg', 'Đổi mật khẩu thất bại.');
     return res.redirect(`/change-password-admin/${idUser}`);
 }
+
 module.exports = {
     getHomePage,
     getAdminProfile,

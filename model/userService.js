@@ -52,7 +52,7 @@ let updateProfile = async (data, ava, idUser) => {
     } catch (err) {
         return null;
     }
-    
+
     return result[0] && result.length > 0;
 }
 let updatePassword = async (data, idUser) => {
