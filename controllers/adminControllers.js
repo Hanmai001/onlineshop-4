@@ -19,10 +19,9 @@ let getUsersManage = async (req, res) => {
 
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
 
-    const listUser = await adminService.getAllUser();
+    const getUser = await adminService.getAllUser();
     //console.log(list.length);
-    let users;
-    const allUsers = await adminService.getAllUser();
+    let listUser;
     const {
         timeCreate: timeCreate,
         sortEmail: sortEmail,
@@ -31,11 +30,11 @@ let getUsersManage = async (req, res) => {
 
     } = req.query;
     if (timeCreate || sortEmail || sortName || sortFilter) {
-        users = await adminService.getSortUser(req.query);
+        listUser = await adminService.getSortUser(req.query);
     }
-    else users = allUsers;
+    else listUser = getUser;
     const originUrl = `?${req.baseUrl}`;
-    return res.render('users-manage.ejs', { listUser: listUser, ava, originUrl, users });
+    return res.render('users-manage.ejs', { listUser: listUser, ava: ava, originUrl: originUrl });
 }
 /////////////////
 let getOriginManage = async (req, res) => {

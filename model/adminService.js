@@ -98,25 +98,25 @@ let getSortUser = async (queryFilter) => {
     if (sortFilter && typeof sortFilter === 'string' && (timeCreate || sortEmail || sortName)) {
         //sort tăng dần
         // if (typeof timeCreate === 'string') {
-        //     sql += 'ORDER BY NUMBUY';
-        //     //values.push(parseInt(numBuy))
+        //     sql += 'ORDER BY CREATEON';
+        //     values.push(parseInt(timeCreate))
         // }
         if (typeof sortEmail === 'string') {
             sql += ' ORDER BY EMAIL';
-            // values.push(parseFloat(sortEmail))
+            values.push(parseFloat(sortEmail))
         }
         else if (typeof sortName === 'string') {
             sql += ' ORDER BY USERNAME';
-            //     //values.push(parseInt(timeCreate))
+            values.push(parseInt(timeCreate))
         }
         //sort giảm dần
-        // if (sortFilter === 'down') {
-        //     sql += ' DESC';
-        // }
+        if (sortFilter === 'down') {
+            sql += ' DESC';
+        }
     }
-
     const result = await db.query(sql, values);
     return result[0];
+
 }
 ////////////////////
 // let getProduct = async (idProduct) => {
