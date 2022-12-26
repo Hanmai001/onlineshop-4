@@ -21,7 +21,8 @@
                     <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false">
 
-                        <img src="<%= ava ? ava : '/images/profile-icon.png' %>" alt="mdo" width="32" height="32" class="rounded-circle">
+                        <img src="<%= ava ? ava : '/images/profile-icon.png' %>" alt="mdo" width="32" height="32"
+                            class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu text-small">
                         <li><a class="dropdown-item" href="/admin-profile/<%= user.id %> ">Hồ sơ</a></li>
@@ -29,7 +30,9 @@
                     </ul>
                 </div>
                 <div>&nbsp&nbsp&nbsp</div>
-                <p class="admin"><%= user.username %></p>
+                <p class="admin">
+                    <%= user.username %>
+                </p>
 
             </div>
         </div>
@@ -138,27 +141,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Quần áo</td>
-                            <td style="font-style: italic; text-decoration: underline; color: red;">Chỉnh sửa
-                            </td>
-                            <th scope="col"><button type="button" class="btn btn-secondary">x</button></th>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Văn phòng phẩm</td>
-                            <td style="font-style: italic; text-decoration: underline; color: red;">Chỉnh sửa
-                            </td>
-                            <th scope="col"><button type="button" class="btn btn-secondary">x</button></th>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Dụng cụ thể thao</td>
-                            <td style="font-style: italic; text-decoration: underline; color: red;">Chỉnh sửa
-                            </td>
-                            <th scope="col"><button type="button" class="btn btn-secondary">x</button></th>
-                        </tr>
+                        <% for(var i=0; i< listType.length; i++) {%>
+                            <tr>
+                                <th scope="row">
+                                    <%=listType[i].IDTYPE%>
+                                </th>
+                                <td>
+                                    <%=listType[i].NAMETYPE%>
+                                </td>
+                                <td style="font-style: italic; text-decoration: underline; color: red;">Chỉnh sửa
+                                </td>
+                                <th scope="col"><button type="button" class="btn btn-secondary">x</button></th>
+                            </tr>
+                            <% }%>
                     </tbody>
                 </table>
                 <br>

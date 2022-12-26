@@ -129,6 +129,21 @@ let getAllProduct = async () => {
 
     return result[0];
 }
+let getAllOrder = async () => {
+    const result = await db.query('SELECT IDORDER, STATUSODER, CREATEON FROM onlineshop.order');
+
+    return result[0];
+}
+let getAllManufacturer = async () => {
+    const result = await db.query('SELECT * FROM manufacturer');
+
+    return result[0];
+}
+let getAllType = async () => {
+    const result = await db.query('select * from type');
+
+    return result[0];
+}
 module.exports = {
     updateProfile,
     updatePassword,
@@ -136,5 +151,8 @@ module.exports = {
     getUser,
     getSortUser,
     //getProduct
-    getAllProduct
+    getAllProduct,
+    getAllOrder,
+    getAllManufacturer,
+    getAllType
 }

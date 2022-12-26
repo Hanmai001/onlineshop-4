@@ -12,11 +12,14 @@ let getAdminProfile = async (req, res) => {
 }
 let getOdersManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    return res.render('oders-manage.ejs', { ava })
+    const getOrder = await adminService.getAllOrder();
+    let listOrder = getOrder;
+    console.log(listOrder);
+
+    return res.render('oders-manage.ejs', { ava, listOrder: listOrder })
 }
 //SORT USER-MANAGE
 let getUsersManage = async (req, res) => {
-
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
 
     const getUser = await adminService.getAllUser();
@@ -39,7 +42,11 @@ let getUsersManage = async (req, res) => {
 /////////////////
 let getOriginManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    return res.render('origin-manage.ejs', { ava })
+    const getManufacturer = await adminService.getAllManufacturer();
+    let listOrigin = getManufacturer;
+
+
+    return res.render('origin-manage.ejs', { ava, listOrigin: listOrigin })
 }
 let getDetailsUser = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
@@ -54,12 +61,15 @@ let getProductManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
     //  let idProduct = req.params.id;
     const listProduct = await adminService.getAllProduct();
-    console.log(listProduct);
+    //console.log(listProduct);
     return res.render('product-manage.ejs', { ava, listProduct: listProduct })
 }
 let getTypeManage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    return res.render('type-manage.ejs', { ava })
+    const getType = await adminService.getAllType();
+    let listType = getType;
+
+    return res.render('type-manage.ejs', { ava, listType: listType })
 }
 let getChangePassword = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);

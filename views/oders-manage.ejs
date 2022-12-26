@@ -21,7 +21,8 @@
           <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
             aria-expanded="false">
 
-            <img src="<%= ava ? ava : '/images/profile-icon.png' %>" alt="mdo" width="32" height="32" class="rounded-circle">
+            <img src="<%= ava ? ava : '/images/profile-icon.png' %>" alt="mdo" width="32" height="32"
+              class="rounded-circle">
           </a>
           <ul class="dropdown-menu text-small">
             <li><a class="dropdown-item" href="/admin-profile/<%= user.id %> ">Hồ sơ</a></li>
@@ -29,7 +30,9 @@
           </ul>
         </div>
         <div>&nbsp&nbsp&nbsp</div>
-        <p class="admin"><%= user.username %></p>
+        <p class="admin">
+          <%= user.username %>
+        </p>
 
       </div>
     </div>
@@ -108,7 +111,6 @@
       <div class="col">
         <div class="p-2" style="background-color: rgb(203, 203, 203);">
           <span class="mx-2">Sắp xếp theo</span>
-          <button>&nbsp&nbsp&nbspTên đơn hàng&nbsp&nbsp&nbsp</button>
           <button>&nbsp&nbsp&nbspTrạng thái&nbsp&nbsp&nbsp</button>
           <button>&nbsp&nbsp&nbspThời gian&nbsp&nbsp&nbsp</button>
           <label for="priceSort"></label>
@@ -127,37 +129,29 @@
             <tr>
               <th scope="col">STT</th>
               <th scope="col">Mã đơn hàng</th>
-              <th scope="col">Tên đơn hàng</th>
               <th scope="col">Trạng thái</th>
               <th scope="col">Thời gian</th>
               <th scope="col">Chỉnh sửa</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>A01</td>
-              <td>Áo thun trắng</td>
-              <td>Đang giao</td>
-              <td>12/02/2022</td>
-              <td><span style="text-decoration:underline; color: red;">Chi tiết</span></td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>A02</td>
-              <td>Quần jean</td>
-              <td>Đã giao</td>
-              <td>12/05/2022</td>
-              <td><span style="text-decoration:underline; color: red;">Chi tiết</span></td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>A03</td>
-              <td>Bàn xếp</td>
-              <td>Đã hủy</td>
-              <td>22/03/2022</td>
-              <td><span style="text-decoration:underline; color: red;">Chi tiết</span></td>
-            </tr>
+            <% for(var i=0; i< listOrder.length; i++) {%>
+              <tr>
+                <th scope="row">
+                  <%= listOrder[i].IDORDER%>
+                </th>
+                <td>
+                  <%= listOrder[i].IDORDER%>
+                </td>
+                <td>
+                  <%= listOrder[i].STATUSODER%>
+                </td>
+                <td>
+                  <%= listOrder[i].CREATEON.toString().slice(4, 24)%>
+                </td>
+                <td><span style="text-decoration:underline; color: red;">Chi tiết</span></td>
+              </tr>
+              <%}%>
           </tbody>
         </table>
         <br>
