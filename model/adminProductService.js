@@ -47,7 +47,6 @@ let getSortProduct = async (queryFilter) => {
         }
     }
     const result = await db.query(sql, values);
-    console.log(result);
     return result[0];
 
 }
