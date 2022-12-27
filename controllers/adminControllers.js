@@ -10,67 +10,6 @@ let getAdminProfile = async (req, res) => {
     //console.log({ email, fullname, sex, phone, ava })
     return res.render('admin-profile.ejs', { email, fullname, sex, phone, ava });
 }
-let getOdersManage = async (req, res) => {
-    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    const getOrder = await adminService.getAllOrder();
-    let listOrder = getOrder;
-    console.log(listOrder);
-
-    return res.render('oders-manage.ejs', { ava, listOrder: listOrder })
-}
-//SORT USER-MANAGE
-let getUsersManage = async (req, res) => {
-    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-
-    const getUser = await adminService.getAllUser();
-    //console.log(list.length);
-    let listUser;
-    const {
-        timeCreate: timeCreate,
-        sortEmail: sortEmail,
-        sortHoTen: sortName,
-        sort: sortFilter
-
-    } = req.query;
-    if (timeCreate || sortEmail || sortName || sortFilter) {
-        listUser = await adminService.getSortUser(req.query);
-    }
-    else listUser = getUser;
-    const originUrl = `?${req.baseUrl}`;
-    return res.render('users-manage.ejs', { listUser: listUser, ava: ava, originUrl: originUrl });
-}
-/////////////////
-let getOriginManage = async (req, res) => {
-    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    const getManufacturer = await adminService.getAllManufacturer();
-    let listOrigin = getManufacturer;
-
-
-    return res.render('origin-manage.ejs', { ava, listOrigin: listOrigin })
-}
-let getDetailsUser = async (req, res) => {
-    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    let idUser = req.params.id;
-    const details = await adminService.getUser(idUser);
-
-    //console.log(details);
-
-    return res.render('details-user.ejs', { ava, details: details })
-}
-let getProductManage = async (req, res) => {
-    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    //  let idProduct = req.params.id;
-    const listProduct = await adminService.getAllProduct();
-    //console.log(listProduct);
-    return res.render('product-manage.ejs', { ava, listProduct: listProduct })
-}
-let getTypeManage = async (req, res) => {
-    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    const getType = await adminService.getAllType();
-    let listType = getType;
-
-    return res.render('type-manage.ejs', { ava, listType: listType })
-}
 let getChangePassword = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
     return res.render('change-password-admin.ejs', { ava })
@@ -142,13 +81,7 @@ let updatePassword = async (req, res) => {
 module.exports = {
     getHomePage,
     getAdminProfile,
-    getOdersManage,
-    getUsersManage,
-    getOriginManage,
-    getProductManage,
-    getTypeManage,
     updateInformation,
     getChangePassword,
     updatePassword,
-    getDetailsUser
 }

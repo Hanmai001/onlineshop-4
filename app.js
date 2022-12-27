@@ -1,6 +1,11 @@
 const express = require('express');
 const initUserRoute = require('./routes/user');
 const initAdminRoute = require('./routes/admin');
+const initAdminUserRoute = require('./routes/adminUser');
+const initAdminOrderRoute = require('./routes/adminOrder');
+const initAdminOriginRoute = require('./routes/adminOrigin');
+const initAdminProductRoute = require('./routes/adminProduct');
+const initAdminTypeRoute = require('./routes/adminType');
 const initReviewRoute = require('./routes/review');
 const initProductRoute = require('./routes/product');
 const initApiRoute = require('./routes/api');
@@ -48,10 +53,16 @@ app.use(function (req, res, next) {
 
 initUserRoute(app);
 initAdminRoute(app);
+initAdminUserRoute(app);
+initAdminOrderRoute(app);
+initAdminOriginRoute(app);
+initAdminProductRoute(app);
+initAdminTypeRoute(app);
 initProductRoute(app);
 initReviewRoute(app);
 initApiRoute(app);
 initAddressRoute(app);
+
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

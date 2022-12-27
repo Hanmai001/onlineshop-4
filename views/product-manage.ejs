@@ -167,8 +167,15 @@
                   <td>
                     <%=listProduct[i].NUMBUY%>
                   </td>
-                  <td><span style="text-decoration:underline; color: red;">Chi tiết</span></td>
-                  <th scope="col"><button type="button" class="btn btn-secondary">x</button></th>
+                  <td><a class="py-3" href="/manage/details-product/<%= listProduct[i].IDPRODUCT%>"
+                      style="opacity: 1; background-color: transparent;"><button type="button" class="btn btn-link"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        style="text-decoration:underline; color: red;opacity: 1;">
+                        Chỉnh sửa
+                      </button></a></td>
+                  <th scope="col">
+                    <button type="button" class="btn btn-secondary">x</button>
+                  </th>
                 </tr>
                 <%}%>
             </div>
