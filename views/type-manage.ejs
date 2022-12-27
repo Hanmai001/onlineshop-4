@@ -114,18 +114,21 @@
                 </div>
             </div>
             <div class="col">
-                <div class="p-2" style="background-color: rgb(203, 203, 203);">
-                    <span class="mx-2">Sắp xếp theo</span>
-                    <!-- <form action="/" class="d-inline-block"> -->
-                    <button>&nbsp&nbsp&nbspSTT&nbsp&nbsp&nbsp</button>
-                    <button>&nbsp&nbsp&nbspTÊN&nbsp&nbsp&nbsp</button>
-                    <label for="priceSort"></label>
-                    <select name="price" id="select-price">
-                        <option value="up">Thấp đến cao</option>
-                        <option value="down">Cao đến thấp</option>
-                    </select>
-                    <!-- </form> -->
+                <!--SORT ORDER-MANAGE -->
+                <div class="sort-list">
+                    <div class="p-3" style="background-color: white;">
+                        <span class="mx-2">Sắp xếp theo</span>
+                        <div class="d-inline-block">
+                            <input type="submit" placeholder="Tên nơi sản xuất" name="sortName" id="sort-name"
+                                value="Trạng thái" readonly>
+                            <select id="select-sort" name="sort">
+                                <option value="up">Thấp đến cao</option>
+                                <option value="down">Cao đến thấp</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
+                <!--SORT ORDER-MANAGE-->
                 <br>
                 <div class="d-flex justify-content-center">
                     <h3>Bảng quản lí thể loại <h3>
