@@ -13,6 +13,7 @@
 </head>
 
 <body>
+  
   <div class="product-manage">
     <header class="p-3 mb-3 border-bottom">
       <div class="container">
@@ -113,20 +114,23 @@
           </div>
         </div>
         <div class="col">
-          <div class="p-2" style="background-color: rgb(203, 203, 203);">
-            <span class="mx-2">Sắp xếp theo</span>
-            <!-- <form action="/" class="d-inline-block"> -->
-            <button>&nbsp&nbsp&nbspTên sản phẩm&nbsp&nbsp&nbsp</button>
-            <button>&nbsp&nbsp&nbspLoại sản phẩm&nbsp&nbsp&nbsp</button>
-            <button>&nbsp&nbsp&nbspLượt mua&nbsp&nbsp&nbsp</button>
-            <button>&nbsp&nbsp&nbspNgày Tạo&nbsp&nbsp&nbsp</button>
-            <label for="priceSort"></label>
-            <select name="price" id="select-price">
-              <option value="up">Thấp đến cao</option>
-              <option value="down">Cao đến thấp</option>
-            </select>
-            <!-- </form> -->
+          <!--SORT USER-MANAGE -->
+          <div class="sort-list">
+            <div class="p-3" style="background-color: white;">
+              <span class="mx-2">Sắp xếp theo</span>
+              <div class="d-inline-block">
+                <input type="submit" placeholder="Tên sản phẩm" name="sortName" id="sort-name" value="Tên sản phẩm" readonly>
+                <input type="submit" placeholder="Loại sản phẩm" name="sortType" id="sort-type" value="Loại sản phẩm" readonly>
+                <input type="submit" placeholder="Lượt mua" name="sortNumbuy" id="sort-numbuy" value="Lượt mua" readonly>
+                <input type="submit" placeholder="Ngày tạo" name="sortCreateon" id="sort-createon" value="Ngày tạo" readonly>
+                <select id="select-sort" name="sort">
+                  <option value="up">Thấp đến cao</option>
+                  <option value="down">Cao đến thấp</option>
+                </select>
+              </div>
+            </div>
           </div>
+          <!--SORT USER-MANAGE-->
           <br>
           <div class="d-flex justify-content-center">
             <h3>Bảng quản lí sản phẩm</h3>
