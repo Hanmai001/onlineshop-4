@@ -31,8 +31,13 @@ let getSortType = async (queryFilter) => {
     return result[0];
 
 }
+let getType = async (idUser) => {
+    const result = await db.query('SELECT * FROM type where IDTYPE = ?', [parseInt(idUser)]);
 
+    return result[0];
+}
 module.exports = {
     getAllType,
-    getSortType
+    getSortType,
+    getType
 }

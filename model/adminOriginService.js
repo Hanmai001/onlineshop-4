@@ -6,7 +6,11 @@ let getAllManufacturer = async () => {
 
     return result[0];
 }
+let getManufacturer = async (idUser) => {
+    const result = await db.query('SELECT * FROM manufacturer where IDMANUFACTURER = ?', [parseInt(idUser)]);
 
+    return result[0];
+}
 //SORT ORIGIN-MANAGE
 let getSortManufacturer = async (queryFilter) => {
     const {
@@ -34,5 +38,6 @@ let getSortManufacturer = async (queryFilter) => {
 
 module.exports = {
     getAllManufacturer,
-    getSortManufacturer
+    getSortManufacturer,
+    getManufacturer
 }

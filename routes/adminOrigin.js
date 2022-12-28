@@ -6,6 +6,7 @@ const authController = require('../controllers/authController');
 
 const initAdminOriginRoute = (app) => {
     router.get('/origin-manage', authController.isLoggedAdmin, adminOriginController.getOriginManage);
+    router.get('/manage/details-origin/:id', authController.isLoggedAdmin, adminOriginController.getDetailsOrigin);
     return app.use('/', router)
 }
 

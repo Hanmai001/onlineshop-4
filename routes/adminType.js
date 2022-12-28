@@ -6,6 +6,7 @@ const authController = require('../controllers/authController');
 
 const initAdminTypeRoute = (app) => {
     router.get('/type-manage', authController.isLoggedAdmin, adminTypeController.getTypeManage);
+    router.get('/manage/details-type/:id', authController.isLoggedAdmin, adminTypeController.getDetailsType);
     return app.use('/', router)
 }
 
