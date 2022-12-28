@@ -21,7 +21,13 @@ let getOdersManage = async (req, res) => {
     const originUrl = `?${req.baseUrl}`;
     return res.render('orders-manage.ejs', { ava, listOrder: listOrder,originUrl: originUrl })
 }
+let getDetailsOrder = async (req, res) => {
+    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
+    let idUser = req.params.id;
 
+    const details = await adminOrderService.getOrder(idUser);
+
+<<<<<<< Updated upstream
 // let getProductManage = async (req, res) => {
 //     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
 //     //  let idProduct = req.params.id;
@@ -45,6 +51,11 @@ let getOdersManage = async (req, res) => {
 //     return res.render('product-manage.ejs', { ava, listProduct: listProduct, originUrl: originUrl })
 // }
 
+=======
+    return res.render('details-order.ejs', { ava, details: details })
+}
+>>>>>>> Stashed changes
 module.exports = {
-    getOdersManage
+    getOdersManage,
+    getDetailsOrder
 }

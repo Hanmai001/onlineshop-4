@@ -127,40 +127,16 @@
                             <form action="" method="post" class="row" enctype="multipart/form-data">
                                 <!-- Upload hình sản phẩm -->
                                 <div class="col-md-3 border-right">
-                                    <div class="d-flex flex-column align-items-center text-center px-0 py-0 avatar">
-                                        <img class="rounded mt-3" width="150px"
-                                            src="<%= ava ? ava : '/images/profile-icon.png' %>" id="profile-ava1">
-                                        <input type="file" name="update-ava" id="profile-file1" hidden>
-                                        <div class="mt-1">
-                                            <label for="profile-file1">Chọn Ảnh</label>
+                                    <%for(var i=0; i< 4; i++){%>
+                                        <div class="d-flex flex-column align-items-center text-center px-0 py-0 avatar">
+                                            <img class="rounded mt-3" width="150px"
+                                                src="<%= ava ? ava : details[0].LINK %>" id="profile-ava1">
+                                            <input type="file" name="update-ava" id="profile-file1" hidden>
+                                            <div class="mt-1">
+                                                <label for="profile-file1">Chọn Ảnh</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="d-flex flex-column align-items-center text-center p-0 py-0 avatar">
-                                        <img class="rounded mt-3" width="150px"
-                                            src="<%= ava ? ava : '/images/profile-icon.png' %>" id="profile-ava2">
-                                        <input type="file" name="update-ava" id="profile-file2" hidden>
-                                        <div class="mt-1">
-                                            <label for="profile-file2">Chọn Ảnh</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 border-right">
-                                    <div class="d-flex flex-column align-items-center text-center p-0 py-0 avatar">
-                                        <img class="rounded mt-3" width="150px"
-                                            src="<%= ava ? ava : '/images/profile-icon.png' %>" id="profile-ava3">
-                                        <input type="file" name="update-ava" id="profile-file3" hidden>
-                                        <div class="mt-1">
-                                            <label for="profile-file3">Chọn Ảnh</label>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex flex-column align-items-center text-center p-0 py-0 avatar">
-                                        <img class="rounded mt-3" width="150px"
-                                            src="<%= ava ? ava : '/images/profile-icon.png' %>" id="profile-ava4">
-                                        <input type="file" name="update-ava" id="profile-file4" hidden>
-                                        <div class="mt-1">
-                                            <label for="profile-file4">Chọn Ảnh</label>
-                                        </div>
-                                    </div>
+                                        <%}%>
                                 </div>
                                 <!--  -->
                                 <!-- Thông tin sản phẩm -->
@@ -171,24 +147,30 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="col-md-12"><label class="labels">Tên sản phẩm</label><input
-                                                    type="text" class="form-control" value="" name="updateProductName">
+                                                    type="text" class="form-control" value="<%=details[0].NAMEPRODUCT%>"
+                                                    name="updateProductName">
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-md-12"><label class="labels">Giá</label><input type="text"
-                                                    id="disabledTextInput" class="form-control" value=""
-                                                    name="updatePrice"></div>
+                                                    id="disabledTextInput" class="form-control"
+                                                    value="<%=details[0].PRICE%>" name="updatePrice"></div>
                                             <div class="col-md-12"><label class="labels">Ngày hết hạn</label><input
-                                                    type="text" class="form-control" value="" name="updateExpiry"></div>
+                                                    type="text" class="form-control" value="<%=details[0].EXPIRY%>"
+                                                    name="updateExpiry"></div>
                                             <div class="col-md-12"><label class="labels">Lượt mua</label><input
-                                                    type="text" class="form-control" value="" name="updateNumbuy"></div>
+                                                    type="text" class="form-control" value="<%=details[0].NUMBUY%>"
+                                                    name="updateNumbuy"></div>
                                             <div class="col-md-12"><label class="labels">Trạng thái</label><input
-                                                    type="text" class="form-control" value="" name="updateStatus"></div>
+                                                    type="text" class="form-control"
+                                                    value="<%=details[0].STATUSPRODUCT%>" name="updateStatus"></div>
                                             <div class="col-md-12"><label class="labels">Ngày tạo</label><input
-                                                    type="text" class="form-control" value="" name="updateCreateon">
+                                                    type="text" class="form-control" value="<%=details[0].CREATEON%>"
+                                                    name="updateCreateon">
                                             </div>
                                             <div class="col-md-12"><label class="labels">Hàng tồn</label><input
-                                                    type="text" class="form-control" value="" name="updateRemain"></div>
+                                                    type="text" class="form-control" value="REMAIN" name="updateRemain">
+                                            </div>
                                             <% if(flashMessages.updateProfileMsg){ %>
                                                 <p class="text-danger" id="message">
                                                     <%= flashMessages.updateProfileMsg %>

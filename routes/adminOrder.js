@@ -6,6 +6,7 @@ const authController = require('../controllers/authController');
 
 const initAdminOrderRoute = (app) => {
     router.get('/oders-manage', authController.isLoggedAdmin, adminOrderController.getOdersManage);
+    router.get('/manage/details-order/:id', authController.isLoggedAdmin, adminOrderController.getDetailsOrder);
     return app.use('/', router)
 }
 

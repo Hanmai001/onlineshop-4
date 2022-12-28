@@ -27,8 +27,7 @@ let getDetailsProduct = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
     let idUser = req.params.id;
     const details = await adminProductService.getProduct(idUser);
-
-    //console.log(details);
+    console.log(details);
 
     return res.render('details-product.ejs', { ava, details: details })
 }
