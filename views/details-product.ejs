@@ -156,7 +156,8 @@
                                                     id="disabledTextInput" class="form-control"
                                                     value="<%=details[0].PRICE%>" name="updatePrice"></div>
                                             <div class="col-md-12"><label class="labels">Ngày hết hạn</label><input
-                                                    type="text" class="form-control" value="<%=details[0].EXPIRY%>"
+                                                    type="text" class="form-control"
+                                                    value="<%=details[0].EXPIRY.toString().slice(4, 24)%>"
                                                     name="updateExpiry"></div>
                                             <div class="col-md-12"><label class="labels">Lượt mua</label><input
                                                     type="text" class="form-control" value="<%=details[0].NUMBUY%>"
@@ -165,7 +166,8 @@
                                                     type="text" class="form-control"
                                                     value="<%=details[0].STATUSPRODUCT%>" name="updateStatus"></div>
                                             <div class="col-md-12"><label class="labels">Ngày tạo</label><input
-                                                    type="text" class="form-control" value="<%=details[0].CREATEON%>"
+                                                    type="text" class="form-control"
+                                                    value="<%=details[0].CREATEON.toString().slice(4, 24)%>"
                                                     name="updateCreateon">
                                             </div>
                                             <div class="col-md-12"><label class="labels">Hàng tồn</label><input
