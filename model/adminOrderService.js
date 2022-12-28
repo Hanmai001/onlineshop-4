@@ -6,8 +6,6 @@ let getAllOrder = async () => {
 
     return result[0];
 }
-<<<<<<< Updated upstream
-
 //SORT ORDER-MANAGE
 let getSortOrder = async (queryFilter) => {
     const {
@@ -42,11 +40,6 @@ let getSortOrder = async (queryFilter) => {
     return result[0];
 
 }
-
-module.exports = {
-    getAllOrder,
-    getSortOrder
-=======
 let getOrder = async (idUser) => {
     const result = await db.query('SELECT * FROM onlineshop.order where IDORDER = ?', [parseInt(idUser)]);
 
@@ -54,6 +47,7 @@ let getOrder = async (idUser) => {
 }
 module.exports = {
     getAllOrder,
+    getSortOrder,
     getOrder
->>>>>>> Stashed changes
+
 }

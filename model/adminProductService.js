@@ -17,7 +17,7 @@ let getSortProduct = async (queryFilter) => {
         sortName: sortName,
         sortType: sortType,
         sortNumbuy: sortNumbuy,
-        sortCreateon: sortCreateon, 
+        sortCreateon: sortCreateon,
         sort: sortFilter
     } = queryFilter;
     let values = [];
