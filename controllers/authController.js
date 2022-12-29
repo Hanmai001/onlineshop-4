@@ -59,7 +59,7 @@ let logout = (req, res) => {
         if (err) {
             return next(err);
         }
-        
+
         res.locals.user = null;
         console.log(res.locals.user)
         req.session.destroy();

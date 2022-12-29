@@ -10,6 +10,7 @@ const initReviewRoute = require('./routes/review');
 const initProductRoute = require('./routes/product');
 const initApiRoute = require('./routes/api');
 const initAddressRoute = require('./routes/address');
+const initOrderRoute = require('./routes/order');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -62,6 +63,7 @@ initProductRoute(app);
 initReviewRoute(app);
 initApiRoute(app);
 initAddressRoute(app);
+initOrderRoute(app);
 
 
 app.listen(port, () => {

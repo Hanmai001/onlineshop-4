@@ -170,18 +170,10 @@ let updatePassword = async (req, res) => {
     return res.redirect(`/change-password/${idUser}`);
 }
 
-let getListOrderStatusPage = async (req, res) => {
-    const idCart = await cartService.findCartUser(res.locals.user.id);
-    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    const numProductInCart = await cartService.numProductInCart(idCart);
-    return res.render('status-orders.ejs', { ava, numProductInCart })
-}
-
 module.exports = {
     getHomepage,
     getProfilePage,
     getUpdatePasswordPage,
-    getListOrderStatusPage,
     updateInformation,
     updatePassword,
 }
