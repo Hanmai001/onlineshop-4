@@ -172,7 +172,8 @@
                                                     name="updateCreateon">
                                             </div>
                                             <div class="col-md-12"><label class="labels">Hàng tồn</label><input
-                                                    type="text" class="form-control" value="REMAIN" name="updateRemain">
+                                                    type="text" class="form-control" value="<%= details[0].REMAIN%>"
+                                                    name="updateRemain">
                                             </div>
                                             <% if(flashMessages.updateProfileMsg){ %>
                                                 <p class="text-danger" id="message">
