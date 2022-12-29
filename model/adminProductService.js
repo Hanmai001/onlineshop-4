@@ -62,6 +62,27 @@ let updateProduct = async (data, idProduct) => {
 
     return result[0] && result.length > 0;
 }
+let deleteProduct = async (data, idProduct) => {
+    const {
+        updateNameproduct: nameproduct,
+        updatePrice: price,
+        updateNumbuy: numbuy,
+        updateStatusproduct: statusproduct,
+        updateRemain: remain
+    } = data;
+    let values = [];
+    let sql = "DELETE FROM product WHERE IDPRODUCT = ? ";
+    values.push(parseInt(idProduct));
+    let result;
+    console.log(sql);
+    try {
+        result = await db.query(sql, values);
+    } catch (err) {
+        return null;
+    }
+
+    return result[0] && result.length > 0;
+}
 //SORT PRODUCT-MANAGE
 let getSortProduct = async (queryFilter) => {
     const {
@@ -108,6 +129,7 @@ module.exports = {
     getAllProduct,
     getProduct,
     getSortProduct,
-    updateProduct
+    updateProduct,
+    deleteProduct
     // getProductByID
 }

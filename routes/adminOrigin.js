@@ -34,6 +34,7 @@ const initAdminOriginRoute = (app) => {
     router.get('/origin-manage', authController.isLoggedAdmin, adminOriginController.getOriginManage);
     router.get('/manage/details-origin/:id', authController.isLoggedAdmin, adminOriginController.getDetailsOrigin);
     router.post('/manage/details-origin/:id/update-info', upload.single('update-ava'), adminOriginController.updateInformation);
+    router.get('/admin-add-origin', authController.isLoggedAdmin, adminOriginController.getAddOrigin);
 
     return app.use('/', router)
 }

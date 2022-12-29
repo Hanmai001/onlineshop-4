@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 
 let getAllOrder = async () => {
-    const result = await db.query('SELECT IDORDER, STATUSODER, CREATEON FROM onlineshop.order');
+    const result = await db.query('SELECT IDORDER, STATUSORDER, CREATEON FROM onlineshop.myorder');
 
     return result[0];
 }
@@ -16,7 +16,7 @@ let getSortOrder = async (queryFilter) => {
         sort: sortFilter
     } = queryFilter;
     let values = [];
-    let sql = 'SELECT * FROM onlineshop.order';
+    let sql = 'SELECT * FROM onlineshop.myorder';
 
     if (sortFilter && typeof sortFilter === 'string' && (sortId || sortStatus || sortCreateon)) {
         //sort tăng dần
@@ -25,7 +25,7 @@ let getSortOrder = async (queryFilter) => {
             values.push(parseInt(sortId))
         }
         if (typeof sortStatus === 'string') {
-            sql += ' ORDER BY STATUSODER';
+            sql += ' ORDER BY STATUSORDER';
             values.push(parseFloat(sortStatus))
         }
         else if (typeof sortCreateon === 'string') {
@@ -42,7 +42,7 @@ let getSortOrder = async (queryFilter) => {
 
 }
 let getOrder = async (idUser) => {
-    const result = await db.query('SELECT * FROM onlineshop.order where IDORDER = ?', [parseInt(idUser)]);
+    const result = await db.query('SELECT * FROM onlineshop.myorder where IDORDER = ?', [parseInt(idUser)]);
 
     return result[0];
 }
@@ -51,14 +51,14 @@ let updateorder = async (data, idorder) => {
         updateStatusorder: statusorder
     } = data;
     let values = [];
-    let sql = "UPDATE onlineshop.order SET ";
+    let sql = "UPDATE onlineshop.myorder SET ";
     // if (ava) {
     //     sql += " LINK = ? ";
     //     values.push(ava);
     //  }
     if (statusorder) {
         // /*if (ava)*/ sql += ", ";
-        sql += "STATUSODER = ? ";
+        sql += "STATUSORDER = ? ";
         values.push(statusorder);
     }
     sql += "WHERE IDORDER = ?";

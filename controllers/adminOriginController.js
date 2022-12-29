@@ -50,9 +50,15 @@ let updateInformation = async (req, res) => {
     req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
     return res.redirect(`/manage/details-origin/${idorigin}`);
 }
+let getAddOrigin = async (req, res) => {
+    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
+
+    return res.render('admin-add-origin.ejs', { ava });
+}
 module.exports = {
     getOriginManage,
     getDetailsOrigin,
-    updateInformation
+    updateInformation,
+    getAddOrigin
 
 }

@@ -34,6 +34,7 @@ const initAdminTypeRoute = (app) => {
     router.get('/type-manage', authController.isLoggedAdmin, adminTypeController.getTypeManage);
     router.get('/manage/details-type/:id', authController.isLoggedAdmin, adminTypeController.getDetailsType);
     router.post('/manage/details-type/:id/update-info', upload.single('update-ava'), adminTypeController.updateInformation);
+    router.get('/admin-add-type', authController.isLoggedAdmin, adminTypeController.getAddType);
 
     return app.use('/', router)
 }

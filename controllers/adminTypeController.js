@@ -53,8 +53,14 @@ let updateInformation = async (req, res) => {
     req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
     return res.redirect(`/manage/details-type/${idtype}`);
 }
+let getAddType = async (req, res) => {
+    const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
+
+    return res.render('admin-add-type.ejs', { ava });
+}
 module.exports = {
     getTypeManage,
     getDetailsType,
-    updateInformation
+    updateInformation,
+    getAddType
 }
