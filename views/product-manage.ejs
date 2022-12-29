@@ -192,9 +192,10 @@
               </div>
             </table>
             <br>
+            <!--  -->
             <div class="d-flex justify-content-center"><button id="js-add-btn" type="button"
-                class="btn btn-secondary">Thêm sản
-                phẩm</button></div>
+                class="btn btn-secondary">Thêm sản phẩm</button></div>
+              <!--  -->
 
             <br>
             <nav aria-label="Page navigation example">
@@ -213,6 +214,8 @@
           </div>
         </div>
       </div>
+
+      <!--  -->
       <div class="modal js-modal">
         <div class="modal-container js-modal-container">
           <header class="modal-header">
@@ -225,6 +228,7 @@
                 Tên sản phẩm
               </label>
               <input id="update-name" type="text" class="modal-input" placeholder="Tên sản phẩm">
+              
               <div class="d-flex justify-content-between">
                 <label for="update-phone" class="modal-label">
                   <i class="ti-user"></i>
@@ -351,12 +355,6 @@
   </form>
 </body>
 <script>
-  function disableEmptyInputs(form) {
-    var controls = form.elements;
-    for (var i = 0, iLen = controls.length; i < iLen; i++) {
-      if (controls[i].value == '') controls[i].disabled = true;
-    }
-  }
   function handleForm() {
     let addBtn = document.getElementById('js-add-btn');
     let closeBtn = document.getElementById('js-modal-close');
@@ -375,7 +373,13 @@
     })
 
   }
-  handleForm()
+  function disableEmptyInputs(form) {
+    var controls = form.elements;
+    for (var i = 0, iLen = controls.length; i < iLen; i++) {
+      if (controls[i].value == '') controls[i].disabled = true;
+    }
+  }
+  handleForm();
 </script>
 
 </html>
