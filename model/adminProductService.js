@@ -2,7 +2,7 @@ const db = require('../config/connectDB');
 const bcrypt = require('bcryptjs');
 
 let getProduct = async (idUser) => {
-    const result = await db.query('SELECT pd.*, br.NAMEBRAND, manu.NAMEMANUFACTURER, mt.NAMEMATERIAL, pt.LINK  FROM product pd JOIN photo pt ON pt.IDPRODUCT = pd.IDPRODUCT JOIN brand br ON br.IDBRAND = pd.IDBRAND JOIN manufacturer manu ON manu.IDMANUFACTURER = pd.IDMANUFACTURER JOIN material mt ON mt.IDMATERIAL = pd.IDMATERIAL WHERE pd.IDPRODUCT = ?', [parseInt(idUser)]);
+    const result = await db.query('SELECT * FROM product pd JOIN photo pt ON pt.IDPRODUCT = pd.IDPRODUCT JOIN brand br ON br.IDBRAND = pd.IDBRAND JOIN manufacturer manu ON manu.IDMANUFACTURER = pd.IDMANUFACTURER JOIN material mt ON mt.IDMATERIAL = pd.IDMATERIAL WHERE pd.IDPRODUCT = ?', [parseInt(idUser)]);
     //console.log(result);
     return result[0];
 }
@@ -11,52 +11,49 @@ let getAllProduct = async () => {
     //console.log(result);
     return result[0];
 }
-let updateProduct = async (data, ava, idUser) => {
+let updateProduct = async (data, idProduct) => {
     const {
-        updateFullname: fullname,
-        updateEmail: email,
-        updatePhone: phone,
-        updateSex: sex
+        updateNameproduct: nameproduct,
+        updatePrice: price,
+        updateNumbuy: numbuy,
+        updateStatusproduct: statusproduct,
+        updateRemain: remain
     } = data;
     let values = [];
-    let sql = "UPDATE user SET ";
-    if (ava) {
-        sql += " AVATAR = ? ";
-        values.push(ava);
+    let sql = "UPDATE product SET ";
+    // if (ava) {
+    //     sql += " LINK = ? ";
+    //     values.push(ava);
+    //  }
+    if (nameproduct) {
+        // /*if (ava)*/ sql += ", ";
+        sql += "NAMEPRODUCT = ? ";
+        values.push(nameproduct);
     }
-    if (fullname) {
-        if (ava) sql += ", ";
-        sql += "FULLNAME = ? ";
-        values.push(fullname);
+    if (price) {
+        if (/*ava ||*/ nameproduct) sql += ", ";
+        sql += "PRICE = ? ";
+        values.push(price);
     }
-    if (email) {
-        if (ava || fullname) sql += ", ";
-        sql += "EMAIL = ? ";
-        values.push(email);
+    if (numbuy) {
+        if (/*ava ||*/ nameproduct || price) sql += ", ";
+        sql += "NUMBUY = ? ";
+        values.push(numbuy);
     }
-    if (phone) {
-        if (ava || fullname || email) sql += ", ";
-        sql += "PHONE = ? ";
-        values.push(phone);
+    if (statusproduct) {
+        if (/*ava ||*/ nameproduct || price || numbuy) sql += ", ";
+        sql += "STATUSPRODUCT = ? ";
+        values.push(statusproduct);
     }
-    if (sex && sex === "female") {
-        if (ava || fullname || email || phone) sql += ", ";
-        sql += "SEX = ? ";
-        values.push(`Nữ`);
+    if (remain) {
+        if (/*ava ||*/ nameproduct || price || numbuy || statusproduct) sql += ", ";
+        sql += "REMAIN = ? ";
+        values.push(remain);
     }
-    else if (sex && sex === "male") {
-        if (ava || fullname || email || phone) sql += ", ";
-        sql += "SEX = ? ";
-        values.push(`Nam`);
-    }
-    else if (sex && sex === "sexOther") {
-        if (ava || fullname || email || phone) sql += ", ";
-        sql += "SEX = ? ";
-        values.push(`Khác`);
-    }
-    sql += "WHERE IDUSER = ?";
-    values.push(parseInt(idUser));
+    sql += "WHERE IDPRODUCT = ?";
+    values.push(parseInt(idProduct));
     let result;
+    console.log(sql);
     try {
         result = await db.query(sql, values);
     } catch (err) {
@@ -102,11 +99,15 @@ let getSortProduct = async (queryFilter) => {
     }
     const result = await db.query(sql, values);
     return result[0];
-
 }
-
+// let getProductByID = async (id) => {
+//     const result = await db.query('select NAMEPRODUCT, PRICE, NUMBUY, STATUSPRODUCT, REMAIN from product where IDPRODUCT = ? limit 1', [id]);
+//     return result[0][0];
+// }
 module.exports = {
     getAllProduct,
     getProduct,
-    getSortProduct
+    getSortProduct,
+    updateProduct
+    // getProductByID
 }

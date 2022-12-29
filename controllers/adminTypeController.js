@@ -29,7 +29,32 @@ let getDetailsType = async (req, res) => {
     return res.render('details-type.ejs', { ava, details: details })
 
 }
+let updateInformation = async (req, res) => {
+    const idtype = req.params.id;
+    const { NAMETYPE: nametype } = await adminTypeService.getType(idtype);
+
+    const {
+        updateNametype: new_nametype,
+    } = req.body;
+
+    //nsole.log(req.body)
+
+    // if (new_phone.length > 11) {
+    //     req.flash('updateProfileMsg', 'SĐT phải nhỏ hơn 12 kí tự.');
+    //     return res.redirect(`/admin-profile/${idProduct}`);
+    // }
+
+    const result = await adminTypeService.updatetype(req.body, idtype)
+
+    //console.log(res.locals.user); 
+    if (result) {
+        return res.redirect(`/manage/details-type/${idtype}`);
+    }
+    req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
+    return res.redirect(`/manage/details-type/${idtype}`);
+}
 module.exports = {
     getTypeManage,
-    getDetailsType
+    getDetailsType,
+    updateInformation
 }

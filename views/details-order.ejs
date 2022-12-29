@@ -112,7 +112,8 @@
       <div class="col py-3">
         <div class="container rounded bg-white mt mb-5">
           <div class="row">
-            <form action="" method="post" class="row d-flex justify-content-center" enctype="multipart/form-data">
+            <form action="/manage/details-order/<%=details[0].IDORDER %>/update-info" method="post"
+              class="row d-flex justify-content-center" enctype="multipart/form-data">
               <!-- Thông tin sản phẩm -->
               <div class="col-md-5 border-right">
                 <div class="p-3 py-5">
@@ -129,11 +130,16 @@
                   <div class="row mt-3">
                     <div class="col-md-12"><label class="labels">Trạng thái</label><input type="text"
                         id="disabledTextInput" class="form-control" value="<%= details[0].STATUSODER%>"
-                        name="updateStatus"></div>
-                    <div class="col-md-12"><label class="labels">Ngày tạo</label><input type="text" class="form-control"
-                        value="<%= details[0].CREATEON.toString().slice(4, 24)%>" name="updateCreateon"></div>
-                    <div class="col-md-12"><label class="labels">Tổng giá</label><input type="text" class="form-control"
-                        value="<%= details[0].TOTALPRICE%>" name="updateTotal"></div>
+                        name="updateStatusorder"></div>
+                    <fieldset disabled>
+                      <div class="col-md-12"><label class="labels">Ngày tạo</label><input type="text"
+                          class="form-control" value="<%= details[0].CREATEON.toString().slice(4, 24)%>"
+                          name="updateCreateon"></div>
+                    </fieldset>
+                    <fieldset disabled>
+                      <div class="col-md-12"><label class="labels">Tổng giá</label><input type="text"
+                          class="form-control" value="<%= details[0].TOTALPRICE%>" name="updateTotalprice"></div>
+                    </fieldset>
                     <% if(flashMessages.updateProfileMsg){ %>
                       <p class="text-danger" id="message">
                         <%= flashMessages.updateProfileMsg %>

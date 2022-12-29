@@ -23,6 +23,7 @@ let getProductManage = async (req, res) => {
     const originUrl = `?${req.baseUrl}`;
     return res.render('product-manage.ejs', { ava, listProduct: listProduct, originUrl: originUrl })
 }
+
 let getDetailsProduct = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
     let idUser = req.params.id;
@@ -31,38 +32,36 @@ let getDetailsProduct = async (req, res) => {
 
     return res.render('details-product.ejs', { ava, details: details })
 }
-// let updateInformation = async (req, res) => {
-//     const idUser = req.params.id;
-//     const { EMAIL: email, FULLNAME: fullname, SEX: sex, PHONE: phone, AVATAR: ava } = await authService.getUserByID(idUser);
-//     let new_ava = ava;
-//     if (req.file) {
-//         new_ava = '/images/' + req.file.filename;
-//     }
-//     const {
-//         updateFullname: new_fullname,
-//         updateEmail: new_email,
-//         updatePhone: new_phone,
-//         updateSex: new_sex
-//     } = req.body;
+let updateInformation = async (req, res) => {
+    const idProduct = req.params.id;
+    const { NAMEPRODUCT: nameproduct, PRICE: price, NUMBUY: numbuy, STATUSPRODUCT: statusproduct, REMAIN: remain } = await adminProductService.getProduct(idProduct);
 
-//     //console.log(req.body)
+    const {
+        updateNameproduct: new_nameproduct,
+        updatePrice: new_price,
+        updateNumbuy: new_numbuy,
+        updateStatusproduct: new_statusproduct,
+        updateRemain: new_remain
+    } = req.body;
 
-//     if (new_phone.length > 11) {
-//         req.flash('updateProfileMsg', 'SĐT phải nhỏ hơn 12 kí tự.');
-//         return res.redirect(`/admin-profile/${idUser}`);
-//     }
+    //nsole.log(req.body)
 
-//     const result = await adminService.updateProfile(req.body, new_ava, idUser);
-//     //console.log(res.locals.user); 
-//     if (result) {
-//         return res.redirect(`/admin-profile/${idUser}`);
-//     }
-//     req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
-//     return res.redirect(`/admin-profile/${idUser}`);
+    // if (new_phone.length > 11) {
+    //     req.flash('updateProfileMsg', 'SĐT phải nhỏ hơn 12 kí tự.');
+    //     return res.redirect(`/admin-profile/${idProduct}`);
+    // }
 
-// }
+    const result = await adminProductService.updateProduct(req.body, idProduct)
+    //console.log(res.locals.user); 
+    
+    if (result) {
+        return res.redirect(`/manage/details-product/${idProduct}`);
+    }
+    req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
+    return res.redirect(`/manage/details-product/${idProduct}`);
+}
 module.exports = {
     getProductManage,
     getDetailsProduct,
-   // updateInformation
+    updateInformation
 }

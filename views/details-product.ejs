@@ -124,7 +124,7 @@
                 <div class="col py-3">
                     <div class="container rounded bg-white mt mb-5">
                         <div class="row">
-                            <form action="/product-manage/<%=details[0].IDPRODUCT %>/update-info" method="post"
+                            <form action="/manage/details-product/<%=details[0].IDPRODUCT %>/update-info" method="post"
                                 class="row d-flex justify-content-center" enctype="multipart/form-data">
                                 <!-- Upload hình sản phẩm -->
                                 <div class="d-flex justify-content-center">
@@ -149,7 +149,7 @@
                                         <div class="row mt-2">
                                             <div class="col-md-12"><label class="labels">Tên sản phẩm</label><input
                                                     type="text" class="form-control" value="<%=details[0].NAMEPRODUCT%>"
-                                                    name="updateProductName">
+                                                    name="updateNameproduct">
                                             </div>
                                         </div>
                                         <div class="row mt-3">
@@ -165,37 +165,39 @@
                                                     name="updateNumbuy"></div>
                                             <div class="col-md-12"><label class="labels">Trạng thái</label><input
                                                     type="text" class="form-control"
-                                                    value="<%=details[0].STATUSPRODUCT%>" name="updateStatus"></div>
-                                            <div class="col-md-12"><label class="labels">Ngày tạo</label><input
-                                                    type="text" class="form-control"
-                                                    value="<%=details[0].CREATEON.toString().slice(4, 24)%>"
-                                                    name="updateCreateon">
+                                                    value="<%=details[0].STATUSPRODUCT%>" name="updateStatusproduct">
                                             </div>
-                                            <div class="col-md-12"><label class="labels">Hàng tồn</label><input
-                                                    type="text" class="form-control" value="<%= details[0].REMAIN%>"
-                                                    name="updateRemain">
-                                            </div>
-                                            <% if(flashMessages.updateProfileMsg){ %>
-                                                <p class="text-danger" id="message">
-                                                    <%= flashMessages.updateProfileMsg %>
-                                                </p>
-                                                <% } %>
+                                            <fieldset disabled>
+                                                <div class="col-md-12"><label class="labels">Ngày tạo</label><input
+                                                        type="text" class="form-control"
+                                                        value="<%=details[0].CREATEON.toString().slice(4, 24)%>">
+                                            </fieldset>
                                         </div>
-                                        <div class="mt-5 text-center">
-                                            <button class="btn btn-primary profile-button" type="submit">Lưu chỉnh
-                                                sửa</button>
+                                        <div class="col-md-12"><label class="labels">Hàng tồn</label><input type="text"
+                                                class="form-control" value="<%= details[0].REMAIN%>"
+                                                name="updateRemain">
                                         </div>
+                                        <% if(flashMessages.updateProfileMsg){ %>
+                                            <p class="text-danger" id="message">
+                                                <%= flashMessages.updateProfileMsg %>
+                                            </p>
+                                            <% } %>
+                                    </div>
+                                    <div class="mt-5 text-center">
+                                        <button class="btn btn-primary profile-button" type="submit">Lưu chỉnh
+                                            sửa</button>
                                     </div>
                                 </div>
-                                <!--  -->
                             </form>
                         </div>
+
                     </div>
                 </div>
-                <!-- ///// -->
-
             </div>
+            <!-- ///// -->
+
         </div>
+    </div>
     </div>
 </body>
 <script>

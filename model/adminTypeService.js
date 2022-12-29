@@ -36,8 +36,36 @@ let getType = async (idUser) => {
 
     return result[0];
 }
+let updatetype = async (data, idType) => {
+    const {
+        updateNametype: nametype
+    } = data;
+    let values = [];
+    let sql = "UPDATE type SET ";
+    // if (ava) {
+    //     sql += " LINK = ? ";
+    //     values.push(ava);
+    //  }
+    if (nametype) {
+        // /*if (ava)*/ sql += ", ";
+        sql += "NAMETYPE = ? ";
+        values.push(nametype);
+    }
+    sql += "WHERE IDTYPE = ?";
+    values.push(parseInt(idType));
+    console.log(sql);
+    let result;
+    try {
+        result = await db.query(sql, values);
+    } catch (err) {
+        return null;
+    }
+    //console.log(result);
+    return result[0] && result.length > 0;
+}
 module.exports = {
     getAllType,
     getSortType,
-    getType
+    getType,
+    updatetype
 }

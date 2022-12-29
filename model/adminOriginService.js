@@ -35,9 +35,36 @@ let getSortManufacturer = async (queryFilter) => {
     return result[0];
 
 }
-
+let updateorigin = async (data, idOrigin) => {
+    const {
+        updateNamemanufacturer: manufacturer
+    } = data;
+    let values = [];
+    let sql = "UPDATE manufacturer SET ";
+    // if (ava) {
+    //     sql += " LINK = ? ";
+    //     values.push(ava);
+    //  }
+    if (manufacturer) {
+        // /*if (ava)*/ sql += ", ";
+        sql += "NAMEMANUFACTURER = ? ";
+        values.push(manufacturer);
+    }
+    sql += "WHERE IDMANUFACTURER = ?";
+    values.push(parseInt(idOrigin));
+    console.log(sql);
+    let result;
+    try {
+        result = await db.query(sql, values);
+    } catch (err) {
+        return null;
+    }
+    //console.log(result);
+    return result[0] && result.length > 0;
+}
 module.exports = {
     getAllManufacturer,
     getSortManufacturer,
-    getManufacturer
+    getManufacturer,
+    updateorigin
 }

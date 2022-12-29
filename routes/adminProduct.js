@@ -1,15 +1,41 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const appRoot = require('app-root-path');
 
 const adminProductController = require('../controllers/adminProductController');
 const authController = require('../controllers/authController');
+const passport = require('../passport');
+//Middleware
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, appRoot + '/public/images');
+  },
+
+  // By default, multer removes file extensions so let's add them back
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+//Ham để check file
+const imageFilter = function (req, file, cb) {
+  // Accept images only
+  if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
+    req.fileValidationError = 'Only image files are allowed!';
+    return cb(null, false);
+  }
+  cb(null, true);
+};
+const upload = multer({ storage: storage, fileFilter: imageFilter });
 
 const initAdminProductRoute = (app) => {
-    router.get('/product-manage', authController.isLoggedAdmin, adminProductController.getProductManage);
-    router.get('/manage/details-product/:id', authController.isLoggedAdmin, adminProductController.getDetailsProduct);
-  //  router.post('/product-manage/:id/update-info', upload.single('update-ava'), adminProductController.updateInformation)
+  router.get('/product-manage', authController.isLoggedAdmin, adminProductController.getProductManage);
+  router.get('/manage/details-product/:id', authController.isLoggedAdmin, adminProductController.getDetailsProduct);
+  router.post('/manage/details-product/:id/update-info', upload.single('update-ava'), adminProductController.updateInformation);
 
-    return app.use('/', router)
+  return app.use('/', router)
 }
 
 module.exports = initAdminProductRoute;

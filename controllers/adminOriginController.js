@@ -26,8 +26,33 @@ let getDetailsOrigin = async (req, res) => {
     const details = await adminOriginService.getManufacturer(idUser);
     return res.render('details-origin.ejs', { ava, details: details })
 }
+let updateInformation = async (req, res) => {
+    const idorigin = req.params.id;
+    const { NAMEMANUFACTURER: namemanufacturer } = await adminOriginService.getManufacturer(idorigin);
+
+    const {
+        updateNamemanufacturer: new_namemanufacturer,
+    } = req.body;
+
+    //nsole.log(req.body)
+
+    // if (new_phone.length > 11) {
+    //     req.flash('updateProfileMsg', 'SĐT phải nhỏ hơn 12 kí tự.');
+    //     return res.redirect(`/admin-profile/${idProduct}`);
+    // }
+
+    const result = await adminOriginService.updateorigin(req.body, idorigin)
+   
+    //console.log(res.locals.user); 
+    if (result) {
+        return res.redirect(`/manage/details-origin/${idorigin}`);
+    }
+    req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
+    return res.redirect(`/manage/details-origin/${idorigin}`);
+}
 module.exports = {
     getOriginManage,
-    getDetailsOrigin
+    getDetailsOrigin,
+    updateInformation
 
 }
