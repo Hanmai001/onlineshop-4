@@ -303,7 +303,7 @@ const getListOrders = async (idCart) => {
     return result[0];
 }
 const updateCheckOrder = async (idProduct, idCart, checkOrder) => {
-    const result = await db.query("UPDATE product_cart SET CHECKORDER = ? WHERE IDPRODUCT = ? AND IDCART = ?", [checkOrder ,parseInt(idProduct), parseInt(idCart)]);
+    const result = await db.query("UPDATE product_cart SET CHECKORDER = ? WHERE IDPRODUCT = ? AND IDCART = ?", [checkOrder, parseInt(idProduct), parseInt(idCart)]);
     console.log(result[0]);
 }
 const getChosenOrderTotal = async (idCart) => {

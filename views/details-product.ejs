@@ -124,14 +124,14 @@
                 <div class="col py-3">
                     <div class="container rounded bg-white mt mb-5">
                         <div class="row">
-                            <form action="" method="post" class="row d-flex justify-content-center"
-                                enctype="multipart/form-data">
+                            <form action="/product-manage/<%=details[0].IDPRODUCT %>/update-info" method="post"
+                                class="row d-flex justify-content-center" enctype="multipart/form-data">
                                 <!-- Upload hình sản phẩm -->
                                 <div class="d-flex justify-content-center">
                                     <%for(var i=0; i< 4; i++){%>
                                         <div class="d-flex flex-column align-items-center text-center px-3 py-0 avatar">
                                             <img class="rounded mt-3" width="150px"
-                                                src="<%= ava ? ava : details[0].LINK %>" id="profile-ava<%=i+1%>">
+                                                src="<%= ava ? ava : details[i].LINK %>" id="profile-ava<%=i+1%>">
                                             <input type="file" name="update-ava" id="profile-file<%=i+1%>" hidden>
                                             <div class="mt-1">
                                                 <label for="profile-file<%=i+1%>">Chọn Ảnh</label>
