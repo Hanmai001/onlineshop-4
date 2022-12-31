@@ -18,7 +18,7 @@ let getSortManufacturer = async (queryFilter) => {
         sort: sortFilter
     } = queryFilter;
     let values = [];
-    let sql = 'SELECT * FROM onlineshop.manufacturer';
+    let sql = 'SELECT * FROM manufacturer';
 
     if (sortFilter && typeof sortFilter === 'string' && (sortType)) {
         //sort tăng dần

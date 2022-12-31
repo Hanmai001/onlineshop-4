@@ -179,6 +179,24 @@ body {
     width: 120px;
     color: rgb(124, 138, 154);
 }
+.paging {}
+
+.paging-list-user button {
+    color: rgb(147, 147, 148);
+    padding: 8px 24px;
+    margin: 1rem;
+    border: none;
+}
+
+.paging-list-user button.active {
+    background-color: rgb(45, 71, 238);
+    border-radius: 5px;
+    color: white;
+}
+
+.paging-list-user button:hover:not(.active) {
+    background-color: #ddd;
+}
 
 /* Làm trôi ảnh MODAL CONTAINER*/
 /* Tạo ra chuyển động liên tiếp của ảnh tĩnh */
