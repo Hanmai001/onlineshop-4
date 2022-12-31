@@ -124,8 +124,8 @@
                 <div class="col py-3">
                     <div class="container rounded bg-white mt mb-5">
                         <div class="row">
-                            <form action="" method="post" class="row d-flex justify-content-center"
-                                enctype="multipart/form-data">
+                            <form action="/admin-add-product/add-product" method="post"
+                                class="row d-flex justify-content-center">
                                 <!-- Upload hình sản phẩm -->
                                 <div class="d-flex justify-content-center">
                                     <%for(var i=0; i< 4; i++){%>
@@ -147,8 +147,8 @@
                                             <h4 class="text-right">Thêm sản phẩm</h4>
                                         </div>
                                         <div class="row mt-2">
-                                            <div class="col-md-12"><label class="labels">Tên sản phẩm</label><input
-                                                    type="text" class="form-control" value="" name="updateProductName">
+                                            <div class="col-md-12"><label class="labels">Tên sản phẩm</label>
+                                                <input type="text" class="form-control" name="addNameproduct">
                                             </div>
                                         </div>
                                         <div class="row mt-3">
@@ -162,9 +162,11 @@
                                                             Chọn nơi sản xuất
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#">#1</a></li>
-                                                            <li><a class="dropdown-item" href="#">#2</a></li>
-                                                            <li><a class="dropdown-item" href="#">#3</a></li>
+                                                            <%for (var i=0; i < origin.length; i++){%>
+                                                                <li><a class="dropdown-item" href="#">
+                                                                        <%=origin[i].NAMEMANUFACTURER%>
+                                                                    </a></li>
+                                                                <%}%>
                                                         </ul>
                                                     </div>
                                                 </label>
@@ -177,9 +179,11 @@
                                                             Chọn thương hiệu
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#">#1</a></li>
-                                                            <li><a class="dropdown-item" href="#">#2</a></li>
-                                                            <li><a class="dropdown-item" href="#">#3</a></li>
+                                                            <%for (var i=0; i < brand.length; i++){%>
+                                                                <li><a class="dropdown-item" href="#">
+                                                                        <%=brand[i].NAMEBRAND%>
+                                                                    </a></li>
+                                                                <%}%>
                                                         </ul>
                                                     </div>
                                                 </label>
@@ -194,9 +198,11 @@
                                                             Chọn loại sản phẩm
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#">#1</a></li>
-                                                            <li><a class="dropdown-item" href="#">#2</a></li>
-                                                            <li><a class="dropdown-item" href="#">#3</a></li>
+                                                            <%for (var i=0; i < type.length; i++){%>
+                                                                <li><a class="dropdown-item" href="#">
+                                                                        <%=type[i].NAMETYPE%>
+                                                                    </a></li>
+                                                                <%}%>
                                                         </ul>
                                                     </div>
                                                 </label>
@@ -227,9 +233,11 @@
                                                             Chọn chất liệu
                                                         </button>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#">#1</a></li>
-                                                            <li><a class="dropdown-item" href="#">#2</a></li>
-                                                            <li><a class="dropdown-item" href="#">#3</a></li>
+                                                            <%for (var i=0; i < material.length; i++){%>
+                                                                <li><a class="dropdown-item" href="#">
+                                                                        <%=material[i].NAMEMATERIAL%>
+                                                                    </a></li>
+                                                                <%}%>
                                                         </ul>
                                                     </div>
                                                 </label>
@@ -246,25 +254,22 @@
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-md-12"><label class="labels">Giá</label><input
-                                                        type="text" id="disabledTextInput" class="form-control" value=""
-                                                        name="updatePrice"></div>
+                                                        type="text" id="disabledTextInput" class="form-control"
+                                                        name="addPrice"></div>
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
+                                <% if(flashMessages.updateProfileMsg){ %>
+                                    <p class="text-danger" id="message">
+                                        <%= flashMessages.updateProfileMsg %>
+                                    </p>
+                                    <% } %>
+                                        <div class="mt-0 text-center">
+                                            <button class="btn btn-primary profile-button" type="submit">Thêm</button>
+                                        </div>
                             </form>
-                            <% if(flashMessages.updateProfileMsg){ %>
-                                <p class="text-danger" id="message">
-                                    <%= flashMessages.updateProfileMsg %>
-                                </p>
-                                <% } %>
-                        </div>
-                        <div class="mt-0 text-center">
-                            <button class="btn btn-primary profile-button" type="submit">Thêm</button>
-
-                            <a class="py-3" href=""><button class="btn btn-primary pass-button"
-                                    type="button">Hủy</button></a>
                         </div>
                         <br>
                         <br>
@@ -272,7 +277,6 @@
 
                 </div>
                 <!--  -->
-                </form>
             </div>
         </div>
     </div>

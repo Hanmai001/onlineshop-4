@@ -207,8 +207,20 @@
                   </div>
                 </div>
                  </td> -->
-                  <th scope="col"><button type="button" class="btn btn-secondary">Ban</button><button type="button"
-                      class="btn btn-secondary">Unban</button></th>
+
+                  <th scope="col">
+                    <%if(listUser[i].BAN==1){%>
+                      <a class="py-3" href="/users-manage/<%=listUser[i].IDUSER%>/unban"><button type="button"
+                          class="btn btn-secondary">
+                          Unban
+                        </button></a>
+                      <%}else {%>
+                        <a class="py-3" href="/users-manage/<%=listUser[i].IDUSER%>/ban"><button type="button"
+                            class="btn btn-secondary">
+                            Ban
+                          </button></a>
+                        <%}%>
+                  </th>
                 </tr>
 
                 <% } %>

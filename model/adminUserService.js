@@ -45,8 +45,38 @@ let getSortUser = async (queryFilter) => {
     return result[0];
 
 }
+let ban = async (idUser) => {
+    let values = [];
+    let sql = "UPDATE user SET BAN = 1 WHERE IDUSER = ?";
+    values.push(parseInt(idUser));
+    let result;
+    console.log(sql);
+    try {
+        result = await db.query(sql, values);
+    } catch (err) {
+        return null;
+    }
+
+    return result[0] && result.length > 0;
+}
+let unban = async (idUser) => {
+    let values = [];
+    let sql = "UPDATE user SET BAN = 0 WHERE IDUSER = ?";
+    values.push(parseInt(idUser));
+    let result;
+    console.log(sql);
+    try {
+        result = await db.query(sql, values);
+    } catch (err) {
+        return null;
+    }
+
+    return result[0] && result.length > 0;
+}
 module.exports = {
     getAllUser,
     getUser,
-    getSortUser
+    getSortUser,
+    ban,
+    unban
 }
