@@ -50,6 +50,7 @@ const initApiRoute = (app) => {
     router.post('/api/create-order', orderController.createUserOrder);
 
     router.get('/api/users-manage/', userController.getListUser);
+    router.get('/api/product-manage/', productController.getListProduct);
 
     return app.use('/', router);
 }

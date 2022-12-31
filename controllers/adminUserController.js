@@ -27,7 +27,6 @@ let getUsersManage = async (req, res) => {
         sort: sortFilter
 
     } = req.query;
-    console.log(timeCreate, sortEmail, sortEmail, sortFilter)
     const {
         page, ...withoutPage
     } = req.query;

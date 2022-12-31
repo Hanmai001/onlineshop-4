@@ -17,8 +17,6 @@ let getListUser = async (req, res) => {
 
     } = req.query;
     const allUser = await adminUserService.getAllUser();
-    //console.log(list.length);
-    console.log(timeCreate, sortEmail, sortEmail, sortFilter)
     let listUser = allUser;
     let pagination_info;
     let currentPage = req.query.page ? +req.query.page : 1;
@@ -32,7 +30,6 @@ let getListUser = async (req, res) => {
         else if (currentPage > pagination_info.total_pages) currentPage = pagination_info.total_pages;
         const { limit, offset } = getPagination(currentPage - 1, req.query.size);
         listUser = await adminUserService.getSortUserPage(req.query, offset, limit);
-        console.log(limit, offset, listUser)
     }
     else {
         pagination_info = paginator.build(length, currentPage);
