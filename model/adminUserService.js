@@ -73,6 +73,7 @@ let unban = async (idUser) => {
     }
 
     return result[0] && result.length > 0;
+}
 let getSortUserPage = async (queryFilter, offset, limit) => {
     const {
         timeCreate: timeCreate,
