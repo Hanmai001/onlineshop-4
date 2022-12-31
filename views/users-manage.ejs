@@ -110,7 +110,7 @@
             <hr>
           </div>
         </div>
-        <div class="col">
+        <div class="col table-users">
 
           <!--SORT USER-MANAGE -->
           <div class="sort-list">
@@ -146,23 +146,23 @@
                 <th scope="col">Thao tác</th>
               </tr>
             </thead>
-            <div class="d-flex list">
-              <% for(var i=0; i< listUser.length; i++) {%>
+            <tbody class="list list-users">
+              <% listUser.forEach(function(user) { %>
                 <tr>
-                  <th scope="row">
-                    <%= listUser[i].IDUSER%>
-                  </th>
                   <td>
-                    <%= listUser[i].FULLNAME%>
+                    <%= user.IDUSER%>
                   </td>
                   <td>
-                    <%= listUser[i].EMAIL%>
+                    <%= user.FULLNAME%>
                   </td>
                   <td>
-                    <%= listUser[i].CREATEON.toString().slice(4, 24)%>
+                    <%= user.EMAIL%>
                   </td>
                   <td>
-                    <a class="py-3" href="/manage/details-user/<%= listUser[i].IDUSER%>"
+                    <%= user.CREATEON.toString().slice(0, 10)%>
+                  </td>
+                  <td>
+                    <a class="py-3" href="/manage/details-user/<%= user.IDUSER%>"
                       style="opacity: 1; background-color: transparent;"><button type="button" class="btn btn-link"
                         data-bs-toggle="modal" data-bs-target="#exampleModal"
                         style="text-decoration:underline; color: red;opacity: 1;">
@@ -221,38 +221,114 @@
                           </button></a>
                         <%}%>
                   </th>
+                  </td>
+                  <td scope="col"><button type="button" class="btn btn-secondary">Ban</button><button type="button"
+                      class="btn btn-secondary">Unban</button></td>
                 </tr>
-
-                <% } %>
-            </div>
-          </table>
-          <br>
-          <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center ">
-              <li class="page-item disabled ">
-                <a class="page-link">Trước</a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">Sau</a>
-              </li>
-            </ul>
-          </nav>
+                <% }); %>
         </div>
+        </table>
+        <br>
+        <!-- PAGING -->
+        <% if(pagination_info.total_pages> 1) { %>
+          <div class="paging-list-user text-center py-5 fs-5">
+            <% if (pagination_info.current_page> 1) {%>
+              <button id="<%=pagination_info.current_page-1%>" class="paging-btn">&laquo;</button>
+              <% } %>
+                <% for (var i=iterator; i <=endingLink; i++) {%>
+                  <% if (pagination_info.current_page===i) {%>
+                    <button id="<%= i %>" class="active paging-btn">
+                      <%=i%>
+                    </button>
+                    <% } else { %>
+                      <button id="<%= i %>" class="paging-btn">
+                        <%=i%>
+                      </button>
+                      <% } %>
+
+                        <% } %>
+                          <% if (endingLink < pagination_info.total_pages) {%>
+                            <button id="<%=pagination_info.current_page+1%>" class="paging-btn">&raquo;</button>
+                            <% } %>
+          </div>
+          <% } %>
+
       </div>
     </div>
+    </div>
   </form>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-      function disableEmptyInputs(form) {
-        var controls = form.elements;
-        for (var i = 0, iLen = controls.length; i < iLen; i++) {
-          if (controls[i].value == '') controls[i].disabled = true;
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script>
+    $('.table-users').on('click', '.paging-btn', function (event) {
+      event.preventDefault();
+      loadUserPage($(this).prop('id'), "<%= originUrl %>");
+    });
+    function loadUserPage(page, originUrl) {
+      originUrl = originUrl.replaceAll("&amp;", "&");
+      let url = `api/users-manage/` + `?page=${page}`;
+      if (originUrl.length > 1) url = `api/users-manage/` + originUrl + `&page=${page}`;
+      $.getJSON(url, function (result) {
+        //console.log(page, " ", result.pagination_info)
+        $('.list-users').empty();
+
+        //UPDATE LIST-REVIEW
+        $.each(result.listUser, (key, value) => {
+          var item = $('<tr></tr>');
+          var elemsToAppend = $('<td>' + value.IDUSER + '</td>');
+          item.append(elemsToAppend);
+          elemsToAppend = $('<td>' + value.FULLNAME + '</td>');
+          item.append(elemsToAppend);
+          elemsToAppend = $('<td>' + value.EMAIL + '</td>');
+          item.append(elemsToAppend);
+          elemsToAppend = $('<td>' + value.CREATEON.toString().slice(0, 10) + '</td>');
+          item.append(elemsToAppend);
+          elemsToAppend = $('<td></td>');
+          var inner1 = $('<a class="py-3" href="/manage/details-user/' + value.IDUSER + '"style = "opacity: 1; background-color: transparent;"></a>');
+          var inner2 = $('<button type="button" class="btn btn-link"data - bs - toggle="modal" data - bs - target="#exampleModal"style = "text-decoration:underline; color: red;opacity: 1;" >Xem chi tiết</button>');
+          inner1.append(inner2);
+          elemsToAppend.append(inner1);
+          item.append(elemsToAppend);
+
+          elemsToAppend = $('<th scope="col"></th>');
+          inner1 = $('<button type="button" class="btn btn-secondary">Ban</button>');
+          elemsToAppend.append(inner1);
+          inner1 = $('<button type="button" class="btn btn-secondary">Unban</button>');
+          elemsToAppend.append(inner1);
+          item.append(elemsToAppend);
+
+          $(".list-users").append(item);
+
+        })
+        //UPDATE PAGING
+        $('.paging-list-user').empty();
+        if (result.pagination_info.total_pages > 1) {
+          var item = $('<div class="paging text-center py-5 fs-5"></div>');
+          if (result.pagination_info.current_page > 1) {
+            const page = result.pagination_info.current_page - 1;
+            item.append('<button id="' + page + '" class="paging-btn">&laquo;</button>');
+          }
+          for (let i = result.iterator; i <= result.endingLink; i++) {
+            if (result.pagination_info.current_page === i)
+              item.append('<button id="' + i + '" class="active paging-btn">' + i + '</button>');
+            else
+              item.append('<button id="' + i + '" class="paging-btn">' + i + '</button>');
+          }
+          if (result.endingLink < result.pagination_info.total_pages) {
+            const page = result.pagination_info.current_page + 1;
+            item.append('<button id="' + page + '" class="paging-btn">&raquo;</button>');
+          }
+          $(".paging-list-user").append(item);
         }
+      });
+    }
+
+    function disableEmptyInputs(form) {
+      var controls = form.elements;
+      for (var i = 0, iLen = controls.length; i < iLen; i++) {
+        if (controls[i].value == '') controls[i].disabled = true;
       }
-    </script>
+    }
+  </script>
 </body>
 
 </html>

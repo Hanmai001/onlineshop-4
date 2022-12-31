@@ -8,7 +8,8 @@ const cartController = require('../controllers/api/cardController');
 const productController = require('../controllers/api/productController');
 const addressController = require('../controllers/api/addressController');
 const orderController = require('../controllers/api/orderController');
-const { or } = require('ajv/dist/compile/codegen');
+
+const userController = require('../controllers/api/userController');
 
 const initApiRoute = (app) => {
     router.use((req, res, next) => {
@@ -47,6 +48,8 @@ const initApiRoute = (app) => {
     router.delete('/api/delete-item-in-cart/:id', productController.deleteItemInCart);
     router.post('/api/update-address/', addressController.updateAddress);
     router.post('/api/create-order', orderController.createUserOrder);
+
+    router.get('/api/users-manage/', userController.getListUser);
 
     return app.use('/', router);
 }
