@@ -1,17 +1,30 @@
 const db = require('../config/connectDB');
-const bcrypt = require('bcryptjs');
 
 let getProduct = async (idUser) => {
     const result = await db.query('SELECT * FROM product pd JOIN photo pt ON pt.IDPRODUCT = pd.IDPRODUCT JOIN brand br ON br.IDBRAND = pd.IDBRAND JOIN manufacturer manu ON manu.IDMANUFACTURER = pd.IDMANUFACTURER JOIN material mt ON mt.IDMATERIAL = pd.IDMATERIAL WHERE pd.IDPRODUCT = ?', [parseInt(idUser)]);
     //console.log(result);
     return result[0];
 }
+// let getProductByID = async (id) => {
+//     const result = await db.query('select pd.NAMEPRODUCT, pd.PRICE, pd.EXPIRY, pd.NUMBUY, pd.STATUSPRODUCT, pd.REMAIN, pt.LINK from product pd join photo pt on pt.IDPRODUCT = pd.IDPRODUCT where pd.IDPRODUCT = ?', [id]);
+//     return result[0][0];
+// };
 let getAllProduct = async () => {
     const result = await db.query('SELECT pd.IDPRODUCT,pd.NAMEPRODUCT, tp.NAMETYPE, pd.CREATEON, pd.PRICE, pd.NUMBUY FROM product pd JOIN type tp on tp.IDTYPE = pd.IDTYPE');
     //console.log(result);
     return result[0];
 }
-let updateProduct = async (data, idProduct) => {
+let getAllBrand = async () => {
+    const result = await db.query('SELECT * from brand');
+    //console.log(result);
+    return result[0];
+}
+let getAllMaterial = async () => {
+    const result = await db.query('SELECT * from material');
+    //console.log(result);
+    return result[0];
+}
+let updateProduct = async (data, link, idProduct) => {
     const {
         updateNameproduct: nameproduct,
         updatePrice: price,
@@ -19,41 +32,42 @@ let updateProduct = async (data, idProduct) => {
         updateStatusproduct: statusproduct,
         updateRemain: remain
     } = data;
+    //console.log(nameproduct);
     let values = [];
     let sql = "UPDATE product SET ";
-    // if (ava) {
-    //     sql += " LINK = ? ";
-    //     values.push(ava);
-    //  }
+    if (link) {
+        sql += " LINK = ? ";
+        values.push(link);
+    }
     if (nameproduct) {
-        // /*if (ava)*/ sql += ", ";
+        if (link) sql += ", ";
         sql += "NAMEPRODUCT = ? ";
         values.push(nameproduct);
     }
     if (price) {
-        if (/*ava ||*/ nameproduct) sql += ", ";
+        if (link || nameproduct) sql += ", ";
         sql += "PRICE = ? ";
         values.push(price);
     }
     if (numbuy) {
-        if (/*ava ||*/ nameproduct || price) sql += ", ";
+        if (link || nameproduct || price) sql += ", ";
         sql += "NUMBUY = ? ";
         values.push(numbuy);
     }
     if (statusproduct) {
-        if (/*ava ||*/ nameproduct || price || numbuy) sql += ", ";
+        if (link || nameproduct || price || numbuy) sql += ", ";
         sql += "STATUSPRODUCT = ? ";
         values.push(statusproduct);
     }
     if (remain) {
-        if (/*ava ||*/ nameproduct || price || numbuy || statusproduct) sql += ", ";
+        if (link || nameproduct || price || numbuy || statusproduct) sql += ", ";
         sql += "REMAIN = ? ";
         values.push(remain);
     }
     sql += "WHERE IDPRODUCT = ?";
     values.push(parseInt(idProduct));
     let result;
-    console.log(sql);
+    // console.log(sql);
     try {
         result = await db.query(sql, values);
     } catch (err) {
@@ -62,14 +76,8 @@ let updateProduct = async (data, idProduct) => {
 
     return result[0] && result.length > 0;
 }
-let deleteProduct = async (data, idProduct) => {
-    const {
-        updateNameproduct: nameproduct,
-        updatePrice: price,
-        updateNumbuy: numbuy,
-        updateStatusproduct: statusproduct,
-        updateRemain: remain
-    } = data;
+let deleteProduct = async (idProduct) => {
+
     let values = [];
     let sql = "DELETE FROM product WHERE IDPRODUCT = ? ";
     values.push(parseInt(idProduct));
@@ -160,6 +168,34 @@ let getProductPage = async (offset, limit) => {
     //console.log(result);
     return result[0];
 }
+let addProduct = async (data) => {
+    const {
+        addNameproduct: addNameproduct,
+        addPrice: addPrice
+    } = data;
+    let values = [];
+    let sql = "INSERT INTO product (NAMEPRODUCT, PRICE) VALUES (";
+   // console.log(addNameproduct);
+
+    if (addNameproduct) {
+        sql += "?";
+        values.push(addNameproduct);
+    }
+    if (addPrice) {
+        if (/*ava ||*/ addNameproduct) sql += ", ";
+        sql += "?)";
+        values.push(addPrice);
+    }
+    let result;
+   // console.log(sql);
+    try {
+        result = await db.query(sql, values);
+    } catch (err) {
+        return null;
+    }
+
+    return result[0] && result.length > 0;
+}
 module.exports = {
     getAllProduct,
     getProduct,
@@ -167,5 +203,9 @@ module.exports = {
     updateProduct,
     deleteProduct,
     getSortProductPage,
-    getProductPage
+    getProductPage,
+    addProduct,
+    getAllBrand,
+    getAllMaterial
+    // getProductByID
 }

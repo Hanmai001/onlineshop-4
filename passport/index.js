@@ -7,8 +7,12 @@ const cardService = require('../model/cartService');
 passport.use(new LocalStrategy({ usernameField: 'username', passReqToCallback: true }, async function verify(req, username, password, cb) {
     const user = await authService.checkUserCredential(username, password);
     if (user) {
+        if (user.BAN == 1) {
+            return cb(null, false, req.flash('loginMessage', 'Bạn đã bị ban'));
+        }
         return cb(null, user);
     }
+
     return cb(null, false, req.flash('loginMessage', 'Tên đăng nhập hoặc mật khẩu sai.'));
 }));
 

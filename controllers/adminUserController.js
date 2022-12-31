@@ -63,7 +63,32 @@ let getDetailsUser = async (req, res) => {
 
     return res.render('details-user.ejs', { ava, details: details })
 }
+let banUser = async (req, res) => {
+    const idUser = req.params.id;
+
+    const result = await adminUserService.ban(idUser);
+
+    if (result) {
+        return res.redirect(`/users-manage`);
+    }
+    req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
+    return res.redirect(`/users-manage`);
+}
+let unbanUser = async (req, res) => {
+    const idUser = req.params.id;
+
+    const result = await adminUserService.unban(idUser);
+
+    if (result) {
+        return res.redirect(`/users-manage`);
+    }
+    req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
+    return res.redirect(`/users-manage`);
+}
 module.exports = {
     getUsersManage,
     getDetailsUser,
+    banUser,
+    unbanUser
+
 }
