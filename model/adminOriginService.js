@@ -62,9 +62,48 @@ let updateorigin = async (data, idOrigin) => {
     //console.log(result);
     return result[0] && result.length > 0;
 }
+let deleteOrigin = async (idType) => {
+
+    let values = [];
+    let sql = "DELETE FROM manufacturer WHERE IDMANUFACTURER = ? ";
+    values.push(parseInt(idType));
+    let result;
+   // console.log(sql);
+    try {
+        result = await db.query(sql, values);
+    } catch (err) {
+        return null;
+    }
+
+    return result[0] && result.length > 0;
+}
+let addOrigin = async (data) => {
+    const {
+        addNameorigin: addNameorigin,
+    } = data;
+    let values = [];
+    let sql = "INSERT INTO manufacturer (NAMEMANUFACTURER) VALUES (";
+    // console.log(addNameorigin);
+
+    if (addNameorigin) {
+        sql += "?)";
+        values.push(addNameorigin);
+    }
+    let result;
+    console.log(sql);
+    try {
+        result = await db.query(sql, values);
+    } catch (err) {
+        return null;
+    }
+
+    return result[0] && result.length > 0;
+}
 module.exports = {
     getAllManufacturer,
     getSortManufacturer,
     getManufacturer,
-    updateorigin
+    updateorigin,
+    addOrigin,
+    deleteOrigin
 }
