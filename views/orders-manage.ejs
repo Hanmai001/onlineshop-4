@@ -148,13 +148,13 @@
               <% for(var i=0; i< listOrder.length; i++) {%>
                 <tr>
                   <th scope="row">
-                    <%= listOrder[i].IDORDER%>
+                    <%= i+1%>
                   </th>
                   <td>
                     <%= listOrder[i].IDORDER%>
                   </td>
                   <td>
-                    <%= listOrder[i].STATUSODER%>
+                    <%= listOrder[i].STATUSORDER%>
                   </td>
                   <td>
                     <%= listOrder[i].CREATEON.toString().slice(4, 24)%>
@@ -195,7 +195,7 @@
           if (controls[i].value == '') controls[i].disabled = true;
         }
       }
-      </script>
+    </script>
 </body>
 
 </html>

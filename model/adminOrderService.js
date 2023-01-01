@@ -47,12 +47,8 @@ let getOrder = async (idUser) => {
 let updateorder = async (statusorder, idorder) => {
     let values = [];
     let sql = "UPDATE myorder SET ";
-    // if (ava) {
-    //     sql += " LINK = ? ";
-    //     values.push(ava);
-    //  }
+
     if (statusorder) {
-        // /*if (ava)*/ sql += ", ";
         sql += "STATUSORDER = ? ";
         values.push(statusorder);
     }
