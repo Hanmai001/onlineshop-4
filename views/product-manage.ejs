@@ -13,8 +13,8 @@
 </head>
 
 <body>
-  <form class="product-manage" action="<%=originUrl.length <= 1 ? originUrl : originUrl + '&'%>" onsubmit="disableEmptyInputs(this)"
-    method="get">
+  <form class="product-manage" action="<%=originUrl.length <= 1 ? originUrl : originUrl + '&'%>"
+    onsubmit="disableEmptyInputs(this)" method="get">
     <div class="product-manage">
       <header class="p-3 mb-3 border-bottom">
         <div class="container">
@@ -181,7 +181,8 @@
                     <td>
                       <a class="py-3" href="/manage/details-product/<%= listProduct[i].IDPRODUCT%>"
                         style="opacity: 1; background-color: transparent;">
-                        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal" style="text-decoration:underline; color: red;opacity: 1;">
+                        <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                          style="text-decoration:underline; color: red;opacity: 1;">
                           Chỉnh sửa
                         </button>
                       </a>

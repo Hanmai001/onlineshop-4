@@ -148,6 +148,7 @@
                                 <th scope="col">STT</th>
                                 <th scope="col">Tên nơi sản xuất</th>
                                 <th scope="col">Thao tác</th>
+                                <th scope="col">Xóa</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -166,6 +167,13 @@
                                                 style="text-decoration:underline; color: red;opacity: 1;">
                                                 Chỉnh sửa
                                             </button></a></td>
+                                    <td><a class="py-3"
+                                            href="/origin-manage/<%=listOrigin[i].IDMANUFACTURER%>/delete-origin">
+                                            <button type="button" class="btn btn-secondary">
+                                                Xóa
+                                            </button>
+                                        </a>
+                                    </td>
 
                                 </tr>
                                 <%}%>

@@ -101,7 +101,7 @@ let deleteInformation = async (req, res) => {
 
     const result = await adminProductService.deleteProduct(idProduct)
 
-    if (result) {   
+    if (result) {
         return res.redirect(`/product-manage`);
     }
     req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');

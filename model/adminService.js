@@ -73,7 +73,15 @@ let updatePassword = async (data, idUser) => {
     return result[0] && result.length > 0;
 
 }
+let caculateRevenue = async () => {
+    let result;
+    result = await db.query('select SUM(TOTALPRICE) as sum from myorder where STATUSORDER = "Đang giao"');
+    //console.log(result);
+    return result[0];
+}
+
 module.exports = {
     updateProfile,
     updatePassword,
+    caculateRevenue
 }

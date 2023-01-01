@@ -63,9 +63,48 @@ let updatetype = async (data, idType) => {
     //console.log(result);
     return result[0] && result.length > 0;
 }
+let deleteType = async (idType) => {
+
+    let values = [];
+    let sql = "DELETE FROM type WHERE IDTYPE = ? ";
+    values.push(parseInt(idType));
+    let result;
+    console.log(sql);
+    try {
+        result = await db.query(sql, values);
+    } catch (err) {
+        return null;
+    }
+
+    return result[0] && result.length > 0;
+}
+let addType = async (data) => {
+    const {
+        addNametype: addNametype,
+    } = data;
+    let values = [];
+    let sql = "INSERT INTO type (NAMETYPE) VALUES (";
+    // console.log(addNametype);
+
+    if (addNametype) {
+        sql += "?)";
+        values.push(addNametype);
+    }
+    let result;
+    // console.log(sql);
+    try {
+        result = await db.query(sql, values);
+    } catch (err) {
+        return null;
+    }
+
+    return result[0] && result.length > 0;
+}
 module.exports = {
     getAllType,
     getSortType,
     getType,
-    updatetype
+    updatetype,
+    deleteType,
+    addType
 }

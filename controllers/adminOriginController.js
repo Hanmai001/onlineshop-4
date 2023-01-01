@@ -38,11 +38,11 @@ let updateInformation = async (req, res) => {
 
     // if (new_phone.length > 11) {
     //     req.flash('updateProfileMsg', 'SĐT phải nhỏ hơn 12 kí tự.');
-    //     return res.redirect(`/admin-profile/${idProduct}`);
+    //     return res.redirect(`/admin-profile/${idOrigin}`);
     // }
 
     const result = await adminOriginService.updateorigin(req.body, idorigin)
-   
+
     //console.log(res.locals.user); 
     if (result) {
         return res.redirect(`/manage/details-origin/${idorigin}`);
@@ -55,10 +55,46 @@ let getAddOrigin = async (req, res) => {
 
     return res.render('admin-add-origin.ejs', { ava });
 }
+let deleteInformation = async (req, res) => {
+    const idOrigin = req.params.id;
+
+    const result = await adminOriginService.deleteOrigin(idOrigin);
+
+    if (result) {
+        return res.redirect(`/origin-manage`);
+    }
+    req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
+    return res.redirect(`/origin-manage`);
+}
+let addInformation = async (req, res) => {
+    //const idProduct = req.params.id;
+    //  const { NAMEPRODUCT: nameproduct, PRICE: price, NUMBUY: numbuy, STATUSPRODUCT: statusproduct, REMAIN: remain } = await adminProductService.getProduct(idProduct);
+
+    const {
+        addNameorigin: addNameorgin,
+    } = req.body;
+
+    // console.log(addNameproduct)
+
+    // if (new_phone.length > 11) {
+    //     req.flash('updateProfileMsg', 'SĐT phải nhỏ hơn 12 kí tự.');
+    //     return res.redirect(`/admin-profile/${idProduct}`);
+    // }
+    const result = await adminOriginService.addOrigin(req.body);
+    //console.log(res.locals.user); 
+
+    if (result) {
+        return res.redirect(`/admin-add-origin`);
+    }
+    req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
+    return res.redirect(`/admin-add-origin`);
+}
 module.exports = {
     getOriginManage,
     getDetailsOrigin,
     updateInformation,
-    getAddOrigin
+    getAddOrigin,
+    deleteInformation,
+    addInformation
 
 }

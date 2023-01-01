@@ -41,7 +41,7 @@ let updateInformation = async (req, res) => {
 
     // if (new_phone.length > 11) {
     //     req.flash('updateProfileMsg', 'SĐT phải nhỏ hơn 12 kí tự.');
-    //     return res.redirect(`/admin-profile/${idProduct}`);
+    //     return res.redirect(`/admin-profile/${idType}`);
     // }
 
     const result = await adminTypeService.updatetype(req.body, idtype)
@@ -58,9 +58,45 @@ let getAddType = async (req, res) => {
 
     return res.render('admin-add-type.ejs', { ava });
 }
+let deleteInformation = async (req, res) => {
+    const idType = req.params.id;
+
+    const result = await adminTypeService.deleteType(idType)
+
+    if (result) {
+        return res.redirect(`/type-manage`);
+    }
+    req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
+    return res.redirect(`/type-manage`);
+}
+let addInformation = async (req, res) => {
+    //const idProduct = req.params.id;
+    //  const { NAMEPRODUCT: nameproduct, PRICE: price, NUMBUY: numbuy, STATUSPRODUCT: statusproduct, REMAIN: remain } = await adminProductService.getProduct(idProduct);
+
+    const {
+        addNametype: addNametype,
+    } = req.body;
+
+    // console.log(addNameproduct)
+
+    // if (new_phone.length > 11) {
+    //     req.flash('updateProfileMsg', 'SĐT phải nhỏ hơn 12 kí tự.');
+    //     return res.redirect(`/admin-profile/${idProduct}`);
+    // }
+    const result = await adminTypeService.addType(req.body)
+    //console.log(res.locals.user); 
+
+    if (result) {
+        return res.redirect(`/admin-add-type`);
+    }
+    req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
+    return res.redirect(`/admin-add-type`);
+}
 module.exports = {
     getTypeManage,
     getDetailsType,
     updateInformation,
-    getAddType
+    getAddType,
+    deleteInformation,
+    addInformation
 }
