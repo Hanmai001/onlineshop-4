@@ -36,7 +36,7 @@ const initAdminProductRoute = (app) => {
   router.post('/manage/details-product/:id/update-info', upload.single('update-ava'), adminProductController.updateInformation);
   router.get('/product-manage/:id/delete-info', authController.isLoggedAdmin, adminProductController.deleteInformation);
   router.get('/admin-add-product', authController.isLoggedAdmin, adminProductController.getAddProduct);
-  router.post('/admin-add-product/add-product', authController.isLoggedAdmin, adminProductController.addInformation);
+  router.post('/admin-add-product/add-product', authController.isLoggedAdmin, upload.array('update-pic-product', 4), adminProductController.addInformation);
 
 
   return app.use('/', router)

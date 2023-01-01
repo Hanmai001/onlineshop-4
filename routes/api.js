@@ -8,6 +8,7 @@ const cartController = require('../controllers/api/cardController');
 const productController = require('../controllers/api/productController');
 const addressController = require('../controllers/api/addressController');
 const orderController = require('../controllers/api/orderController');
+const manuaController = require('../controllers/api/manuaController');
 
 const userController = require('../controllers/api/userController');
 
@@ -26,7 +27,6 @@ const initApiRoute = (app) => {
             else
                 res.redirect('/');
         });
-
 
     router.post('/login', passport.authenticate("local",
         {

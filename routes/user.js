@@ -39,8 +39,8 @@ const initUserRoute = (app) => {
     router.get('/', authController.isLoggedCustomer, userController.getHomepage);
     router.get('/my-profile/:id', authController.isLoggedCustomer, userController.getProfilePage);
     router.get('/change-password/:id', authController.isLoggedCustomer, userController.getUpdatePasswordPage);
-    router.post('/my-profile/:id/update-info', upload.single('update-ava'), userController.updateInformation);
-    router.post('/change-password/:id/update-password', userController.updatePassword);
+    router.post('/my-profile/:id/update-info', authController.isLoggedCustomer, upload.single('update-ava'), userController.updateInformation);
+    router.post('/change-password/:id/update-password', authController.isLoggedCustomer, userController.updatePassword);
     //Web của ta bđau = '/', truyền router vào
     return app.use('/', router);
 }

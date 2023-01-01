@@ -48,10 +48,10 @@ let handleRegister = async (req, res, next) => {
         return res.redirect('/');
     }
     const result = await authService.register(username, email, password);
-    if (result) {
-        req.flash('registerMessage', result)
-        return res.redirect('/');
-    }
+    // if (result) {
+    //     req.flash('registerMessage', result)
+    //     return res.redirect('/');
+    // }
     next();
 }
 let logout = (req, res) => {

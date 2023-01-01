@@ -142,14 +142,14 @@ let getSortProduct = async (queryFilter) => {
     if (sortFilter && typeof sortFilter === 'string' && (sortName || sortType || sortNumbuy || sortCreateon)) {
         //sort tăng dần
         if (typeof sortName === 'string') {
-            sql += ' ORDER BY pd.NAMEPRODUCT';    
+            sql += ' ORDER BY pd.NAMEPRODUCT';
         }
         if (typeof sortType === 'string') {
             sql += ' ORDER BY tp.NAMETYPE';
-          
+
         }
         if (typeof sortNumbuy === 'string') {
-            sql += ' ORDER BY pd.NUMBUY';           
+            sql += ' ORDER BY pd.NUMBUY';
         }
         else if (typeof sortCreateon === 'string') {
             sql += ' ORDER BY pd.CREATEON';
@@ -170,31 +170,82 @@ let getProductPage = async (offset, limit) => {
 }
 let addProduct = async (data) => {
     const {
-        addNameproduct: addNameproduct,
-        addPrice: addPrice
+        addNameproduct,
+        addPrice,
+        type,
+        brand,
+        manufacturer,
+        material,
+        status,
+        expiry,
+        remain
     } = data;
     let values = [];
-    let sql = "INSERT INTO product (NAMEPRODUCT, PRICE) VALUES (";
-   // console.log(addNameproduct);
+    let sql = "INSERT INTO product (NUMBUY, NAMEPRODUCT, PRICE, IDTYPE, IDBRAND, IDMANUFACTURER, IDMATERIAL, STATUSPRODUCT, EXPIRY, REMAIN) VALUES (0, ";
 
     if (addNameproduct) {
         sql += "?";
         values.push(addNameproduct);
     }
     if (addPrice) {
-        if (/*ava ||*/ addNameproduct) sql += ", ";
-        sql += "?)";
-        values.push(addPrice);
+        if (addNameproduct) sql += ", ";
+        sql += "?";
+        values.push(parseFloat(addPrice));
     }
+    if (type) {
+        if (addNameproduct || addPrice) sql += ", ";
+        sql += "?";
+        values.push(parseInt(type));
+    }
+    else values.push(null);
+    if (brand) {
+        if (addNameproduct || addPrice || type) sql += ", ";
+        sql += "?";
+        values.push(parseInt(brand));
+    }
+    else values.push(null);
+    if (manufacturer) {
+        if (addNameproduct || addPrice || type || brand) sql += ", ";
+        sql += "?";
+        values.push(parseInt(manufacturer));
+    }
+    else values.push(null);
+    if (material) {
+        if (addNameproduct || addPrice || type || brand || manufacturer) sql += ", ";
+        sql += "?";
+        values.push(parseInt(material));
+    }
+    else values.push(null);
+    if (status) {
+        if (addNameproduct || addPrice || type || brand || manufacturer || material) sql += ", ";
+        sql += "?";
+        if (status === "out")
+            values.push('Hết hàng');
+        else if (status === "available")
+            values.push('Còn hàng');
+        else if (status === "suspend")
+            values.push('Tạm ngưng');
+    }
+    if (expiry) {
+        if (addNameproduct || addPrice || type || brand || manufacturer || material || status) sql += ", ";
+        sql += "?";
+        values.push(expiry);
+    }
+    if (remain) {
+        if (addNameproduct || addPrice || type || brand || manufacturer || material || status || expiry) sql += ", ";
+        sql += "?";
+        values.push(parseInt(remain));
+    }
+    else values.push(null);
+    sql += ')';
     let result;
-   // console.log(sql);
+    console.log(sql, values);
     try {
         result = await db.query(sql, values);
     } catch (err) {
         return null;
     }
-
-    return result[0] && result.length > 0;
+    return result[0].insertId;
 }
 module.exports = {
     getAllProduct,

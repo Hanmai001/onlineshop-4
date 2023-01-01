@@ -214,6 +214,10 @@ body {
     background-color: #ddd;
 }
 
+.add-info .wrapper {
+
+}
+
 /* Làm trôi ảnh MODAL CONTAINER*/
 /* Tạo ra chuyển động liên tiếp của ảnh tĩnh */
 @keyframes modalFadeIn {
