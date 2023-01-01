@@ -1,6 +1,4 @@
 const db = require('../config/connectDB');
-const bcrypt = require('bcryptjs');
-
 
 let getAllOrder = async () => {
     const result = await db.query('SELECT IDORDER, STATUSORDER, CREATEON FROM myorder');
@@ -46,10 +44,7 @@ let getOrder = async (idUser) => {
 
     return result[0];
 }
-let updateorder = async (data, idorder) => {
-    const {
-        updateStatusorder: statusorder
-    } = data;
+let updateorder = async (statusorder, idorder) => {
     let values = [];
     let sql = "UPDATE myorder SET ";
     // if (ava) {
