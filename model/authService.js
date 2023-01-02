@@ -11,7 +11,7 @@ let emailExists = async (email) => {
     return result[0].length > 0;
 };
 let getUserByUsername = async (username) => {
-    const result = await db.query('select * from user where USERNAME = ? limit 1', [username]);
+    const result = await db.query('select IDUSER, USERNAME, ADMIN, BAN from user where USERNAME = ? limit 1', [username]);
     return result[0][0];
 };
 
@@ -40,7 +40,7 @@ let register = async (username, email, password) => {
     await insertUser(username, email, hash);
     const user = await checkUserCredential(username, password);
     const res = await cartService.addCartUser(user.IDUSER);
-    return res;
+    return user;
 }
 let getUserByID = async (id) => {
     const result = await db.query('select EMAIL, FULLNAME, SEX, PHONE, AVATAR from user where IDUSER = ? limit 1', [id]);

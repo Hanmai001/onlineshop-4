@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 let getMail = async (req, res, next) => {
     const { username, email: mail, password: pw, confirmPassword } = req.body;
-    console.log(req.body)
+    //console.log(req.body)
     const link = `<a href="http://localhost:3000/verify?username=${username}&email=${mail}&pw=${pw}"> bấm vào đi đừng sợ</a>`
     const msg = {
         from: "tranxuanquang79@gmail.com",
@@ -10,7 +10,7 @@ let getMail = async (req, res, next) => {
         subject: "Test sendmail",
         html: link
     };
-    console.log(msg);
+    //console.log(msg);
     nodemailer.createTransport({
         service: "gmail",
         auth: {

@@ -40,16 +40,7 @@ const initApiRoute = (app) => {
             else
                 res.redirect('/');
         });
-    router.get('/verify', authController.handleRegister, passport.authenticate("local",
-        {
-            failureRedirect: "/",
-        }), (req, res) => {
-            if (req.user.ADMIN == '1') {
-                res.redirect('/static');
-            }
-            else
-                res.redirect('/');
-        });
+    router.get('/verify', authController.handleRegister);
     router.get('/verify-email', mailerController.getVerifyEmail);
     router.get('/logout', authController.isLogged, authController.logout);
     router.get('/api/list-review/:id/', reviewController.getListReview);
