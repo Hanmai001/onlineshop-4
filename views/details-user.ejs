@@ -120,8 +120,8 @@
                     <div class="row">
                         <div class="col-md-3 border-right">
                             <div class="d-flex flex-column align-items-center text-center p-3 py-5 avatar">
-                                <img class="rounded-circle mt-5" width="150px"
-                                    src="<%=  ava ? ava : details[0].AVATAR %>" id="profile-ava">
+                                <img class="rounded-circle mt-5" width="150px" src="<%=  details[0].AVATAR %>"
+                                    id="profile-ava">
                                 <input type="file" name="update-ava" id="profile-file" hidden>
                             </div>
                         </div>
@@ -164,7 +164,8 @@
                                     <fieldset disabled>
                                         <div class="col-md-12"><label class="labels">Creation time</label><input
                                                 type="text" id="disabledTextInput" class="form-control"
-                                                value="<%= details[0].EMAIL %>" name="updateEmail" readonly>
+                                                value="<%= details[0].CREATEON.toString().slice(4, 25) %>"
+                                                name="updateEmail" readonly>
                                         </div>
                                     </fieldset>
                                     <!-- <fieldset disabled>

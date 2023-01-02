@@ -117,28 +117,16 @@
         <div class="container text-center">
           <div class="row align-items-start">
             <div class="col">
-              <div class="border border-warning p-2 mb-3">Doanh thu(theo ngày)
-                <div>500$</div>
-              </div>
-
+              <button class="border border-warning p-2 mb-3">Doanh thu(theo ngày)
+              </button>
             </div>
             <div class="col">
-              <div class="border border-primary p-2 mb-3">Doanh thu (theo tuần)
-                <div>10000$</div>
-              </div>
+              <button class="border border-primary p-2 mb-3">Doanh thu (theo tuần)
+              </button>
             </div>
             <div class="col">
-              <div class="border border-secondary p-2 mb-2">Doanh thu (theo tháng)
-                <div>70000$</div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="border border-danger p-2 mb-2">Task Hoàn Thành(%)
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: 50%;
-                      " aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-                </div>
-              </div>
+              <button class="border border-secondary p-2 mb-2">Doanh thu (theo tháng)
+              </button>
             </div>
           </div>
         </div>
@@ -157,7 +145,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <%for(var i=0; i < 4;i++){%>
+                  <%for(var i=0; i < 10;i++){%>
                     <tr>
                       <th scope="row">
                         <%=i+1%>
@@ -186,9 +174,9 @@
   var revenue3 = parseInt("<%= revenue3[0].sum ? revenue3[0].sum : 0%>");
   var revenue4 = parseInt("<%= revenue4[0].sum ? revenue4[0].sum : 0%>");
   //var sum = "<%= parseInt(revenue1[0].sum) + parseInt(revenue2[0].sum)+ parseInt(revenue3[0].sum) + parseInt(revenue4[0].sum)%>";
-  var sum = revenue1 + revenue2 + revenue4;
+  var sum = revenue1 + revenue2 + revenue3 + revenue4;
   var revenue_x_Values = ["Tháng 1", "Tháng 4", "Tháng 7", "Tháng 10"];
-  var revenue_y_Values = [revenue1, revenue2, revenue2, revenue4];
+  var revenue_y_Values = [revenue1, revenue2, revenue3, revenue4];
 
   new Chart("revenue", {
     type: "line",
