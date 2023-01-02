@@ -377,7 +377,7 @@
                 </form>
 
                 <!-- Forget Form -->
-                <form action="/forget" id="forget-form" class="auth-form" method="post">
+                <form action="/forgot-password" id="forget-form" class="auth-form" method="post">
                     <div class="auth-form__container">
                         <div class="auth-form__header">
                             <div class="auth-form__heading">Quên mật khẩu</div>
@@ -563,7 +563,9 @@
         if (message2) {
             openForm(1);
         }
-
+        if (message3) {
+            openForm(3);
+        }
         if (regItem)
             regItem.addEventListener('click', () => openForm(1));
         if (logItem)

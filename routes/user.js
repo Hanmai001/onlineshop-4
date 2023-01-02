@@ -41,6 +41,7 @@ const initUserRoute = (app) => {
     router.get('/change-password/:id', authController.isLoggedCustomer, userController.getUpdatePasswordPage);
     router.post('/my-profile/:id/update-info', authController.isLoggedCustomer, upload.single('update-ava'), userController.updateInformation);
     router.post('/change-password/:id/update-password', authController.isLoggedCustomer, userController.updatePassword);
+    router.post('/reset-password/:id', userController.handleForgotPassword);
     //Web của ta bđau = '/', truyền router vào
     return app.use('/', router);
 }

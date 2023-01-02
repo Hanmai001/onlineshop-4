@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const authService = require('../model/authService');
 
 let getMail = async (req, res, next) => {
     const { username, email: mail, password: pw, confirmPassword } = req.body;
@@ -39,17 +40,17 @@ let getVerifyEmail = async (req, res) => {
 }
 
 let getForgetEmail = async (req, res) => {
-    console.log(req.body)
     const {
-        to: mail
+        email: mail
     } = req.body
+    const idUser = await authService.getIDUserByEmail(mail);
     const msg = {
         from: "tranxuanquang79@gmail.com",
         to: mail,
         subject: "Test sendmail",
-        html: '<a href="http://localhost:3000/reset-password">cccc</a>'
+        html: `<a href="http://localhost:3000/reset-password?iduser=${idUser.IDUSER}">cccc</a>`
     };
-    console.log(msg);
+    //console.log(msg);
     nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -73,9 +74,11 @@ let getForgetEmail = async (req, res) => {
 }
 
 let getResetPassword = async (req, res) => {
-
-    return res.render('reset-password.ejs');
+    const {iduser: idUser} = req.query;
+    console.log(idUser);
+    return res.render('reset-password.ejs', {idUser});
 }
+
 
 module.exports = {
     getMail,

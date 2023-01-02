@@ -43,9 +43,14 @@ let register = async (username, email, password) => {
     return user;
 }
 let getUserByID = async (id) => {
-    const result = await db.query('select EMAIL, FULLNAME, SEX, PHONE, AVATAR from user where IDUSER = ? limit 1', [id]);
+    const result = await db.query('select * from user where IDUSER = ? limit 1', [id]);
     return result[0][0];
 };
+let getIDUserByEmail = async (email) => {
+    const result = await db.query('select IDUSER from user where EMAIL = ? limit 1', [email]);
+    return result[0][0];
+}
+
 
 module.exports = {
     usernameExists,
@@ -53,5 +58,6 @@ module.exports = {
     checkUserCredential,
     register,
     emailExists,
-    getUserByID
+    getUserByID,
+    getIDUserByEmail
 }

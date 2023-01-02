@@ -32,8 +32,11 @@ const initApiRoute = (app) => {
         });
     router.get('/verify', authController.handleRegister);
     router.get('/verify-email', mailerController.getVerifyEmail);
-    router.get('/logout', authController.isLogged, authController.logout);
 
+    router.post('/forgot-password', mailerController.getForgetEmail);
+    router.get('/reset-password', mailerController.getResetPassword);
+
+    router.get('/logout', authController.isLogged, authController.logout);
 
     router.get('/api/list-review/:id/', reviewController.getListReview);
     router.get('/api/verify-username/:username', authApiController.verifyUsername);
