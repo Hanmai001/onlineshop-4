@@ -48,10 +48,26 @@ let handleRegister = async (req, res, next) => {
         return res.redirect('/');
     }
     const result = await authService.register(username, email, password);
-    // if (result) {
-    //     req.flash('registerMessage', result)
-    //     return res.redirect('/');
-    // }
+    if (result) {
+        req.flash('registerMessage', result)
+        return res.redirect('/');
+    }
+    console.log(res.locals.user)
+    next();
+}
+
+let handleForgotPassword = async (req, res, next) => {
+    // syntax validation
+    //console.log(req.body)
+    const to = req.body.to;
+    const result = await authService.getUserByEmail(to)
+    res.locals.user = result
+    console.log(result, res.locals.user)
+    
+     if (!result) {
+       req.flash('forgotMessage', 'Email không tồn tại.')
+         return res.redirect('/');
+     }
     next();
 }
 let logout = (req, res) => {
@@ -68,10 +84,10 @@ let logout = (req, res) => {
 };
 
 
-
 module.exports = {
     handleRegister,
     logout,
     isLoggedAdmin,
     isLoggedCustomer,
+    handleForgotPassword
 }

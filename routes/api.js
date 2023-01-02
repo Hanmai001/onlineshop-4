@@ -8,6 +8,7 @@ const cartController = require('../controllers/api/cardController');
 const productController = require('../controllers/api/productController');
 const addressController = require('../controllers/api/addressController');
 const orderController = require('../controllers/api/orderController');
+const mailerController = require('../controllers/mailerController');
 const manuaController = require('../controllers/api/manuaController');
 
 const userController = require('../controllers/api/userController');
@@ -17,15 +18,17 @@ const initApiRoute = (app) => {
         res.locals.flashMessages = req.flash();
         next();
     });
-    router.post('/register', authController.handleRegister, passport.authenticate("local",
-        {
-            failureRedirect: "/",
-        }), (req, res) => {
+    router.post('/register', authController.handleRegister, mailerController.getMail, passport.authenticate("local",
+    {
+        failureRedirect: "/",
+    }), (req, res) => {
+            console.log("cc")
+            //res.redirect('/verify-email');
             if (req.user.ADMIN == '1') {
-                res.redirect('/static');
+                res.redirect('/verify-email');
             }
             else
-                res.redirect('/');
+                res.redirect('/verify-email');
         });
 
     router.post('/login', passport.authenticate("local",
@@ -38,6 +41,22 @@ const initApiRoute = (app) => {
             else
                 res.redirect('/');
         });
+    router.post('/forgot-password', mailerController.getForgetEmail);
+    router.get('/reset-password', mailerController.getResetPassword)
+
+
+    router.get('/verify', passport.authenticate("local",
+        {
+            failureRedirect: "/",
+        }), (req, res) => {
+            if (req.user.ADMIN == '1') {
+                res.redirect('/static');
+            }
+            else
+                res.redirect('/');
+        });
+    
+        
     router.get('/logout', authController.logout);
     router.get('/api/list-review/:id/', reviewController.getListReview);
     router.get('/api/verify-username/:username', authApiController.verifyUsername);

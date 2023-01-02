@@ -170,10 +170,44 @@ let updatePassword = async (req, res) => {
     return res.redirect(`/change-password/${idUser}`);
 }
 
+let resetPassword = async (req, res) => {
+    const {
+        newPass,
+        confPass
+    } = req.body;
+    const idUser = req.params.id;
+    if (!newPass || !confPass) {
+        req.flash('updatePassMsg', 'Vui lòng nhập đủ thông tin.');
+        return res.redirect(`/reset-password`);
+    }
+    if (newPass.length < 6 || confPass.length < 6) {
+        req.flash('updatePassMsg', 'Mật khẩu phải ít nhất 6 ký tự.');
+        return res.redirect(`/reset-password`);
+    }
+    if (newPass !== confPass) {
+        req.flash('updatePassMsg', 'Xác nhận mật khẩu không trùng.');
+        return res.redirect(`/reset-password`);
+    }
+    //console.log(res.locals.user.username);
+    // if (!await authService.checkUserCredential(res.locals.user.username, curPass)) {
+    //     //console.log("sai mk");
+    //     req.flash('updatePassMsg', 'Nhập sai mật khẩu hiện tại.');
+    //     return res.redirect(`/change-password/${idUser}`);
+    // }
+    const result = await userService.resetPassword(req.body, idUser);
+    if (result) {
+        req.flash('updatePassMsg', 'Đổi mật khẩu thành công.');
+        return res.redirect(`/reset-password`);
+    }
+    req.flash('updatePassMsg', 'Đổi mật khẩu thất bại.');
+    return res.redirect(`/reset-password`);
+}
+
 module.exports = {
     getHomepage,
     getProfilePage,
     getUpdatePasswordPage,
     updateInformation,
     updatePassword,
+    resetPassword,
 }

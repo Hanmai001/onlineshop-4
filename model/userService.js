@@ -73,7 +73,26 @@ let updatePassword = async (data, idUser) => {
     return result[0] && result.length > 0;
 
 }
+
+let resetPassword = async (data, idUser) => {
+    const {
+        newPass,
+        confPass
+    } = data;
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(newPass, salt);
+    let result;
+    try {
+        result = await db.query("UPDATE user SET PASSWORD = ? WHERE IDUSER = ?", [hash, parseInt(idUser)]);
+    } catch (err) {
+        return null;
+    }
+
+    return result[0] && result.length > 0;
+
+}
 module.exports = {
     updateProfile,
     updatePassword,
+    resetPassword
 }
