@@ -6,7 +6,6 @@ let addToMyCart = async (req, res) => {
     const idCart = await cartService.findCartUser(res.locals.user.id);
     await cartService.addProductCart(idCart, idProduct, amount);
     const totalPrice = await cartService.calTotalPriceInCart(idCart);
-    //console.log(idCart, idProduct, amount, totalPrice);
     if (totalPrice)
         await cartService.updateTotalPriceCart(idCart, totalPrice);
     const numProductInCart = await cartService.numProductInCart(idCart);

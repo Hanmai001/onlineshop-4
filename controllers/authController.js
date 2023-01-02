@@ -23,9 +23,16 @@ let isLoggedCustomer = async (req, res, next) => {
     else
         return res.send("Bạn đang là Admin trang web");
 }
-let handleRegister = async (req, res, next) => {
-    // syntax validation
-    //console.log(req.body)
+let isLogged = async (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    } else if (req.isUnauthenticated()) {
+        req.flash('loginMessage', 'Vui lòng đăng nhập')
+        return res.redirect('/');
+    }
+}
+let checkRegister = async (req, res, next) => {
+    
     if (!ajv.validate(registerSchema, req.body)) {
         req.flash('registerMessage', 'Vui lòng kiểm tra lại thông tin đăng kí')
         return res.redirect('/');
@@ -48,26 +55,10 @@ let handleRegister = async (req, res, next) => {
         return res.redirect('/');
     }
     const result = await authService.register(username, email, password);
-    if (result) {
-        req.flash('registerMessage', result)
-        return res.redirect('/');
-    }
-    console.log(res.locals.user)
-    next();
-}
-
-let handleForgotPassword = async (req, res, next) => {
-    // syntax validation
-    //console.log(req.body)
-    const to = req.body.to;
-    const result = await authService.getUserByEmail(to)
-    res.locals.user = result
-    console.log(result, res.locals.user)
-    
-     if (!result) {
-       req.flash('forgotMessage', 'Email không tồn tại.')
-         return res.redirect('/');
-     }
+    // if (result) {
+    //     req.flash('registerMessage', result)
+    //     return res.redirect('/');
+    // }
     next();
 }
 let logout = (req, res) => {
@@ -85,9 +76,9 @@ let logout = (req, res) => {
 
 
 module.exports = {
+    checkRegister,
     handleRegister,
     logout,
     isLoggedAdmin,
     isLoggedCustomer,
-    handleForgotPassword
 }

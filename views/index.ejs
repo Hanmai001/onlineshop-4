@@ -157,24 +157,23 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td style="white-space:nowrap;">Áo</td>
-                    <td>40000$</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Quần</td>
-                    <td>30000$</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Giày</td>
-                    <td>20000$</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">...</th>
-                  </tr>
+                  <%for(var i=0; i < 4;i++){%>
+                    <tr>
+                      <th scope="row">
+                        <%=i+1%>
+                      </th>
+                      <td style="white-space:nowrap;">
+                        <%=sales[i].NAMEPRODUCT.length> 10 ? sales[i].NAMEPRODUCT.slice(0, 10) +
+                          `...` : sales[i].NAMEPRODUCT%>
+                      </td>
+                      <td>
+                        <%=sales[i].PRICE%>$
+                      </td>
+                    </tr>
+                    <%}%>
+                      <tr>
+                        <th scope="row">...</th>
+                      </tr>
                 </tbody>
               </table>
             </div>
@@ -182,9 +181,14 @@
         </div>
 </body>
 <script>
-  var revenue = "<%=revenue[0].sum%>";
+  var revenue1 = parseInt("<%= revenue1[0].sum ? revenue1[0].sum : 0%>");
+  var revenue2 = parseInt("<%= revenue2[0].sum ? revenue2[0].sum : 0%>");
+  var revenue3 = parseInt("<%= revenue3[0].sum ? revenue3[0].sum : 0%>");
+  var revenue4 = parseInt("<%= revenue4[0].sum ? revenue4[0].sum : 0%>");
+  //var sum = "<%= parseInt(revenue1[0].sum) + parseInt(revenue2[0].sum)+ parseInt(revenue3[0].sum) + parseInt(revenue4[0].sum)%>";
+  var sum = revenue1 + revenue2 + revenue4;
   var revenue_x_Values = ["Tháng 1", "Tháng 4", "Tháng 7", "Tháng 10"];
-  var revenue_y_Values = [0, 35000, 20000, revenue];
+  var revenue_y_Values = [revenue1, revenue2, revenue2, revenue4];
 
   new Chart("revenue", {
     type: "line",
@@ -201,7 +205,7 @@
     options: {
       legend: { display: false },
       scales: {
-        yAxes: [{ ticks: { min: 0, max: 40000 } }],
+        yAxes: [{ ticks: { min: 0, max: parseInt(sum) } }],
       }
     }
   });
