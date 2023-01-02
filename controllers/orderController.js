@@ -26,11 +26,11 @@ let getListFilterOrderStatusPage = async (req, res) => {
     console.log(status)
     let condition = "";
     if (status === "waiting confirm") condition = "Đang chờ xác nhận";
-    else if (status === "watting take product") condition = "Đang chờ lấy hàng";
+    else if (status === "waiting take product") condition = "Đang chờ lấy hàng";
     else if (status === "shipping") condition = "Đang giao";
     else if (status === "shipped") condition = "Đã giao";
     else if (status === "canceled") condition = "Đã hủy";
-    console.log(condition)
+    console.log("condition: ", condition)
     const idUser = res.locals.user.id;
     //const idOrder = req.params.idOrder;
     const idCart = await cartService.findCartUser(idUser);
