@@ -34,7 +34,7 @@
                                         <li><a href="/logout">Đăng xuất</a></li>
                                     </ul>
                             </li>
-            
+
                         </ul>
                     </div>
                 </div>
@@ -51,15 +51,17 @@
                     </div>
                     <div class="col-1 cart-icon">
                         <a href="/list-order">
-                            <span><%= numProductInCart %></span>
+                            <span>
+                                <%= numProductInCart %>
+                            </span>
                             <i class="fa-solid fa-cart-shopping"></i>
                         </a>
-            
+
                     </div>
                 </div>
             </header>
         </form>
-        
+
         <div class="row content p-0 mx-0">
             <!-- OPTIONS -->
             <div class="col-2 filter px-0">
@@ -84,10 +86,12 @@
                     <div class="border-bottom">
                         <div class="tags-pane row px-1 text-center">
                             <a href="/list-orders-status/<%= user.id %>" class="col-2 py-3 tag1">Tất cả</a>
-                            <a href="/list-orders-status/:id/filter?status=waiting+confirm" class="col-2 py-3">Chờ xác nhận</a>
-                            <a href="/list-orders-status/:id/filter?status=waiting+take+product" class="col-2 py-3">Chờ lấy hàng</a>
+                            <a href="/list-orders-status/:id/filter?status=waiting+confirm" class="col-2 py-3">Chờ xác
+                                nhận</a>
+                            <a href="/list-orders-status/:id/filter?status=waiting+take+product" class="col-2 py-3">Chờ
+                                lấy hàng</a>
                             <a href="/list-orders-status/:id/filter?status=shipping" class="col-2 py-3">Đang giao</a>
-                            <a href="/list-orders-status/:id/filter?status=shiped" class="col-2 py-3">Đã giao</a>
+                            <a href="/list-orders-status/:id/filter?status=shipped" class="col-2 py-3">Đã giao</a>
                             <a href="/list-orders-status/:id/filter?status=canceled" class="col-2 py-3">Đã hủy</a>
                         </div>
                     </div>
@@ -97,30 +101,36 @@
                                 <div class="col-8 product-pic">
                                     <div class="row">'
                                         <div class="col-2 ms-4 py-4">
-                                            <img src="<%= listOrdered[i].LINK %>" alt=""
-                                                width="80px" height="80px">
+                                            <img src="<%= listOrdered[i].LINK %>" alt="" width="80px" height="80px">
                                         </div>
                                         <div class="col-9 py-4">
-                                            <p><%= listOrdered[i].NAMEPRODUCT.length> 40 ?
+                                            <p>
+                                                <%= listOrdered[i].NAMEPRODUCT.length> 40 ?
                                                     listOrdered[i].NAMEPRODUCT.slice(0, 40) +
-                                                    `...` : listOrdered[i].NAMEPRODUCT %></p>
-                                            <p>x<%= listOrdered[i].AMOUNT %></p>
+                                                    `...` : listOrdered[i].NAMEPRODUCT %>
+                                            </p>
+                                            <p>x<%= listOrdered[i].AMOUNT %>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-4 status text-end py-4">
-                                    <span class="me-5"><%= listOrdered[i].STATUSORDER %></span>
+                                    <span class="me-5">
+                                        <%= listOrdered[i].STATUSORDER %>
+                                    </span>
                                 </div>
                             </div>
                             <div class="ms-4 pb-4">
                                 <span class="me-2">Tổng số tiền</span>
                                 <span class="currency fs-4">đ</span>
-                                <span class="price fs-4"><%= listOrdered[i].TOTALPRICE %></span>
+                                <span class="price fs-4">
+                                    <%= listOrdered[i].TOTALPRICE %>
+                                </span>
                             </div>
                         </div>
                         <% } %>
                 </div>
-                
+
             </div>
         </div>
         <!-- FOOTER -->
@@ -132,7 +142,7 @@
 </body>
 <script>
     function clickItem(idOrder) {
-       window.location.href = "/list-orders-status/" + "<%= user.id %>" + "/order-detail/" + idOrder;
+        window.location.href = "/list-orders-status/" + "<%= user.id %>" + "/order-detail/" + idOrder;
     }
     function handleForms() {
         let modalProfile = document.querySelector('.js-option-profile');

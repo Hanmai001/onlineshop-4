@@ -73,9 +73,33 @@ let updatePassword = async (data, idUser) => {
     return result[0] && result.length > 0;
 
 }
-let caculateRevenue = async () => {
+let caculateRevenue1 = async () => {
     let result;
-    result = await db.query('select SUM(TOTALPRICE) as sum from myorder where STATUSORDER = "Đang giao"');
+    result = await db.query('SELECT sum(TOTALPRICE) as sum FROM onlineshop.myorder WHERE MONTH(CREATEON) <= 3 AND MONTH(CREATEON) >= 1 AND (STATUSORDER = "Đang giao"  OR  STATUSORDER = "Đã giao")');
+    //console.log(result);
+    return result[0];
+}
+let caculateRevenue2 = async () => {
+    let result;
+    result = await db.query('SELECT sum(TOTALPRICE) as sum FROM onlineshop.myorder WHERE MONTH(CREATEON) <= 6 AND MONTH(CREATEON) >= 4 AND (STATUSORDER = "Đang giao"  OR  STATUSORDER = "Đã giao")');
+    //console.log(result);
+    return result[0];
+}
+let caculateRevenue3 = async () => {
+    let result;
+    result = await db.query('SELECT sum(TOTALPRICE) as sum FROM onlineshop.myorder WHERE MONTH(CREATEON) <= 9 AND MONTH(CREATEON) >= 7 AND (STATUSORDER = "Đang giao"  OR  STATUSORDER = "Đã giao")');
+    //console.log(result);
+    return result[0];
+}
+let caculateRevenue4 = async () => {
+    let result;
+    result = await db.query('SELECT sum(TOTALPRICE) as sum FROM onlineshop.myorder WHERE MONTH(CREATEON) <= 12 AND MONTH(CREATEON) >= 10 AND (STATUSORDER = "Đang giao"  OR  STATUSORDER = "Đã giao")');
+    //console.log(result);
+    return result[0];
+}
+let caculateProduct = async () => {
+    let result;
+    result = await db.query('select distinct pd.NAMEPRODUCT, pd.PRICE, po.AMOUNT, pd.PRICE * po.AMOUNT as mul from product pd join product_order po on po.IDPRODUCT = pd.IDPRODUCT ORDER BY mul desc');
     //console.log(result);
     return result[0];
 }
@@ -83,5 +107,9 @@ let caculateRevenue = async () => {
 module.exports = {
     updateProfile,
     updatePassword,
-    caculateRevenue
+    caculateRevenue1,
+    caculateRevenue2,
+    caculateRevenue3,
+    caculateRevenue4,
+    caculateProduct
 }

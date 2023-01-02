@@ -4,10 +4,14 @@ const authService = require('../model/authService')
 let getHomePage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
 
-    const revenue = await adminService.caculateRevenue();
+    const revenue1 = await adminService.caculateRevenue1();
+    const revenue2 = await adminService.caculateRevenue2();
+    const revenue3 = await adminService.caculateRevenue3();
+    const revenue4 = await adminService.caculateRevenue4();
+    const sales = await adminService.caculateProduct();
     //console.log(revenue);
 
-    return res.render('index.ejs', { ava, revenue: revenue })
+    return res.render('index.ejs', { ava, revenue1: revenue1, revenue2: revenue2, revenue3: revenue3, revenue4: revenue4, sales: sales })
 }
 let getAdminProfile = async (req, res) => {
     const { EMAIL: email, FULLNAME: fullname, SEX: sex, PHONE: phone, AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
