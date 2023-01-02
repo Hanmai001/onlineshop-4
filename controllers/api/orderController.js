@@ -18,6 +18,7 @@ const createUserOrder = async (req, res) => {
     for (let i = 0; i < length; i++) {
         await orderService.addToProductOrder(listOrders[i].IDPRODUCT, idOrder.IDORDER, listOrders[i].AMOUNT);
         await productService.updateProductNumbuy(listOrders[i].IDPRODUCT, listOrders[i].AMOUNT);
+        await productService.updateProductRemain(listOrders[i].IDPRODUCT, listOrders[i].AMOUNT);
     }
     res.status(200).json(true);
 }
