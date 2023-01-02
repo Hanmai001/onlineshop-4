@@ -1,5 +1,8 @@
 const db = require('../config/connectDB');
 
+const updateProductNumbuy = async (idProduct, amount) => {
+    await db.query("UPDATE product SET NUMBUY = NUMBUY + ? WHERE IDPRODUCT = ?", [parseInt(amount), parseInt(idProduct)])
+}
 const getProductsPage = async (limit, offset) => {
     const result = await db.query('select a.* from (SELECT pd.*, pt.LINK FROM product pd, photo pt WHERE pd.IDPRODUCT = pt.IDPRODUCT GROUP BY pd.IDPRODUCT HAVING COUNT(*) >= 1) a LIMIT ?,?', [offset, limit]);
     return result[0];
@@ -320,6 +323,7 @@ const deleteFromCart = async (idCart, idProduct) => {
     console.log(result[0]);
 }
 module.exports = {
+    updateProductNumbuy,
     getAllProduct,
     getProductsPage,
     getAllBrand,

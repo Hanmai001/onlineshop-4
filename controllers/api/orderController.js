@@ -2,7 +2,6 @@ const orderService = require('../../model/orderService');
 const productService = require('../../model/productService');
 const cartService = require('../../model/cartService');
 const addressService = require('../../model/addressService');
-const { or } = require('ajv/dist/compile/codegen');
 
 const createUserOrder = async (req, res) => {
     const idUser = res.locals.user.id;
@@ -18,6 +17,7 @@ const createUserOrder = async (req, res) => {
     const length = listOrders.length;
     for (let i = 0; i < length; i++) {
         await orderService.addToProductOrder(listOrders[i].IDPRODUCT, idOrder.IDORDER, listOrders[i].AMOUNT);
+        await productService.updateProductNumbuy(listOrders[i].IDPRODUCT, listOrders[i].AMOUNT);
     }
     res.status(200).json(true);
 }
