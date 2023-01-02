@@ -32,7 +32,7 @@ let isLogged = async (req, res, next) => {
     }
 }
 let checkRegister = async (req, res, next) => {
-
+    
     if (!ajv.validate(registerSchema, req.body)) {
         req.flash('registerMessage', 'Vui lòng kiểm tra lại thông tin đăng kí')
         return res.redirect('/');
@@ -60,10 +60,9 @@ let handleRegister = async (req, res) => {
     const { username, email, pw } = req.query;
     const result = await authService.register(username, email, pw);
     req.login(result, function (err) {
-        if (result.ADMIN === '1') {
-            res.redirect('/static');
-        } else
-            res.redirect('/');
+        console.log(result)
+        if (err) { return next(err); }
+        return res.redirect('/');
     });
 }
 let logout = (req, res) => {

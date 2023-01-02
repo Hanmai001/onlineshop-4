@@ -16,16 +16,6 @@ const initApiRoute = (app) => {
         res.locals.flashMessages = req.flash();
         next();
     });
-    // router.post('/register', mailerController.getMail, passport.authenticate("local",
-    //     {
-    //         failureRedirect: "/",
-    //     }), (req, res) => {
-    //         if (req.user.ADMIN == '1') {
-    //             res.redirect('/verify-email');
-    //         }
-    //         else
-    //             res.redirect('/verify-email');
-    //     });
     router.post('/register', authController.checkRegister, mailerController.getMail, (req, res) => {
         res.redirect('/verify-email');
     });
@@ -43,6 +33,8 @@ const initApiRoute = (app) => {
     router.get('/verify', authController.handleRegister);
     router.get('/verify-email', mailerController.getVerifyEmail);
     router.get('/logout', authController.isLogged, authController.logout);
+
+
     router.get('/api/list-review/:id/', reviewController.getListReview);
     router.get('/api/verify-username/:username', authApiController.verifyUsername);
     router.get('/api/verify-email/:email', authApiController.verifyEmail);

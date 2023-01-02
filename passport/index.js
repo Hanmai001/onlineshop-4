@@ -3,9 +3,8 @@ const LocalStrategy = require('passport-local');
 const authService = require('../model/authService');
 
 //Config localStrategy
-passport.use(new LocalStrategy({ usernameField: 'username', passReqToCallback: true }, async function verify(req, username, password, cb) {
+passport.use(new LocalStrategy({ usernameField: 'username', iduserField: 'iduser', banField: 'ban', adminField: 'admin', passReqToCallback: true }, async function verify(req, username, password, cb) {
     const user = await authService.checkUserCredential(username, password);
-    console.log(user)
     if (user) {
         if (user.BAN == 1) {
             return cb(null, false, req.flash('loginMessage', 'Bạn đã bị ban'));
