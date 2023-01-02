@@ -240,15 +240,16 @@
                                                 <div class="col-md-12"><label class="labels">Số lượng trong kho</label><input type="number" id="disabledTextInput"
                                                         class="form-control" name="remain"></div>
                                             </div>
+                                            <% if(flashMessages.addProductMsg){ %>
+                                                <div class="text-danger" id="message">
+                                                    <%= flashMessages.addProductMsg %>
+                                                </div>
+                                                <% } %>
 
                                         </div>
                                     </div>
                                 </div>
-                                <% if(flashMessages.addProductMsg){ %>
-                                    <p class="text-danger" id="message">
-                                        <%= flashMessages.addProductMsg %>
-                                    </p>
-                                    <% } %>
+                                
                                         <div class="mt-0 text-center">
                                             <button class="btn btn-primary profile-button" type="submit">Thêm</button>
                                         </div>
@@ -280,9 +281,9 @@
         });
     })
 
-    const message = document.getElementById('message');
-    if (message)
-        message.remove();
+    // const message = document.getElementById('message');
+    // if (message)
+    //     message.remove();
 
     const fileUploader1 = document.getElementById('profile-file1');
     const reader1 = new FileReader();

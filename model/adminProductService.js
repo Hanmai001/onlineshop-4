@@ -24,50 +24,75 @@ let getAllMaterial = async () => {
     //console.log(result);
     return result[0];
 }
-let updateProduct = async (data, link, idProduct) => {
+let updateProduct = async (data, idProduct) => {
     const {
-        updateNameproduct: nameproduct,
-        updatePrice: price,
-        updateNumbuy: numbuy,
-        updateStatusproduct: statusproduct,
-        updateRemain: remain
+        updateNameproduct,
+        updatePrice,
+        updateType,
+        updateBrand,
+        updateOrigin,
+        updateMaterial,
+        updateStatus,
+        updateExpiry,
+        updateRemain
     } = data;
-    //console.log(nameproduct);
+    //console.log(data);
     let values = [];
     let sql = "UPDATE product SET ";
-    if (link) {
-        sql += " LINK = ? ";
-        values.push(link);
+
+    if (updateNameproduct) {
+        sql += "NAMEPRODUCT = ?";
+        values.push(updateNameproduct);
     }
-    if (nameproduct) {
-        if (link) sql += ", ";
-        sql += "NAMEPRODUCT = ? ";
-        values.push(nameproduct);
+    if (updatePrice) {
+        if (updateNameproduct) sql += ", ";
+        sql += "PRICE = ?";
+        values.push(parseFloat(updatePrice));
     }
-    if (price) {
-        if (link || nameproduct) sql += ", ";
-        sql += "PRICE = ? ";
-        values.push(price);
+    if (updateType) {
+        if (updateNameproduct || updatePrice) sql += ", ";
+        sql += "IDTYPE = ?";
+        values.push(parseInt(updateType));
     }
-    if (numbuy) {
-        if (link || nameproduct || price) sql += ", ";
-        sql += "NUMBUY = ? ";
-        values.push(numbuy);
+    if (updateBrand) {
+        if (updateNameproduct || updatePrice || updateType) sql += ", ";
+        sql += "IDBRAND = ?";
+        values.push(parseInt(updateBrand));
     }
-    if (statusproduct) {
-        if (link || nameproduct || price || numbuy) sql += ", ";
-        sql += "STATUSPRODUCT = ? ";
-        values.push(statusproduct);
+    if (updateOrigin) {
+        if (updateNameproduct || updatePrice || updateType || brand) sql += ", ";
+        sql += "IDMANUFACTURER = ?";
+        values.push(parseInt(updateOrigin));
     }
-    if (remain) {
-        if (link || nameproduct || price || numbuy || statusproduct) sql += ", ";
-        sql += "REMAIN = ? ";
-        values.push(remain);
+    if (updateMaterial) {
+        if (updateNameproduct || updatePrice || updateType || updateBrand || updateOrigin) sql += ", ";
+        sql += "IDMATERIAL = ?";
+        values.push(parseInt(updateMaterial));
     }
-    sql += "WHERE IDPRODUCT = ?";
+    if (updateStatus) {
+        if (updateNameproduct || updatePrice || updateType || updateBrand || updateOrigin || updateMaterial) sql += ", ";
+        sql += "STATUSPRODUCT = ?";
+        if (updateStatus === "out")
+            values.push('Hết hàng');
+        else if (updateStatus === "available")
+            values.push('Còn hàng');
+        else if (updateStatus === "suspend")
+            values.push('Tạm ngưng');
+    }
+    if (updateExpiry) {
+        if (updateNameproduct || updatePrice || updateType || updateBrand || updateOrigin || updateMaterial || updateStatus) sql += ", ";
+        sql += "EXPIRY = ?";
+        values.push(updateExpiry);
+    }
+    if (updateRemain) {
+        if (updateNameproduct || updatePrice || updateType || updateBrand || updateOrigin || updateMaterial || updateStatus || updateExpiry) sql += ", ";
+        sql += "REMAIN = ?";
+        values.push(parseInt(updateRemain));
+    }
+    sql += ' WHERE IDPRODUCT = ?';
     values.push(parseInt(idProduct));
     let result;
-    // console.log(sql);
+    console.log(sql);
     try {
         result = await db.query(sql, values);
     } catch (err) {

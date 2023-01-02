@@ -133,7 +133,7 @@
                                             <img class="rounded mt-3" width="150px"
                                                 src="<%= details[i] ? details[i].LINK : 'null' %>"
                                                 id="profile-ava<%=i+1%>">
-                                            <input type="file" name="updateLink" id="profile-file<%=i+1%>" hidden>
+                                            <input type="file" name="updateLink" id="profile-file<%=i+1%>" hidden multiple>
                                             <div class="mt-1">
                                                 <label for="profile-file<%=i+1%>">Chọn Ảnh</label>
                                             </div>
@@ -154,20 +154,106 @@
                                                     name="updateNameproduct">
                                             </div>
                                         </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for="">
+                                                <i class="ti-user"></i>
+                                                Nơi sản xuất
+                                                <div class="wrapper d-inline-block">
+                                                    <select class="dropdown-list" name="updateOrigin" onfocus='this.size=5;' onblur='this.size=1;'
+                                                        onchange='this.size=1; this.blur();'>
+                                                        <option value="" disabled selected hidden><%= curOrigin.NAMEMANUFACTURER %></option>
+                                                        <%for (var i=0; i < origin.length; i++){%>
+                                                            <option class="manua-item" id="<%= origin[i].IDMANUFACTURER %>"
+                                                                value="<%=origin[i].IDMANUFACTURER%>">
+                                                                <%=origin[i].NAMEMANUFACTURER%>
+                                                            </option>
+                                                            <%}%>
+                                                    </select>
+                                                </div>
+                                            </label>
+                                            <label for="">
+                                                <i class="ti-user"></i>
+                                                Thương hiệu
+                                                <div class="d-inline-block">
+                                        
+                                                    <select class="dropdown-list" name="updateBrand">
+                                                        <option value="" disabled selected hidden><%= curBrand.NAMEBRAND %></option>
+                                                        <%for (var i=0; i < brand.length; i++){%>
+                                                            <option class="brand-item" id="<%= brand[i].IDBRAND %>" value="<%= brand[i].IDBRAND %>">
+                                                                <%=brand[i].NAMEBRAND%>
+                                                            </option>
+                                                            <%}%>
+                                                    </select>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for="" class="">
+                                                <i class="ti-user"></i>
+                                                Loại sản phẩm
+                                                <div class="wrapper d-inline-block">
+                                                    <select class="dropdown-list" name="updateType">
+                                                        <option value="" disabled selected hidden><%= curType.NAMETYPE %></option>
+                                                        <%for (var i=0; i < type.length; i++){%>
+                                                            <option class="" id="<%= type[i].IDTYPE %>" value="<%= type[i].IDTYPE %>">
+                                                                <%=type[i].NAMETYPE%>
+                                                            </option>
+                                                            <%}%>
+                                                    </select>
+                                                </div>
+                                            </label>
+                                        
+                                            <label for="" class="">
+                                                <i class="ti-user"></i>
+                                                Tình trạng sản phẩm
+                                                <div class="wrapper d-inline-block">
+                                                    <select class="dropdown-list" name="updateStatus">
+                                                        <option value="" disabled selected hidden>
+                                                            <%= details[0].STATUSPRODUCT %>
+                                                        </option>
+                                                        <option class="" value="available">Còn hàng</option>
+                                                        <option class="" value="out">Hết hàng</option>
+                                                        <option class="" value="suspend">Tạm ngưng</option>
+                                                    </select>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <label for="" class="">
+                                                <i class="ti-user"></i>
+                                                Chất liệu
+                                                <div class="wrapper d-inline-block">
+                                        
+                                                    <select class="dropdown-list" name="updateMaterial">
+                                                        <option value="" disabled selected hidden>
+                                                            <%= curMaterial.NAMEMATERIAL %>
+                                                        </option>
+                                                        <%for (var i=0; i < material.length; i++){%>
+                                                            <option class="dropdown-item" value="<%=material[i].IDMATERIAL%>">
+                                                                <%=material[i].NAMEMATERIAL%>
+                                                            </option>
+                                                            <%}%>
+                                                    </select>
+                                                </div>
+                                            </label>
+                                            <div class="ms-5 d-inline-block">
+                                                <label for="" class="">
+                                                    <i class="ti-shopping-cart"></i>
+                                                    Hạn sử dụng
+                                                </label>
+                                                <div class="d-inline-block">
+                                                    <input class="btn btn-secondary" type="date" id="expiry" name="updateExpiry">
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row mt-3">
                                             <div class="col-md-12"><label class="labels">Giá</label><input type="text"
                                                     id="disabledTextInput" class="form-control"
                                                     value="<%=details[0].PRICE%>" name="updatePrice"></div>
-                                            <div class="col-md-12"><label class="labels">Ngày hết hạn</label><input
-                                                    type="text" class="form-control"
-                                                    value="<%= details[0].EXPIRY ? details[0].EXPIRY.toString().slice(4, 24) : ''%>"
-                                                    name="updateExpiry"></div>
+                                            
                                             <div class="col-md-12"><label class="labels">Lượt mua</label><input
                                                     type="text" class="form-control" value="<%=details[0].NUMBUY%>"
                                                     name="updateNumbuy"></div>
-                                            <div class="col-md-12"><label class="labels">Trạng thái</label><input
-                                                    type="text" class="form-control"
-                                                    value="<%=details[0].STATUSPRODUCT%>" name="updateStatusproduct">
                                             </div>
                                             <fieldset disabled>
                                                 <div class="col-md-12"><label class="labels">Ngày tạo</label><input
@@ -175,14 +261,15 @@
                                                         value="<%=details[0].CREATEON.toString().slice(4, 24)%>">
                                             </fieldset>
                                         </div>
+                                       
                                         <div class="col-md-12"><label class="labels">Hàng tồn</label><input type="text"
                                                 class="form-control" value="<%= details[0].REMAIN%>"
                                                 name="updateRemain">
                                         </div>
-                                        <% if(flashMessages.updateProfileMsg){ %>
-                                            <p class="text-danger" id="message">
-                                                <%= flashMessages.updateProfileMsg %>
-                                            </p>
+                                        <% if(flashMessages.updateProductMsg){ %>
+                                            <div class="text-danger" id="message">
+                                                <%= flashMessages.updateProductMsg %>
+                                            </div>
                                             <% } %>
                                     </div>
                                     <div class="mt-5 text-center">
@@ -203,9 +290,9 @@
     </div>
 </body>
 <script>
-    const message = document.getElementById('message');
-    if (message)
-        message.remove();
+    // const message = document.getElementById('message');
+    // if (message)
+    //     message.remove();
 
     const fileUploader1 = document.getElementById('profile-file1');
     const reader1 = new FileReader();

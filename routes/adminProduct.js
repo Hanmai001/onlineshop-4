@@ -33,7 +33,7 @@ const upload = multer({ storage: storage, fileFilter: imageFilter });
 const initAdminProductRoute = (app) => {
   router.get('/product-manage', authController.isLoggedAdmin, adminProductController.getProductManage);
   router.get('/manage/details-product/:id', authController.isLoggedAdmin, adminProductController.getDetailsProduct);
-  router.post('/manage/details-product/:id/update-info', upload.single('update-ava'), adminProductController.updateInformation);
+  router.post('/manage/details-product/:id/update-info', upload.array('updateLink', 4), adminProductController.updateInformation);
   router.get('/product-manage/:id/delete-info', authController.isLoggedAdmin, adminProductController.deleteInformation);
   router.get('/admin-add-product', authController.isLoggedAdmin, adminProductController.getAddProduct);
   router.post('/admin-add-product/add-product', authController.isLoggedAdmin, upload.array('update-pic-product', 4), adminProductController.addInformation);

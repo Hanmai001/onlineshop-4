@@ -3,6 +3,11 @@ const adminOriginService = require('../model/adminOriginService')
 const adminTypeService = require('../model/adminTypeService')
 const photoService = require('../model/photoService');
 
+const brandService = require('../model/brandService');
+const typeService = require('../model/typeService');
+const manuService = require('../model/manuaService');
+const materialService = require('../model/materialService');
+
 const authService = require('../model/authService')
 const Paginator = require("paginator");
 const qs = require('qs');
@@ -59,41 +64,52 @@ let getProductManage = async (req, res) => {
 
 let getDetailsProduct = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
-    let idUser = req.params.id;
-    const details = await adminProductService.getProduct(idUser);
-    console.log(details);
+    let idProduct = req.params.id;
+    const details = await adminProductService.getProduct(idProduct);
+    const origin = await adminOriginService.getAllManufacturer();
+    const type = await adminTypeService.getAllType();
+    const brand = await adminProductService.getAllBrand();
+    const material = await adminProductService.getAllMaterial();
 
-    return res.render('details-product.ejs', { ava, details: details })
+    const curOrigin = await manuService.getOrigin(idProduct);
+    const curType = await typeService.getType(idProduct);
+    const curBrand = await brandService.getBrand(idProduct);
+    const curMaterial = await materialService.getMaterial(idProduct);
+
+    return res.render('details-product.ejs', { curBrand, curMaterial, curOrigin, curType, ava, details: details, origin: origin, type: type, brand: brand, material: material })
 }
 let updateInformation = async (req, res) => {
     const idProduct = req.params.id;
-    const { NAMEPRODUCT: nameproduct, PRICE: price, NUMBUY: numbuy, STATUSPRODUCT: statusproduct, REMAIN: remain, LINK: link } = await adminProductService.getProduct(idProduct);
-    let new_link = link;
-    if (req.file) {
-        new_link = '/images/' + req.file.filename;
+    //const { NAMEPRODUCT: nameproduct, PRICE: price, NUMBUY: numbuy, STATUSPRODUCT: statusproduct, REMAIN: remain, LINK: link } = await adminProductService.getProduct(idProduct);
+    let pics_product = [];
+    const length = req.files.length;
+    for (let i = 0; i < length; i++) {
+        if (req.files[i]) {
+            pics_product.push('/images/' + req.files[i].filename);
+        }
     }
+    console.log(pics_product)
     const {
-        updateNameproduct: new_nameproduct,
-        updatePrice: new_price,
-        updateNumbuy: new_numbuy,
-        updateStatusproduct: new_statusproduct,
-        updateRemain: new_remain,
+        updatePrice,
+        updateRemain
     } = req.body;
+    if (updatePrice <= 0) {
+        req.flash('updateProductMsg', 'Vui lòng điền giá tiền phù hợp.');
+        return res.redirect(`/manage/details-product/${idProduct}`);
+    }
+    if (updateRemain <= 0) {
+        req.flash('updateProductMsg', 'Vui lòng nhập số lượng sản phẩm hiện có.');
+        return res.redirect(`/manage/details-product/${idProduct}`);
+    }
 
-    //nsole.log(req.body)
-
-    // if (new_phone.length > 11) {
-    //     req.flash('updateProfileMsg', 'SĐT phải nhỏ hơn 12 kí tự.');
-    //     return res.redirect(`/admin-profile/${idProduct}`);
-    // }
-
-    const result = await adminProductService.updateProduct(req.body, link, idProduct)
+    const result = await adminProductService.updateProduct(req.body, idProduct)
     //console.log(res.locals.user); 
 
     if (result) {
+        await photoService.updatePhotos(pics_product, idProduct);
         return res.redirect(`/manage/details-product/${idProduct}`);
     }
-    req.flash('updateProfileMsg', 'Kiểm tra lại thông tin cập nhật.');
+    req.flash('updateProductMsg', 'Kiểm tra lại thông tin cập nhật.');
     return res.redirect(`/manage/details-product/${idProduct}`);
 }
 let deleteInformation = async (req, res) => {
@@ -123,8 +139,31 @@ let addInformation = async (req, res) => {
     const length = req.files.length;
     for (let i = 0; i < length; i++) {
         if (req.files[i]) {
-           pics_product.push('/images/' + req.files[i].filename);
+            pics_product.push('/images/' + req.files[i].filename);
         }
+    }
+    const {
+        addNameproduct,
+        addPrice,
+        type,
+        brand,
+        manufacturer,
+        material,
+        status,
+        expiry,
+        remain
+    } = req.body;
+    if (!addNameproduct || !addPrice || !type || !brand || !manufacturer || !material || !status || !expiry || !remain) {
+        req.flash('addProductMsg', 'Vui lòng điền đủ thông tin sản phẩm.');
+        return res.redirect(`/admin-add-product`);
+    }
+    if (addPrice <= 0) {
+        req.flash('addProductMsg', 'Vui lòng điền giá tiền phù hợp.');
+        return res.redirect(`/admin-add-product`);
+    }
+    if (remain <= 0) {
+        req.flash('addProductMsg', 'Vui lòng nhập số lượng sản phẩm hiện có.');
+        return res.redirect(`/admin-add-product`);
     }
     const result = await adminProductService.addProduct(req.body)
     console.log(result)
