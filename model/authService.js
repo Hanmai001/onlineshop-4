@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs')
 const db = require('../config/connectDB');
 const cartService = require('./cartService');
 
@@ -20,10 +20,10 @@ let checkUserCredential = async (username, password) => {
     const user = await getUserByUsername(username);
     //console.log('user: ', user)
     if (!user) return null;
-    // if (await bcrypt.compare(password, user.PASSWORD))
-    //     return user;
+    if (await bcrypt.compare(password, user.PASSWORD))
+        return user;
 
-    return user;
+    return null;
 }
 let insertUser = async (username, email, hash) => {
     await db.query("INSERT INTO user (USERNAME, ADMIN, EMAIL, PASSWORD) VALUES (?,'0', ?, ?)", [username, email, hash]);

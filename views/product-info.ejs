@@ -74,7 +74,7 @@
                 <div>
                     <div class="uniqe-body m-auto row">
                         <div class="col-5 pic-product p-3">
-                            <img src="<%= product[0].LINK%>" alt="">
+                            <img src="<%= product[0] ? product[0].LINK : null %>" alt="">
                             <div class="extra-pics mt-2">
                                 <i class="fa-solid fa-angle-left"></i>
                                 <% for(var i=0; i< product.length; i++) {%>
@@ -112,7 +112,8 @@
                                 </span>
                             </div>
                             <div class="confirm-buy">
-                                <button id="add-cart-btn" class="add-cart-btn py-3 px-3" <%= user ? null : 'disabled' %> >
+                                <button id="add-cart-btn" class="add-cart-btn py-3 px-3" <%=user ? null : 'disabled' %>
+                                    >
                                     <i class="fa-solid fa-cart-arrow-down"></i>
                                     Thêm vào giỏ hàng</button>
                                 <a href="/list-order" class="buy-now-btn">Mua ngay</a>
@@ -525,7 +526,7 @@
 
             });
         }
-        
+
 
     })
     function chooseProduct(id) {
