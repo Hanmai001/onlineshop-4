@@ -23,6 +23,14 @@ let isLoggedCustomer = async (req, res, next) => {
     else
         return res.send("Bạn đang là Admin trang web");
 }
+let isLogged = async (req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    } else if (req.isUnauthenticated()) {
+        req.flash('loginMessage', 'Vui lòng đăng nhập')
+        return res.redirect('/');
+    }
+}
 let handleRegister = async (req, res, next) => {
     // syntax validation
     //console.log(req.body)
@@ -48,10 +56,11 @@ let handleRegister = async (req, res, next) => {
         return res.redirect('/');
     }
     const result = await authService.register(username, email, password);
-    // if (result) {
-    //     req.flash('registerMessage', result)
-    //     return res.redirect('/');
-    // }
+    if (result) {
+        req.flash('registerMessage', result)
+        return res.redirect('/');
+    }
+    console.log(res.locals.user)
     next();
 }
 let logout = (req, res) => {
@@ -74,4 +83,5 @@ module.exports = {
     logout,
     isLoggedAdmin,
     isLoggedCustomer,
+    isLogged
 }
