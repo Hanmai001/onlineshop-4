@@ -16,16 +16,19 @@ const initApiRoute = (app) => {
         res.locals.flashMessages = req.flash();
         next();
     });
-    router.post('/register', authController.handleRegister, mailerController.getMail, passport.authenticate("local",
-        {
-            failureRedirect: "/",
-        }), (req, res) => {
-            if (req.user.ADMIN == '1') {
-                res.redirect('/verify-email');
-            }
-            else
-                res.redirect('/verify-email');
-        });
+    // router.post('/register', mailerController.getMail, passport.authenticate("local",
+    //     {
+    //         failureRedirect: "/",
+    //     }), (req, res) => {
+    //         if (req.user.ADMIN == '1') {
+    //             res.redirect('/verify-email');
+    //         }
+    //         else
+    //             res.redirect('/verify-email');
+    //     });
+    router.post('/register', authController.checkRegister, mailerController.getMail, (req, res) => {
+        res.redirect('/verify-email');
+    });
 
     router.post('/login', passport.authenticate("local",
         {
@@ -37,7 +40,7 @@ const initApiRoute = (app) => {
             else
                 res.redirect('/');
         });
-    router.get('/verify', passport.authenticate("local",
+    router.get('/verify', authController.handleRegister, passport.authenticate("local",
         {
             failureRedirect: "/",
         }), (req, res) => {

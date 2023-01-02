@@ -1,14 +1,14 @@
 const nodemailer = require('nodemailer');
 
 let getMail = async (req, res, next) => {
-    const {
-        email: mail
-    } = req.body
+    const { username, email: mail, password: pw, confirmPassword } = req.body;
+    console.log(req.body)
+    const link = `<a href="http://localhost:3000/verify?username=${username}&email=${mail}&pw=${pw}"> bấm vào đi đừng sợ</a>`
     const msg = {
         from: "tranxuanquang79@gmail.com",
         to: mail,
         subject: "Test sendmail",
-        html: '<a href="http://localhost:3000/verify">bấm vào đi đừng sợ</a>'
+        html: link
     };
     console.log(msg);
     nodemailer.createTransport({
@@ -27,7 +27,7 @@ let getMail = async (req, res, next) => {
                 return console.log('Error occurs', err);
             } else {
                 return req.flash('forgetMessage', 'Thành công')
-                // return res.redirect('/');
+            
             }
         })
     next();
@@ -37,7 +37,6 @@ let getVerifyEmail = async (req, res) => {
 
     return res.render('verify-email.ejs');
 }
-
 
 let getForgetEmail = async (req, res) => {
     console.log(req.body)
