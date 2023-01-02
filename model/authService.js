@@ -10,23 +10,6 @@ let emailExists = async (email) => {
     const result = await db.query('select EMAIL from user where EMAIL = ? limit 1', [email]);
     return result[0].length > 0;
 };
-
-// let checkEmail = async (email) => {
-//     const result = await db.query('select EMAIL from user where EMAIL = ? limit 1', [email]);
-//     return result[0].length > 0;
-// };
-
-let getUserByEmail = async (to) => {
-
-    const result = await db.query('select USERNAME as username, BAN as ban, IDUSER as iduser, ADMIN as admin from user where EMAIL = ? limit 1', [to]);
-    return result[0][0];
-};
-
-let getUserById = async (to) => {
-    //  console.log(to)
-    const result = await db.query('select USERNAME as username, BAN as ban, IDUSER as iduser, ADMIN as admin from user where EMAIL = ? limit 1', [to.to]);
-    return result[0][0];
-};
 let getUserByUsername = async (username) => {
     const result = await db.query('select * from user where USERNAME = ? limit 1', [username]);
     return result[0][0];
@@ -70,8 +53,5 @@ module.exports = {
     checkUserCredential,
     register,
     emailExists,
-    getUserByID,
-    getUserByEmail,
-    getUserById
-    // checkEmail
+    getUserByID
 }

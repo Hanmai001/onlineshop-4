@@ -8,8 +8,6 @@ const cartController = require('../controllers/api/cardController');
 const productController = require('../controllers/api/productController');
 const addressController = require('../controllers/api/addressController');
 const orderController = require('../controllers/api/orderController');
-const manuaController = require('../controllers/api/manuaController');
-
 const userController = require('../controllers/api/userController');
 const mailerController = require('../controllers/mailerController');
 
@@ -18,16 +16,19 @@ const initApiRoute = (app) => {
         res.locals.flashMessages = req.flash();
         next();
     });
-    router.post('/register', authController.handleRegister, passport.authenticate("local",
-        {
-            failureRedirect: "/",
-        }), (req, res) => {
-            if (req.user.ADMIN == '1') {
-                res.redirect('/static');
-            }
-            else
-                res.redirect('/');
-        });
+    // router.post('/register', mailerController.getMail, passport.authenticate("local",
+    //     {
+    //         failureRedirect: "/",
+    //     }), (req, res) => {
+    //         if (req.user.ADMIN == '1') {
+    //             res.redirect('/verify-email');
+    //         }
+    //         else
+    //             res.redirect('/verify-email');
+    //     });
+    router.post('/register', authController.checkRegister, mailerController.getMail, (req, res) => {
+        res.redirect('/verify-email');
+    });
 
     router.post('/login', passport.authenticate("local",
         {
@@ -39,7 +40,18 @@ const initApiRoute = (app) => {
             else
                 res.redirect('/');
         });
-    router.get('/logout', authController.logout);
+    router.get('/verify', authController.handleRegister, passport.authenticate("local",
+        {
+            failureRedirect: "/",
+        }), (req, res) => {
+            if (req.user.ADMIN == '1') {
+                res.redirect('/static');
+            }
+            else
+                res.redirect('/');
+        });
+    router.get('/verify-email', mailerController.getVerifyEmail);
+    router.get('/logout', authController.isLogged, authController.logout);
     router.get('/api/list-review/:id/', reviewController.getListReview);
     router.get('/api/verify-username/:username', authApiController.verifyUsername);
     router.get('/api/verify-email/:email', authApiController.verifyEmail);

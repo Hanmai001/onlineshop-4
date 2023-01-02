@@ -377,7 +377,7 @@
                 </form>
 
                 <!-- Forget Form -->
-                <form action="/forgot-password" id="forget-form" class="auth-form" method="post">
+                <form action="/forget" id="forget-form" class="auth-form" method="post">
                     <div class="auth-form__container">
                         <div class="auth-form__header">
                             <div class="auth-form__heading">Quên mật khẩu</div>
@@ -386,20 +386,23 @@
                         <div class="auth-form__groups">
                             <div class="auth-form__group">
                                 <input id="email" rule="email" type="text" class="auth-form__input"
-                                    placeholder="Email address" name="to" required />
+                                    placeholder="Email address" name="email" required />
                             </div>
-                            <% if(flashMessages.forgotMessage){ %>
+                            <% if(flashMessages.emailMessage){ %>
                                 <p class="text-danger" id="message">
-                                    <%= flashMessages.forgotMessage %>
+                                    <%= flashMessages.emailMessage %>
                                 </p>
                                 <% } %>
                         </div>
 
                         <div class="auth-form__controls">
-                            <a href="/confirm"><button class="btn btn--primary" type="submit">Send password reset
-                                    link</button></a>
+                            <button class="btn btn--primary">Send password reset link</button>
                         </div>
-                        <br>
+
+                        <div class="auth-form__switch-wrapper">
+                            <span class="auth-form__switch-text">Bạn chưa có tài khoản?</span>
+                            <span class="auth-form__switch-btn">Đăng ký</span>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -409,7 +412,7 @@
 <script>
     var message1 = "<%= flashMessages.loginMessage %>";
     var message2 = "<%= flashMessages.registerMessage %>";
-    var message3 = "<%= flashMessages.forgotMessage %>";
+    var message3 = "<%= flashMessages.emailMessage %>";
     // const btn = document.getElementById('submit-seach-form');
     // btn.addEventListener('click', async (e) => {
     //     e.preventDefault();
@@ -559,9 +562,6 @@
         }
         if (message2) {
             openForm(1);
-        }
-        if (message3) {
-            openForm(3);
         }
 
         if (regItem)

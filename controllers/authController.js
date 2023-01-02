@@ -54,11 +54,33 @@ let checkRegister = async (req, res, next) => {
         req.flash('registerMessage', 'Mật khẩu phải có ít nhất 1 kí tự thường, 1 kí tự hoa và số')
         return res.redirect('/');
     }
-    const result = await authService.register(username, email, password);
-    // if (result) {
-    //     req.flash('registerMessage', result)
+    next();
+}
+let handleRegister = async (req, res, next) => {
+    const { username, email, pw } = req.query;
+    console.log(req.query)
+    // if (!ajv.validate(registerSchema, {username, email, password})) {
+    //     req.flash('registerMessage', 'Vui lòng kiểm tra lại thông tin đăng kí')
     //     return res.redirect('/');
     // }
+    //const { username, email, password, confirmPassword } = req.body;
+    // if (username.length < 6) {
+    //     req.flash('registerMessage', 'Username phải có ít nhất 6 ký tự ')
+    //     return res.redirect('/');
+    // }
+    // if (password.length < 6) {
+    //     req.flash('registerMessage', 'Mật khẩu phải có ít nhất 6 ký tự ')
+    //     return res.redirect('/');
+    // }
+    // if (password !== confirmPassword) {
+    //     req.flash('registerMessage', 'Mật khẩu không trùng')
+    //     return res.redirect('/');
+    // }
+    // if (!(/[a-z]/.test(password) && /[A-Z]/.test(password) && /[0-9]/.test(password))) {
+    //     req.flash('registerMessage', 'Mật khẩu phải có ít nhất 1 kí tự thường, 1 kí tự hoa và số')
+    //     return res.redirect('/');
+    // }
+    const result = await authService.register(username, email, pw);
     next();
 }
 let logout = (req, res) => {
@@ -75,10 +97,12 @@ let logout = (req, res) => {
 };
 
 
+
 module.exports = {
     checkRegister,
     handleRegister,
     logout,
     isLoggedAdmin,
     isLoggedCustomer,
+    isLogged
 }
