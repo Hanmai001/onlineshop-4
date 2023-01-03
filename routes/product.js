@@ -11,8 +11,8 @@ const initProductRoute = (app) => {
         next();
     });
     router.get('/products/details/:id', authController.isLoggedCustomer, productController.getDetailProductPage);
-    router.get('/list-order', authController.isLoggedCustomer, productController.getListOrderPage);
-    router.get('/payment', authController.isLoggedCustomer, productController.getPaymentPage);
+    router.get('/list-order', authController.isLogged, productController.getListOrderPage);
+    router.get('/payment', authController.isLogged, productController.getPaymentPage);
 
     return app.use('/', router);
 }

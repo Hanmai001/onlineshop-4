@@ -37,11 +37,11 @@ const initUserRoute = (app) => {
         next();
     });
     router.get('/', authController.isLoggedCustomer, userController.getHomepage);
-    router.get('/my-profile/:id', authController.isLoggedCustomer, userController.getProfilePage);
-    router.get('/change-password/:id', authController.isLoggedCustomer, userController.getUpdatePasswordPage);
-    router.post('/my-profile/:id/update-info', authController.isLoggedCustomer, upload.single('update-ava'), userController.updateInformation);
-    router.post('/change-password/:id/update-password', authController.isLoggedCustomer, userController.updatePassword);
-    router.post('/reset-password/:id', userController.handleForgotPassword);
+    router.get('/my-profile/:id', authController.isLogged, userController.getProfilePage);
+    router.get('/change-password/:id', authController.isLogged, userController.getUpdatePasswordPage);
+    router.post('/my-profile/:id/update-info', authController.isLogged, upload.single('update-ava'), userController.updateInformation);
+    router.post('/change-password/:id/update-password', authController.isLogged, userController.updatePassword);
+    router.post('/reset-password/:id', authController.isLogged, userController.handleForgotPassword);
     //Web của ta bđau = '/', truyền router vào
     return app.use('/', router);
 }

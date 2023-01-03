@@ -48,7 +48,7 @@ let getSortUser = async (queryFilter) => {
 }
 let ban = async (idUser) => {
     let values = [];
-    let sql = "UPDATE user SET BAN = 1 WHERE IDUSER = ?";
+    let sql = "UPDATE user SET BAN = '1' WHERE IDUSER = ?";
     values.push(parseInt(idUser));
     let result;
     console.log(sql);
@@ -62,7 +62,7 @@ let ban = async (idUser) => {
 }
 let unban = async (idUser) => {
     let values = [];
-    let sql = "UPDATE user SET BAN = 0 WHERE IDUSER = ?";
+    let sql = "UPDATE user SET BAN = '0' WHERE IDUSER = ?";
     values.push(parseInt(idUser));
     let result;
     console.log(sql);

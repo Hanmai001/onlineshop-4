@@ -24,7 +24,7 @@ let isLoggedCustomer = async (req, res, next) => {
         return res.send("Bạn đang là Admin trang web");
 }
 let isLogged = async (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.session.passport.user.admin == '0') {
         return next();
     } else if (req.isUnauthenticated()) {
         req.flash('loginMessage', 'Vui lòng đăng nhập')

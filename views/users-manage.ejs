@@ -173,51 +173,13 @@
                       </button></a>
 
 
-                    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Thông tin người dùng</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="profile">
-                          <figure>
-                            <img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/55758/random-user-31.jpg" alt="" />
-                          </figure>
-                          <main>
-                            <dl>
-                              <dt>Họ tên</dt>
-                              <dd>Hồ Quốc Duy</dd>
-                              <dt>Giới tính</dt>
-                              <dd>Nam</dd>
-                              <dt>Năm sinh</dt>
-                              <dd>28/02/2002</dd>
-                              <dt>Email</dt>
-                              <dd>duyhq47@gmail.com</dd>
-                              <dt>SĐT</dt>
-                              <dd>0946787239</dd>
-                              <dt>Ngày đăng kí</dt>
-                              <dd>21/10/2022</dd>
-                            </dl>
-                          </main>
-
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-                 </td> -->
-
                   <th scope="col">
-                    <%if(user.ADMIN==1){%>
+                    <%if(user.ADMIN=='1'){%>
                       <button type="button" class="btn btn-secondary">
                         Admin
                       </button>
                       <%}else {%>
-                        <%if(user.BAN==1){%>
+                        <%if(user.BAN=='1'){%>
                           <a class="py-3" href="/users-manage/<%=user.IDUSER%>/unban"><button type="button"
                               class="btn btn-secondary">
                               Unban
@@ -290,17 +252,30 @@
           elemsToAppend = $('<td>' + value.CREATEON.toString().slice(0, 10) + '</td>');
           item.append(elemsToAppend);
           elemsToAppend = $('<td></td>');
-          var inner1 = $('<a class="py-3" href="/manage/details-user/' + value.IDUSER + '"style = "opacity: 1; background-color: transparent;"></a>');
+          var inner1 = $('<a class="py-3" href="/manage/details-user/' + value.IDUSER + '" style = "opacity: 1; background-color: transparent;"></a>');
           var inner2 = $('<button type="button" class="btn btn-link"data - bs - toggle="modal" data - bs - target="#exampleModal"style = "text-decoration:underline; color: red;opacity: 1;" >Xem chi tiết</button>');
           inner1.append(inner2);
           elemsToAppend.append(inner1);
           item.append(elemsToAppend);
 
           elemsToAppend = $('<th scope="col"></th>');
-          inner1 = $('<button type="button" class="btn btn-secondary">Ban</button>');
-          elemsToAppend.append(inner1);
-          inner1 = $('<button type="button" class="btn btn-secondary">Unban</button>');
-          elemsToAppend.append(inner1);
+          if (value.ADMIN === '1') {
+            inner1 = $('<button type="button" class="btn btn-secondary">Admin</button>');
+            elemsToAppend.append(inner1);
+          }
+          else if (value.BAN === '1') {
+            inner1 = $(' <a class="py-3" href="/users-manage/' + value.IDUSER + '/unban"></a>');
+            inner2 = $('<button type="button" class="btn btn-secondary">Unban</button>');
+            inner1.append(inner2);
+            elemsToAppend.append(inner1);
+          }
+          else if (value.BAN !== '1') {
+            inner1 = $(' <a class="py-3" href="/users-manage/' + value.IDUSER + '/ban"></a>');
+            inner2 = $('<button type="button" class="btn btn-secondary">Ban</button>');
+            inner1.append(inner2);
+            elemsToAppend.append(inner1);
+          }
+          
           item.append(elemsToAppend);
 
           $(".list-users").append(item);

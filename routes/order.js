@@ -10,9 +10,9 @@ const initOrderRoute = (app) => {
         res.locals.flashMessages = req.flash();
         next();
     });
-    router.get('/list-orders-status/:id', authController.isLoggedCustomer, orderController.getListOrderStatusPage);
-    router.get('/list-orders-status/:id/filter', authController.isLoggedCustomer, orderController.getListFilterOrderStatusPage);
-    router.get('/list-orders-status/:id/order-detail/:idOrder', authController.isLoggedCustomer, orderController.getOrderDetailPage);
+    router.get('/list-orders-status/:id', authController.isLogged, orderController.getListOrderStatusPage);
+    router.get('/list-orders-status/:id/filter', authController.isLogged, orderController.getListFilterOrderStatusPage);
+    router.get('/list-orders-status/:id/order-detail/:idOrder', authController.isLogged, orderController.getOrderDetailPage);
 
     return app.use('/', router);
 }
