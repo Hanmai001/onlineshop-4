@@ -5,7 +5,7 @@ const reviewController = require('../controllers/reviewController');
 
 //Khoi tao web router
 const initReviewRoute = (app) => {
-    router.post('/products/details/:id/post-review', reviewController.postReview);
+    router.post('/products/details/:id/post-review', authController.isLoggedCustomer, reviewController.postReview);
     //Web của ta bđau = '/', truyền router vào
     return app.use('/', router);
 }

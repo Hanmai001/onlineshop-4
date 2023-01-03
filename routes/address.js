@@ -3,7 +3,7 @@ const router = express.Router();
 const addressController = require('../controllers/addressController');
 
 const initAddressRoute = (app) => {
-   
+
 
     return app.use('/', router);
 }

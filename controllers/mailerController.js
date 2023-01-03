@@ -44,6 +44,10 @@ let getForgetEmail = async (req, res) => {
         email: mail
     } = req.body
     const idUser = await authService.getIDUserByEmail(mail);
+    if (!idUser) {
+        req.flash('emailMessage', 'Email không tồn tại');
+        return res.redirect('/');
+    }
     const msg = {
         from: "tranxuanquang79@gmail.com",
         to: mail,
