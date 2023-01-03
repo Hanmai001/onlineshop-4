@@ -4,14 +4,25 @@ const authService = require('../model/authService')
 let getHomePage = async (req, res) => {
     const { AVATAR: ava } = await authService.getUserByID(res.locals.user.id);
 
+    //all
     const revenue1 = await adminService.caculateRevenue1();
     const revenue2 = await adminService.caculateRevenue2();
     const revenue3 = await adminService.caculateRevenue3();
     const revenue4 = await adminService.caculateRevenue4();
+    //day 
+    const revenueday1 = await adminService.caculateRevenueday1();
+    const revenueday2 = await adminService.caculateRevenueday2();
+    const revenueday3 = await adminService.caculateRevenueday3();
+    const revenueday4 = await adminService.caculateRevenueday4();
     const sales = await adminService.caculateProduct();
-    //console.log(revenue);
+    const salesDay = await adminService.caculateProductDay();
+    const salesMonth = await adminService.caculateProductMonth();
+    console.log(salesDay);
 
-    return res.render('index.ejs', { ava, revenue1: revenue1, revenue2: revenue2, revenue3: revenue3, revenue4: revenue4, sales: sales })
+    return res.render('index.ejs', {
+        ava, revenue1: revenue1, revenue2: revenue2, revenue3: revenue3, revenue4: revenue4, sales: sales,
+        revenueday1: revenueday1, revenueday2: revenueday2, revenueday3: revenueday3, revenueday4: revenueday4, salesDay: salesDay, salesMonth: salesMonth
+    });
 }
 let getAdminProfile = async (req, res) => {
     const { EMAIL: email, FULLNAME: fullname, SEX: sex, PHONE: phone, AVATAR: ava } = await authService.getUserByID(res.locals.user.id);

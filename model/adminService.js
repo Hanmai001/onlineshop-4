@@ -79,9 +79,21 @@ let caculateRevenue1 = async () => {
     //console.log(result);
     return result[0];
 }
+let caculateRevenueday1 = async () => {
+    let result;
+    result = await db.query('SELECT sum(TOTALPRICE) as sum, curdate() - interval 3 day as now FROM onlineshop.myorder WHERE day(CREATEON) = day(curdate() - INTERVAL 1 DAY) AND month(CREATEON) = month(curdate()) AND year(CREATEON) = year(curdate()) AND (STATUSORDER = "Đang giao"  OR  STATUSORDER = "Đã giao")');
+    //console.log(result);
+    return result[0];
+}
 let caculateRevenue2 = async () => {
     let result;
     result = await db.query('SELECT sum(TOTALPRICE) as sum FROM onlineshop.myorder WHERE MONTH(CREATEON) <= 6 AND MONTH(CREATEON) >= 4 AND (STATUSORDER = "Đang giao"  OR  STATUSORDER = "Đã giao")');
+    //console.log(result);
+    return result[0];
+}
+let caculateRevenueday2 = async () => {
+    let result;
+    result = await db.query('SELECT sum(TOTALPRICE) as sum, curdate() - interval 2 day as now FROM onlineshop.myorder WHERE day(CREATEON) = day(curdate() - INTERVAL 1 DAY) AND month(CREATEON) = month(curdate()) AND year(CREATEON) = year(curdate()) AND (STATUSORDER = "Đang giao"  OR  STATUSORDER = "Đã giao")');
     //console.log(result);
     return result[0];
 }
@@ -91,19 +103,42 @@ let caculateRevenue3 = async () => {
     //console.log(result);
     return result[0];
 }
+let caculateRevenueday3 = async () => {
+    let result;
+    result = await db.query('SELECT sum(TOTALPRICE) as sum, curdate() - interval 1 day as now FROM onlineshop.myorder WHERE day(CREATEON) = day(curdate() - INTERVAL 3 DAY) AND month(CREATEON) = month(curdate()) AND year(CREATEON) = year(curdate()) AND (STATUSORDER = "Đang giao"  OR  STATUSORDER = "Đã giao")');
+    //console.log(result);
+    return result[0];
+}
 let caculateRevenue4 = async () => {
     let result;
     result = await db.query('SELECT sum(TOTALPRICE) as sum FROM onlineshop.myorder WHERE MONTH(CREATEON) <= 12 AND MONTH(CREATEON) >= 10 AND (STATUSORDER = "Đang giao"  OR  STATUSORDER = "Đã giao")');
     //console.log(result);
     return result[0];
 }
-let caculateProduct = async () => {
+let caculateRevenueday4 = async () => {
     let result;
-    result = await db.query('select distinct pd.NAMEPRODUCT, pd.PRICE, po.AMOUNT, pd.PRICE * po.AMOUNT as mul from product pd join product_order po on po.IDPRODUCT = pd.IDPRODUCT ORDER BY mul desc');
+    result = await db.query('SELECT sum(TOTALPRICE) as sum, curdate() as now FROM onlineshop.myorder WHERE day(CREATEON) = day(curdate()) AND month(CREATEON) = month(curdate()) AND year(CREATEON) = year(curdate()) AND (STATUSORDER = "Đang giao"  OR  STATUSORDER = "Đã giao")');
     //console.log(result);
     return result[0];
 }
+let caculateProduct = async () => {
+    let result;
+    result = await db.query('select distinct pd.NAMEPRODUCT, pd.PRICE, po.AMOUNT, pd.PRICE * po.AMOUNT as mul, mo.STATUSORDER from product pd join product_order po on po.IDPRODUCT = pd.IDPRODUCT join myorder mo on mo.IDORDER = po.IDORDER WHERE (mo.STATUSORDER = "Đang giao"  OR  mo.STATUSORDER = "Đã giao") ORDER BY mul desc');
+    //console.log(result);
+    return result[0];
+}
+let caculateProductDay = async () => {
+    let result;
 
+    result = await db.query('select distinct pd.NAMEPRODUCT, pd.PRICE, po.AMOUNT, pd.PRICE * po.AMOUNT as mul, mo.STATUSORDER from product pd join product_order po on po.IDPRODUCT = pd.IDPRODUCT join myorder mo on mo.IDORDER = po.IDORDER WHERE (mo.STATUSORDER = "Đang giao"  OR  mo.STATUSORDER = "Đã giao") AND (day(mo.CREATEON) = day(curdate()) AND month(mo.CREATEON) = month(curdate()) AND year(mo.CREATEON) = year(curdate())) ORDER BY mul desc');
+    return result[0];
+}
+let caculateProductMonth = async () => {
+    let result;
+
+    result = await db.query('select distinct pd.NAMEPRODUCT, pd.PRICE, po.AMOUNT, pd.PRICE * po.AMOUNT as mul, mo.STATUSORDER from product pd join product_order po on po.IDPRODUCT = pd.IDPRODUCT join myorder mo on mo.IDORDER = po.IDORDER WHERE (mo.STATUSORDER = "Đang giao"  OR  mo.STATUSORDER = "Đã giao") AND (month(mo.CREATEON) = month(curdate()) AND year(mo.CREATEON) = year(curdate())) ORDER BY mul desc');
+    return result[0];
+}
 module.exports = {
     updateProfile,
     updatePassword,
@@ -111,5 +146,11 @@ module.exports = {
     caculateRevenue2,
     caculateRevenue3,
     caculateRevenue4,
-    caculateProduct
+    caculateRevenueday1,
+    caculateRevenueday2,
+    caculateRevenueday3,
+    caculateRevenueday4,
+    caculateProduct,
+    caculateProductDay,
+    caculateProductMonth
 }
