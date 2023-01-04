@@ -65,7 +65,8 @@ let getHomepage = async (req, res) => {
         pagination_info = paginator.build(length, currentPage);
         if (currentPage < 1) currentPage = 1;
         else if (currentPage > pagination_info.total_pages) currentPage = pagination_info.total_pages;
-        const { limit, offset } = getPagination(currentPage - 1, req.query.size);
+        let { limit, offset } = getPagination(currentPage - 1, req.query.size);
+        if (offset < 0) offset = 0;
         products = await productService.getFilterProductsPage(req.query, limit, offset);
     }
 
@@ -73,7 +74,8 @@ let getHomepage = async (req, res) => {
         pagination_info = paginator.build(length, currentPage);
         if (currentPage < 1) currentPage = 1;
         else if (currentPage > pagination_info.total_pages) currentPage = pagination_info.total_pages;
-        const { limit, offset } = getPagination(currentPage - 1, req.query.size);
+        let { limit, offset } = getPagination(currentPage - 1, req.query.size);
+        if (offset < 0) offset = 0;
         products = await productService.getProductsPage(limit, offset);
     }
 
