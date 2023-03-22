@@ -1,8 +1,8 @@
 **HƯỚNG DẪN CÀI ĐẶT VÀ KHỞI CHẠY WEBSITE**
 
 Bước 1: 
-- Tải database từ link: 
-- Clone repository Customer-website về máy
+- Tải database [tại đây](https://drive.google.com/file/d/1Um96BkZwqpZPE8O-V7U4e-KI8Y7Mpd4M/view?usp=sharing)
+- Clone repository onlineshop-4 về máy.
 
 
 Bước 2: 
