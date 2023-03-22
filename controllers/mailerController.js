@@ -6,7 +6,7 @@ let getMail = async (req, res, next) => {
     //console.log(req.body)
     const link = `<a href="http://localhost:3000/verify?username=${username}&email=${mail}&pw=${pw}"> bấm vào đi đừng sợ</a>`
     const msg = {
-        from: "tranxuanquang79@gmail.com",
+        from: "tranxuanquang798@gmail.com",
         to: mail,
         subject: "Test sendmail",
         html: link
@@ -15,8 +15,8 @@ let getMail = async (req, res, next) => {
     nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "tranxuanquang79@gmail.com",
-            pass: "acwktshyozykvwzp",
+            user: "tranxuanquang798@gmail.com",
+            pass: "nuwgsbzxxhssfamp",
         },
         port: 465,
         host: 'smtp.gmail.com'
@@ -49,7 +49,7 @@ let getForgetEmail = async (req, res) => {
         return res.redirect('/');
     }
     const msg = {
-        from: "tranxuanquang79@gmail.com",
+        from: "tranxuanquang798@gmail.com",
         to: mail,
         subject: "Test sendmail",
         html: `<a href="http://localhost:3000/reset-password?iduser=${idUser.IDUSER}">cccc</a>`
@@ -58,8 +58,8 @@ let getForgetEmail = async (req, res) => {
     nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "tranxuanquang79@gmail.com",
-            pass: "acwktshyozykvwzp",
+            user: "tranxuanquang798@gmail.com",
+            pass: "nuwgsbzxxhssfamp",
         },
         port: 465,
         host: 'smtp.gmail.com'
