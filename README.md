@@ -20,3 +20,11 @@ Bước 4:
 
 
 *Lưu ý nếu có lỗi "Expression #13 of SELECT list is not in GROUP BY clause and contains nonaggregated column..." thì chạy dòng "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));" trong MySQL, sau đó tắt và chạy lại chương trình.
+
+**ĐĂNG NHẬP LÀ ADMIN:**
+- Username: hanmai3110
+- Password: Han12345
+
+**ĐĂNG NHẬP LÀ USER (Có thể tạo tài khoản khác nếu bạn muốn):**
+- Username: quang1
+- Password: Han12345
